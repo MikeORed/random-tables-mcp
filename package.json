@@ -27,6 +27,9 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "uuid": "^11.1.0"
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.49",
+    "zod-to-json-schema": "^3.24.5"
   }
 }
