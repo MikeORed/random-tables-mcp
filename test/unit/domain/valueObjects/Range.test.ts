@@ -1,4 +1,4 @@
-import { Range } from "./Range";
+import { Range } from "../../../../src/domain/valueObjects/Range";
 
 describe("Range", () => {
   describe("constructor", () => {

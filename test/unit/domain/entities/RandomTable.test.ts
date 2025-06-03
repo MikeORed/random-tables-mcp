@@ -1,8 +1,8 @@
-import { RandomTable } from "./RandomTable";
-import { TableEntry } from "./TableEntry";
-import { RollResult } from "./RollResult";
-import { Range } from "../valueObjects/Range";
-import { RollTemplate } from "../valueObjects/RollTemplate";
+import { RandomTable } from "../../../../src/domain/entities/RandomTable";
+import { TableEntry } from "../../../../src/domain/entities/TableEntry";
+import { RollResult } from "../../../../src/domain/entities/RollResult";
+import { Range } from "../../../../src/domain/valueObjects/Range";
+import { RollTemplate } from "../../../../src/domain/valueObjects/RollTemplate";
 
 describe("RandomTable", () => {
   describe("constructor", () => {

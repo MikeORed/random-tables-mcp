@@ -1,5 +1,5 @@
-import { RollTemplate } from "./RollTemplate";
-import { TemplateReference } from "./TemplateReference";
+import { RollTemplate } from "../../../../src/domain/valueObjects/RollTemplate";
+import { TemplateReference } from "../../../../src/domain/valueObjects/TemplateReference";
 
 describe("RollTemplate", () => {
   describe("constructor", () => {

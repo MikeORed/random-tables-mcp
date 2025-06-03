@@ -1,6 +1,6 @@
-import { TableEntry } from "./TableEntry";
-import { Range } from "../valueObjects/Range";
-import { RollTemplate } from "../valueObjects/RollTemplate";
+import { TableEntry } from "../../../../src/domain/entities/TableEntry";
+import { Range } from "../../../../src/domain/valueObjects/Range";
+import { RollTemplate } from "../../../../src/domain/valueObjects/RollTemplate";
 
 describe("TableEntry", () => {
   describe("constructor", () => {

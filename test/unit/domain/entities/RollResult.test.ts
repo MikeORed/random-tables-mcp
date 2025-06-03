@@ -1,4 +1,4 @@
-import { RollResult } from "./RollResult";
+import { RollResult } from "../../../../src/domain/entities/RollResult";
 
 describe("RollResult", () => {
   describe("constructor", () => {

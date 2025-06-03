@@ -14,7 +14,9 @@ export * from "./useCases";
 export * from "./useCases/implementations";
 export * from "./ports";
 
-// TODO: Implement and export adapters in Phase 3
+// Export secondary adapters (Phase 3)
+export * from "./adapters/secondary";
+
 // TODO: Implement MCP server in Phase 4
 
 /**
@@ -24,6 +26,7 @@ async function main() {
   console.log("MCP Random Tables Server");
   console.log("Phase 1: Core Domain Implementation completed");
   console.log("Phase 2: Use Cases and Ports Implementation completed");
+  console.log("Phase 3: Secondary Adapters Implementation completed");
   console.log("Future phases will implement the full MCP server");
 }
 

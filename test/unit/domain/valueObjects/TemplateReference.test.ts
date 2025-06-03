@@ -1,4 +1,4 @@
-import { TemplateReference } from "./TemplateReference";
+import { TemplateReference } from "../../../../src/domain/valueObjects/TemplateReference";
 
 describe("TemplateReference", () => {
   describe("constructor", () => {

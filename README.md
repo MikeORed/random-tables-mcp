@@ -21,6 +21,12 @@ This project implements an MCP server that allows users to create, persist, look
 - Defined port interfaces (TableService, RollService, TableRepository, RandomNumberGenerator)
 - Implemented service classes that connect ports to use cases
 
+**Phase 3: Secondary Adapters Implementation** ✅
+
+- Implemented RandomNumberGenerator adapter (DefaultRandomNumberGenerator)
+- Implemented TableRepository adapters (InMemoryTableRepository, FileTableRepository)
+- Added unit tests for all adapters
+
 ## Features
 
 - **Core Domain Entities**: RandomTable, TableEntry, and RollResult
@@ -30,7 +36,6 @@ This project implements an MCP server that allows users to create, persist, look
 
 ## Next Steps
 
-- **Phase 3**: Implement secondary adapters
 - **Phase 4**: Implement MCP server
 - **Phase 5**: Testing and documentation
 
@@ -64,11 +69,29 @@ This project implements an MCP server that allows users to create, persist, look
 │   │   └── implementations/
 │   │       ├── TableServiceImpl.ts
 │   │       └── RollServiceImpl.ts
+│   ├── adapters/
+│   │   ├── primary/
+│   │   │   └── mcp/
+│   │   │       ├── resources/
+│   │   │       └── tools/
+│   │   └── secondary/
+│   │       ├── persistence/
+│   │       │   ├── InMemoryTableRepository.ts
+│   │       │   └── FileTableRepository.ts
+│   │       └── rng/
+│   │           └── DefaultRandomNumberGenerator.ts
 │   └── index.ts
 ├── test/
 │   ├── unit/
 │   │   ├── domain/
-│   │   └── useCases/
+│   │   ├── useCases/
+│   │   └── adapters/
+│   │       └── secondary/
+│   │           ├── persistence/
+│   │           │   ├── InMemoryTableRepository.test.ts
+│   │           │   └── FileTableRepository.test.ts
+│   │           └── rng/
+│   │               └── DefaultRandomNumberGenerator.test.ts
 │   ├── integration/
 │   │   ├── adapters/
 │   │   └── mcp/
@@ -119,6 +142,25 @@ The project uses Jest for testing. Run the tests with:
 ```bash
 npm test
 ```
+
+### Testing Standards
+
+**Test Location Standard**:
+
+- All tests should be placed in the `test/` directory, mirroring the structure of the `src/` directory.
+- For example, tests for `src/adapters/secondary/rng/DefaultRandomNumberGenerator.ts` should be in `test/unit/adapters/secondary/rng/DefaultRandomNumberGenerator.test.ts`.
+
+**Current Status**:
+
+- There is an inconsistency in the project where some early tests (domain entities and value objects) are located in the `src/` directory alongside their implementation files.
+- Newer tests (adapters) follow the standard of being in the `test/` directory.
+- Future work should move all tests to the `test/` directory to maintain consistency.
+
+**Test Types**:
+
+- Unit tests: `test/unit/` - Test individual components in isolation
+- Integration tests: `test/integration/` - Test interactions between components
+- End-to-end tests: `test/e2e/` - Test the entire system
 
 ## License
 
