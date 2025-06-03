@@ -15,6 +15,12 @@ This project implements an MCP server that allows users to create, persist, look
 - Added template support for table entries with references to other tables
 - Wrote unit tests for domain logic
 
+**Phase 2: Use Cases and Ports Implementation** ✅
+
+- Implemented use cases (CreateTableUseCase, RollOnTableUseCase, UpdateTableUseCase, GetTableUseCase, ListTablesUseCase)
+- Defined port interfaces (TableService, RollService, TableRepository, RandomNumberGenerator)
+- Implemented service classes that connect ports to use cases
+
 ## Features
 
 - **Core Domain Entities**: RandomTable, TableEntry, and RollResult
@@ -24,7 +30,6 @@ This project implements an MCP server that allows users to create, persist, look
 
 ## Next Steps
 
-- **Phase 2**: Implement use cases and ports
 - **Phase 3**: Implement secondary adapters
 - **Phase 4**: Implement MCP server
 - **Phase 5**: Testing and documentation
@@ -43,6 +48,22 @@ This project implements an MCP server that allows users to create, persist, look
 │   │       ├── Range.ts
 │   │       ├── RollTemplate.ts
 │   │       └── TemplateReference.ts
+│   ├── ports/
+│   │   ├── primary/
+│   │   │   ├── TableService.ts
+│   │   │   └── RollService.ts
+│   │   └── secondary/
+│   │       ├── TableRepository.ts
+│   │       └── RandomNumberGenerator.ts
+│   ├── useCases/
+│   │   ├── CreateTableUseCase.ts
+│   │   ├── GetTableUseCase.ts
+│   │   ├── ListTablesUseCase.ts
+│   │   ├── RollOnTableUseCase.ts
+│   │   ├── UpdateTableUseCase.ts
+│   │   └── implementations/
+│   │       ├── TableServiceImpl.ts
+│   │       └── RollServiceImpl.ts
 │   └── index.ts
 ├── test/
 │   ├── unit/

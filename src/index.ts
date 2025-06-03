@@ -9,8 +9,11 @@
 // Re-export domain entities and value objects
 export * from "./domain";
 
-// TODO: Implement and export use cases in Phase 2
-// TODO: Implement and export ports in Phase 2
+// Export use cases and ports (Phase 2)
+export * from "./useCases";
+export * from "./useCases/implementations";
+export * from "./ports";
+
 // TODO: Implement and export adapters in Phase 3
 // TODO: Implement MCP server in Phase 4
 
@@ -20,6 +23,7 @@ export * from "./domain";
 async function main() {
   console.log("MCP Random Tables Server");
   console.log("Phase 1: Core Domain Implementation completed");
+  console.log("Phase 2: Use Cases and Ports Implementation completed");
   console.log("Future phases will implement the full MCP server");
 }
 
