@@ -27,72 +27,9 @@ Add this to your `claude_desktop_config.json`:
 
 Replace `C:\\path\\to\\mcp-random-tables` with the actual path to your local installation of the MCP Random Tables server. Set `CAN_USE_RESOURCE` to `"true"` only if you're certain the LLM Application is able to leverage MCP resources.
 
-### Docker Configuration
-
-> Note: For the MCP Random Tables server, using a local Node.js installation is generally recommended over Docker. This example is provided for completeness.
-
-If you prefer to use Docker, you can add this to your `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "random-tables": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "--mount",
-        "type=bind,src=/path/to/tables/data,dst=/projects/data",
-        "mcp/random-tables"
-      ]
-    }
-  }
-}
-```
-
-Note that all directories must be mounted to `/projects` by default. For example, if you want to provide access to your tables data directory, you would mount it as shown above.
-
-### NPX Configuration
-
-If the MCP Random Tables server is published to npm, you could use npx to run it without installing it globally:
-
-```json
-{
-  "mcpServers": {
-    "random-tables": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-random-tables",
-        "/path/to/tables/data"
-      ]
-    }
-  }
-}
-```
+### NPX Configuration - COMING SOON!
 
 > Note: The MCP Random Tables server is not yet published to the public npm repository. This configuration will be available once the package is published.
-
-## MCP Client Integration
-
-### Configuration
-
-To integrate the MCP Random Tables server with an MCP client, you need to add the server to your MCP client configuration. The exact steps depend on your MCP client, but generally you'll need to add a configuration like this:
-
-```json
-{
-  "servers": [
-    {
-      "name": "random-tables",
-      "url": "http://localhost:3000",
-      "description": "Random Tables for Tabletop RPGs"
-    }
-  ]
-}
-```
-
-Replace `http://localhost:3000` with the URL of your MCP Random Tables server.
 
 ### How MCP Tools Work
 

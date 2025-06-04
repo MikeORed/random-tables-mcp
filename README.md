@@ -1,162 +1,125 @@
 # MCP Random Tables
 
-An MCP server for managing and rolling on random-table assets used in tabletop RPGs, following a hexagonal architecture (ports & adapters) approach.
+Need a drop‑in random‑table engine for your next one‑shot? **MCP Random Tables has you covered.**
+
+An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for managing and rolling on random-table assets used in tabletop RPGs, following a hexagonal architecture (ports & adapters) approach.
 
 ## Project Overview
 
-This project implements an MCP server that allows users to create, persist, look up, roll on, and update random tables used in tabletop RPGs. The implementation follows a hexagonal architecture (ports & adapters) to maintain a clean separation of concerns and make the system more testable and maintainable.
-
-## Current Status
-
-**Phase 1: Core Domain Implementation** ✅
-
-- Implemented domain entities (RandomTable, TableEntry, RollResult)
-- Implemented basic validation logic
-- Added template support for table entries with references to other tables
-- Wrote unit tests for domain logic
-
-**Phase 2: Use Cases and Ports Implementation** ✅
-
-- Implemented use cases (CreateTableUseCase, RollOnTableUseCase, UpdateTableUseCase, GetTableUseCase, ListTablesUseCase)
-- Defined port interfaces (TableService, RollService, TableRepository, RandomNumberGenerator)
-- Implemented service classes that connect ports to use cases
-
-**Phase 3: Secondary Adapters Implementation** ✅
-
-- Implemented RandomNumberGenerator adapter (DefaultRandomNumberGenerator, CryptoRandomNumberGenerator)
-- Implemented TableRepository adapters (InMemoryTableRepository, FileTableRepository)
-- Added unit tests for all adapters
-
-**Phase 4: MCP Server Implementation** ✅
-
-- Implemented MCP server using the MCP SDK
-- Created tools for table operations (create_table, roll_on_table, update_table, list_tables)
-- Created resources for accessing tables (table://{tableId}, tables://)
-- Added integration tests for MCP server, tools, and resources
-
-**Phase 5: Documentation** 🔄
-
-- Created comprehensive documentation for the project
-- Added user guides for getting started, integration, and using templates
-- Added example tables and usage scenarios
-- Added developer documentation for architecture, extension points, and implementation notes
+This section details the server’s core capabilities and architecture—how random‑table definitions are stored, rolled, and extended while ports & adapters keep concerns isolated and the codebase easy to test and maintain.
 
 ## Features
 
-- **Core Domain Entities**: RandomTable, TableEntry, and RollResult
-- **Template Support**: Table entries can contain references to other tables using the syntax `{{reference-title::table-id::table-name::roll-number::separator}}`
-- **Range-based Entries**: Table entries can have ranges for dice-based tables
-- **Weighted Entries**: Table entries can have weights for probability-based tables
-- **MCP Tools**: Tools for creating, rolling on, updating, and listing tables
-- **MCP Resources**: Resources for accessing tables and their metadata
-- **Client Compatibility**: Configurable to use either MCP Resources or Tools for table access, ensuring compatibility with LLM clients that may not fully support resources
+- **Create** random tables in seconds and keep them updated
+- **Roll** results instantly on any table
+- **Link** tables together with powerful template support
+- **Define** range‑based entries for dice‑driven tables
+- **Weight** entries to fine‑tune probabilities
+- **Choose** your access model – MCP _Resources_ or _Tools_ (see the [Environment Variables](#environment-variables) section to toggle)
 
-## Documentation
+## Available Tools
 
-Comprehensive documentation is available in the [docs](./docs) directory:
+- `create_table` - Create a new random table with optional initial entries
+- `roll_on_table` - Roll on a specific table and returns the result
+- `update_table` - Update an existing table (name, description, entries)
+- `list_tables` - List available tables with metadata
+- `get_table` - Get details of a specific table
 
-- [API Reference](./docs/api/README.md) - Detailed documentation of the MCP tools and resources
-- [User Guides](./docs/guides/README.md) - Guides for getting started, integration, and using templates
-- [Examples](./docs/examples/README.md) - Example tables and usage scenarios
-- [Developer Documentation](./docs/dev/README.md) - Architecture, extension points, and implementation notes
+_See the [Environment Variables](#environment-variables) section for how to switch between using Tools and Resources._
 
-## Project Structure
+## Available Resources
 
-```
-/
-├── docs/                      # Documentation
-│   ├── api/                   # API reference
-│   ├── guides/                # User guides
-│   ├── examples/              # Example tables and usage scenarios
-│   └── dev/                   # Developer documentation
-├── src/
-│   ├── domain/
-│   │   ├── entities/
-│   │   │   ├── RandomTable.ts
-│   │   │   ├── TableEntry.ts
-│   │   │   └── RollResult.ts
-│   │   └── valueObjects/
-│   │       ├── Range.ts
-│   │       ├── RollTemplate.ts
-│   │       └── TemplateReference.ts
-│   ├── ports/
-│   │   ├── primary/
-│   │   │   ├── TableService.ts
-│   │   │   └── RollService.ts
-│   │   └── secondary/
-│   │       ├── TableRepository.ts
-│   │       └── RandomNumberGenerator.ts
-│   ├── useCases/
-│   │   ├── CreateTableUseCase.ts
-│   │   ├── GetTableUseCase.ts
-│   │   ├── ListTablesUseCase.ts
-│   │   ├── RollOnTableUseCase.ts
-│   │   ├── UpdateTableUseCase.ts
-│   │   └── implementations/
-│   │       ├── TableServiceImpl.ts
-│   │       └── RollServiceImpl.ts
-│   ├── adapters/
-│   │   ├── primary/
-│   │   │   └── mcp/
-│   │   │       ├── McpServer.ts
-│   │   │       ├── resources/
-│   │   │       │   ├── TableResource.ts
-│   │   │       │   └── TablesResource.ts
-│   │   │       └── tools/
-│   │   │           ├── CreateTableTool.ts
-│   │   │           ├── GetTableTool.ts
-│   │   │           ├── RollOnTableTool.ts
-│   │   │           ├── UpdateTableTool.ts
-│   │   │           └── ListTablesTool.ts
-│   │   └── secondary/
-│   │       ├── persistence/
-│   │       │   ├── InMemoryTableRepository.ts
-│   │       │   └── FileTableRepository.ts
-│   │       └── rng/
-│   │           ├── CryptoRandomNumberGenerator.ts
-│   │           └── DefaultRandomNumberGenerator.ts
-│   └── index.ts
-├── test/
-│   ├── unit/
-│   │   ├── domain/
-│   │   ├── useCases/
-│   │   └── adapters/
-│   │       └── secondary/
-│   │           ├── persistence/
-│   │           │   ├── InMemoryTableRepository.test.ts
-│   │           │   └── FileTableRepository.test.ts
-│   │           └── rng/
-│   │               ├── CryptoRandomNumberGenerator.test.ts
-│   │               └── DefaultRandomNumberGenerator.test.ts
-│   ├── integration/
-│   │   ├── adapters/
-│   │   └── mcp/
-│   │       ├── McpServer.test.ts
-│   │       ├── resources/
-│   │       │   ├── TableResource.test.ts
-│   │       │   └── TablesResource.test.ts
-│   │       └── tools/
-│   │           ├── CreateTableTool.test.ts
-│   │           ├── RollOnTableTool.test.ts
-│   │           ├── UpdateTableTool.test.ts
-│   │           └── ListTablesTool.test.ts
-│   └── e2e/
-├── package.json
-├── tsconfig.json
-├── CONTRIBUTING.md
-└── README.md
+- `table://{tableId}` - Access a specific table
+- `tables://` - Access a list of all tables
+
+## Key Use Cases
+
+- **RPG Encounter Generation**: Generate random encounters for tabletop RPGs
+- **Loot Generation**: Create dynamic treasure and item drops
+- **NPC Generation**: Build complex NPCs with personality traits, equipment, and motivations
+- **Story Prompt Generation**: Generate creative writing prompts and plot hooks
+
+## Template System Example
+
+Here’s how easy it is to chain tables together:
+
+```json
+{
+  "name": "Treasure",
+  "description": "Random treasure found in dungeons",
+  "entries": [
+    {
+      "content": "{{::currency}}",
+      "weight": 3
+    },
+    {
+      "content": "{{::items::Items::3}} worth {{::currency}}",
+      "weight": 2
+    }
+  ]
+}
 ```
 
-## Getting Started
+When you roll on this table, the system automatically resolves templates by rolling on referenced tables. For example, `{{::items::Items::3}}` will roll 3 times on the "Items" table.
 
-See the [Getting Started Guide](./docs/guides/getting-started.md) for detailed instructions on how to install, configure, and use the MCP Random Tables server.
+## Requirements
 
-### Prerequisites
-
-- Node.js (v14 or higher)
+- Node.js (v20 or higher)
 - npm
 
-### Installation
+## Installation
+
+### Claude Desktop Integration
+
+To integrate the MCP Random Tables server with Claude Desktop, you need to add the server configuration to your `claude_desktop_config.json` file.
+
+#### Windows Configuration
+
+Add this to your `claude_desktop_config.json` (located at `%APPDATA%\\Claude\\claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\path\\to\\mcp-random-tables\\dist\\index.js"],
+      "env": {
+        "CAN_USE_RESOURCE": "false"
+      }
+    }
+  }
+}
+```
+
+Replace `C:\\path\\to\\mcp-random-tables` with the actual path to your local installation.
+
+#### macOS Configuration
+
+Add this to your `claude_desktop_config.json` (located at `~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/path/to/mcp-random-tables/dist/index.js"],
+      "env": {
+        "CAN_USE_RESOURCE": "false"
+      }
+    }
+  }
+}
+```
+
+Replace `/path/to/mcp-random-tables` with the actual path to your local installation.
+
+### NPX Configuration – 🚧 We’re hammering out the NPX package; stay tuned!
+
+> **Note:** The MCP Random Tables server is not yet published to npm. We plan to deploy it after test coverage is solid and we're comfortable with the functionality.
+
+### Manual Installation
 
 ```bash
 # Clone the repository
@@ -165,20 +128,24 @@ cd mcp-random-tables
 
 # Install dependencies
 npm install
+
+# Build the project
+npm run build
 ```
 
-### Environment Variables
+## Environment Variables
 
 The server can be configured using the following environment variables:
 
 - `DATA_DIR`: Directory where table data is stored (default: `./data`)
 - `CAN_USE_RESOURCE`: Controls whether to use MCP Resources or Tools for certain functionality (default: `false`)
+
   - When set to `true`: Uses the `TableResource` for accessing tables
   - When not set or any other value: Uses the `GetTableTool` instead of `TableResource`
 
 This allows compatibility with LLM clients that may not fully support MCP Resources.
 
-### Development
+## Development
 
 ```bash
 # Run in development mode
@@ -192,6 +159,51 @@ npm run build
 
 # Run the built project
 npm start
+```
+
+## Troubleshooting – Ran into a hiccup? Start here.
+
+Common issues:
+
+1. **Server not showing up in Claude Desktop**
+
+   - Verify your configuration file syntax
+   - Make sure the paths are absolute and correct
+   - Restart Claude Desktop after making configuration changes
+
+2. **Tool execution failures**
+
+   - Check Claude Desktop logs at:
+
+     - macOS: `~/Library/Logs/Claude/mcp*.log`
+     - Windows: `%APPDATA%\\Claude\\logs\\mcp*.log`
+
+## Documentation
+
+Comprehensive documentation is available in the [docs](./docs) directory:
+
+- [User Guides](./docs/guides/README.md) - Step-by-step instructions for installation, integration, and template usage
+- [Examples](./docs/examples/README.md) - Sample tables from simple encounters to complex nested treasure generators
+- [Developer Documentation](./docs/dev/README.md) - Architecture details, extension points, and implementation decisions
+
+## Project Structure
+
+```
+/
+├── docs/                # Documentation for users and developers
+├── src/                 # Source code
+│   ├── domain/          # Core domain entities and value objects
+│   ├── ports/           # Interface definitions for primary and secondary ports
+│   ├── useCases/        # Application use cases and service implementations
+│   ├── adapters/        # Primary and secondary adapters
+│   │   ├── primary/     # Adapters that drive the application (MCP server)
+│   │   └── secondary/   # Adapters driven by the application (persistence, RNG)
+│   └── index.ts         # Application entry point
+├── test/                # Test files
+│   ├── unit/            # Unit tests for individual components
+│   ├── integration/     # Tests for component interactions
+│   └── e2e/             # End-to-end tests
+└── scripts/             # Build and utility scripts
 ```
 
 ## Testing
@@ -209,12 +221,6 @@ npm test
 - All tests should be placed in the `test/` directory, mirroring the structure of the `src/` directory.
 - For example, tests for `src/adapters/secondary/rng/DefaultRandomNumberGenerator.ts` should be in `test/unit/adapters/secondary/rng/DefaultRandomNumberGenerator.test.ts`.
 
-**Current Status**:
-
-- There is an inconsistency in the project where some early tests (domain entities and value objects) are located in the `src/` directory alongside their implementation files.
-- Newer tests (adapters) follow the standard of being in the `test/` directory.
-- Future work should move all tests to the `test/` directory to maintain consistency.
-
 **Test Types**:
 
 - Unit tests: `test/unit/` - Test individual components in isolation
@@ -223,8 +229,8 @@ npm test
 
 ## Contributing
 
-If you'd like to contribute to the MCP Random Tables project, please see the [Contributing Guide](./CONTRIBUTING.md) for more information.
+Got an idea or bug? Open an issue and let’s chat—PRs are welcome! See the [Contributing Guide](./CONTRIBUTING.md) for more details.
 
 ## License
 
-ISC
+This project is released under the [MIT License](LICENSE).
