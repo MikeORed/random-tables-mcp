@@ -57,43 +57,24 @@ Replace `http://localhost:3000` with the URL of your MCP Random Tables server.
 
 ## Creating Your First Table
 
-Once you have the server running and configured with your MCP client, you can create your first table using the `create_table` tool:
+Once you have the server running and configured with your MCP client, you can create your first table. Here's an example of a simple "Forest Encounters" table:
 
-```json
-{
-  "name": "Forest Encounters",
-  "description": "Random encounters in the forest",
-  "entries": [
-    {
-      "content": "Wolf pack",
-      "weight": 2
-    },
-    {
-      "content": "Friendly traveler",
-      "weight": 1
-    },
-    {
-      "content": "Bandit ambush",
-      "weight": 1
-    }
-  ]
-}
-```
+- **Name**: Forest Encounters
+- **Description**: Random encounters in the forest
+- **Entries**:
+  - Wolf pack (weight: 2)
+  - Friendly traveler (weight: 1)
+  - Bandit ambush (weight: 1)
 
-This will create a table named "Forest Encounters" with three entries. The "Wolf pack" entry has a weight of 2, making it twice as likely to be rolled as the other entries.
+The "Wolf pack" entry has a weight of 2, making it twice as likely to be rolled as the other entries.
+
+When using an LLM application with the MCP Random Tables server connected, you can simply ask the LLM to create this table, and it will use the appropriate MCP tools behind the scenes.
 
 ## Rolling on a Table
 
-Once you've created a table, you can roll on it using the `roll_on_table` tool:
+Once you've created a table, you can roll on it by asking the LLM to roll on the "Forest Encounters" table. You can also specify how many times to roll on the table.
 
-```json
-{
-  "tableId": "forest-encounters",
-  "count": 1
-}
-```
-
-This will roll on the "Forest Encounters" table once and return the result. You can roll multiple times by increasing the `count` parameter.
+The LLM will use the appropriate MCP tools behind the scenes to fulfill your request and present the results to you.
 
 ## Next Steps
 

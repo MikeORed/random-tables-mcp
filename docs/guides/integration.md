@@ -2,6 +2,78 @@
 
 This guide provides instructions on how to integrate the MCP Random Tables server with other applications.
 
+## Claude Desktop Integration
+
+To integrate the MCP Random Tables server with Claude Desktop, you need to add the server configuration to your `claude_desktop_config.json` file.
+
+### Windows Configuration
+
+Add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\path\\to\\mcp-random-tables\\dist\\index.js"],
+      "env": {
+        "CAN_USE_RESOURCE": "false"
+      }
+    }
+  }
+}
+```
+
+Replace `C:\\path\\to\\mcp-random-tables` with the actual path to your local installation of the MCP Random Tables server. Set `CAN_USE_RESOURCE` to `"true"` only if you're certain the LLM Application is able to leverage MCP resources.
+
+### Docker Configuration
+
+> Note: For the MCP Random Tables server, using a local Node.js installation is generally recommended over Docker. This example is provided for completeness.
+
+If you prefer to use Docker, you can add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount",
+        "type=bind,src=/path/to/tables/data,dst=/projects/data",
+        "mcp/random-tables"
+      ]
+    }
+  }
+}
+```
+
+Note that all directories must be mounted to `/projects` by default. For example, if you want to provide access to your tables data directory, you would mount it as shown above.
+
+### NPX Configuration
+
+If the MCP Random Tables server is published to npm, you could use npx to run it without installing it globally:
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-random-tables",
+        "/path/to/tables/data"
+      ]
+    }
+  }
+}
+```
+
+> Note: The MCP Random Tables server is not yet published to the public npm repository. This configuration will be available once the package is published.
+
 ## MCP Client Integration
 
 ### Configuration
@@ -22,204 +94,46 @@ To integrate the MCP Random Tables server with an MCP client, you need to add th
 
 Replace `http://localhost:3000` with the URL of your MCP Random Tables server.
 
-### Using MCP Tools
+### How MCP Tools Work
 
-Once you've configured your MCP client, you can use the MCP tools provided by the server. Here's an example of using the `create_table` tool:
+Once you've configured your MCP client, the LLM application will automatically have access to the tools provided by the MCP Random Tables server. The MCP server registers its tools with the LLM application, and the LLM can then use these tools through its normal function calling capabilities.
 
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>create_table</tool_name>
-<arguments>
-{
-  "name": "Forest Encounters",
-  "description": "Random encounters in the forest",
-  "entries": [
-    {
-      "content": "Wolf pack",
-      "weight": 2
-    },
-    {
-      "content": "Friendly traveler",
-      "weight": 1
-    },
-    {
-      "content": "Bandit ambush",
-      "weight": 1
-    }
-  ]
-}
-</arguments>
-</use_mcp_tool>
-```
+The MCP Random Tables server provides the following tools:
 
-And here's an example of using the `roll_on_table` tool:
+- `create_table` - Create a new random table
+- `roll_on_table` - Roll on a specific table
+- `update_table` - Update an existing table
+- `list_tables` - List available tables
+- `get_table` - Get details of a specific table
 
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>roll_on_table</tool_name>
-<arguments>
-{
-  "tableId": "forest-encounters",
-  "count": 1
-}
-</arguments>
-</use_mcp_tool>
-```
+When using an LLM application with the MCP Random Tables server connected, you can simply ask the LLM to perform actions like creating tables or rolling on tables, and it will automatically use the appropriate MCP tools behind the scenes.
 
-### Accessing MCP Resources
+### How MCP Resources Work
 
-You can also access the MCP resources provided by the server. Here's an example of accessing the `table://{tableId}` resource:
+The MCP Random Tables server also provides resources that can be accessed by the LLM application:
 
-```
-<access_mcp_resource>
-<server_name>random-tables</server_name>
-<uri>table://forest-encounters</uri>
-</access_mcp_resource>
-```
+- `table://{tableId}` - Access a specific table
+- `tables://` - Access a list of all tables
 
-And here's an example of accessing the `tables://` resource:
+These resources are automatically available to the LLM application when the MCP server is connected, allowing the LLM to retrieve information about tables when needed.
 
-```
-<access_mcp_resource>
-<server_name>random-tables</server_name>
-<uri>tables://</uri>
-</access_mcp_resource>
-```
+## Example Usage
 
-## API Integration
+When using an LLM application with the MCP Random Tables server connected, you can interact with it naturally. For example:
 
-If you want to integrate the MCP Random Tables server with a non-MCP application, you can use the HTTP API directly.
+1. **Creating a table**: "Create a random table called 'Forest Encounters' with entries for wolf pack, friendly traveler, and bandit ambush."
 
-### API Endpoints
+2. **Rolling on a table**: "Roll on the Forest Encounters table."
 
-The MCP Random Tables server provides the following API endpoints:
+3. **Listing tables**: "What random tables are available?"
 
-- `POST /tools/create_table` - Create a new random table
-- `POST /tools/roll_on_table` - Roll on a specific table
-- `POST /tools/update_table` - Update an existing table
-- `POST /tools/list_tables` - List available tables
-- `GET /resources/table/{tableId}` - Access a specific table
-- `GET /resources/tables` - Access a list of all tables
+4. **Getting table details**: "Show me the details of the Forest Encounters table."
 
-### Example: Creating a Table
+The LLM will use the appropriate MCP tools behind the scenes to fulfill these requests. The actual tool calls are handled automatically by the LLM application and are typically not visible in the conversation.
 
-```http
-POST /tools/create_table HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
+## Developer Integration
 
-{
-  "name": "Forest Encounters",
-  "description": "Random encounters in the forest",
-  "entries": [
-    {
-      "content": "Wolf pack",
-      "weight": 2
-    },
-    {
-      "content": "Friendly traveler",
-      "weight": 1
-    },
-    {
-      "content": "Bandit ambush",
-      "weight": 1
-    }
-  ]
-}
-```
-
-### Example: Rolling on a Table
-
-```http
-POST /tools/roll_on_table HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
-
-{
-  "tableId": "forest-encounters",
-  "count": 1
-}
-```
-
-## Programmatic Integration
-
-If you want to integrate the MCP Random Tables server with a Node.js application, you can use the MCP client library.
-
-### Installation
-
-```bash
-npm install mcp-client
-```
-
-### Example: Creating a Table
-
-```javascript
-const { McpClient } = require("mcp-client");
-
-const client = new McpClient({
-  servers: [
-    {
-      name: "random-tables",
-      url: "http://localhost:3000",
-      description: "Random Tables for Tabletop RPGs",
-    },
-  ],
-});
-
-async function createTable() {
-  const result = await client.useTool("random-tables", "create_table", {
-    name: "Forest Encounters",
-    description: "Random encounters in the forest",
-    entries: [
-      {
-        content: "Wolf pack",
-        weight: 2,
-      },
-      {
-        content: "Friendly traveler",
-        weight: 1,
-      },
-      {
-        content: "Bandit ambush",
-        weight: 1,
-      },
-    ],
-  });
-
-  console.log(result);
-}
-
-createTable();
-```
-
-### Example: Rolling on a Table
-
-```javascript
-const { McpClient } = require("mcp-client");
-
-const client = new McpClient({
-  servers: [
-    {
-      name: "random-tables",
-      url: "http://localhost:3000",
-      description: "Random Tables for Tabletop RPGs",
-    },
-  ],
-});
-
-async function rollOnTable() {
-  const result = await client.useTool("random-tables", "roll_on_table", {
-    tableId: "forest-encounters",
-    count: 1,
-  });
-
-  console.log(result);
-}
-
-rollOnTable();
-```
+For developers who want to integrate with the MCP Random Tables server programmatically, please refer to the [MCP Protocol documentation](https://github.com/modelcontextprotocol/protocol) for details on how to implement an MCP client.
 
 ## Next Steps
 

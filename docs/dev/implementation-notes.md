@@ -73,35 +73,44 @@ The MCP server is implemented using the MCP SDK. It provides tools and resources
 
 Input validation is performed using Zod schemas. This ensures that the input data is valid before it reaches the domain layer.
 
-## Deviations from Original Plan
+## Additional Implementation Details
 
 ### Value Objects
 
-The original plan only mentioned the `Range` value object, but the implementation includes additional value objects:
+The implementation includes the following value objects:
 
-1. **RollTemplate**: Represents a template string that references another table.
-2. **TemplateReference**: Represents a parsed template reference.
+1. **Range**: Represents a range of values.
+2. **RollTemplate**: Represents a template string that references another table.
+3. **TemplateReference**: Represents a parsed template reference.
 
-These additional value objects enhance the functionality and provide better separation of concerns.
+These value objects enhance the functionality and provide better separation of concerns.
 
 ### RollResult Entity
 
-The `RollResult` entity has additional properties not mentioned in the original plan:
+The `RollResult` entity includes the following properties:
 
-1. **isTemplate**: Indicates whether the result contains a template.
-2. **resolvedContent**: Contains the resolved content if the result contains a template.
+1. **tableId**: ID of the table rolled on.
+2. **entryId**: ID of the resulting entry.
+3. **content**: Content of the resulting entry.
+4. **timestamp**: When the roll occurred.
+5. **isTemplate**: Indicates whether the result contains a template.
+6. **resolvedContent**: Contains the resolved content if the result contains a template.
 
-These additional properties support the template functionality.
+The isTemplate and resolvedContent properties support the template functionality.
 
 ### Repository Implementation
 
-The original plan mentioned a `FsTableRepository`, but the implementation uses `FileTableRepository` instead. The name was changed to be more descriptive and follow common naming conventions.
+The implementation includes two repository implementations:
 
-The implementation also includes an `InMemoryTableRepository` that wasn't explicitly mentioned in the original plan. This provides a useful option for testing and development.
+1. **FileTableRepository**: Stores tables as JSON files on the filesystem.
+2. **InMemoryTableRepository**: Stores tables in memory, which is useful for testing and development.
 
 ### Random Number Generation
 
-The original plan mentioned a `CryptoRngAdapter` using Node's crypto module, but the implementation includes a `DefaultRandomNumberGenerator` using `Math.random()` as the default. This was done for simplicity and performance, with the `CryptoRandomNumberGenerator` available as an option for better randomness.
+The implementation includes two random number generator implementations:
+
+1. **DefaultRandomNumberGenerator**: Uses `Math.random()` for simplicity and performance.
+2. **CryptoRandomNumberGenerator**: Uses Node's crypto module for better randomness, which is important for applications where the randomness quality matters.
 
 ## Future Enhancements
 

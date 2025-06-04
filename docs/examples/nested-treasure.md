@@ -255,61 +255,13 @@ This example demonstrates how to create nested tables using the template system.
 
 ## Creating the Tables
 
-To create these tables using the MCP Random Tables server, use the `create_table` tool for each table. Here's an example for the main Treasure table:
+When using an LLM application with the MCP Random Tables server connected, you can create these tables by asking the LLM to create each table with the entries shown above. The LLM will use the appropriate MCP tools behind the scenes to create the tables.
 
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>create_table</tool_name>
-<arguments>
-{
-  "name": "Treasure",
-  "description": "Random treasure found in dungeons",
-  "entries": [
-    {
-      "content": "{{::currency}}",
-      "weight": 3
-    },
-    {
-      "content": "{{::items::Items::1d3}} worth {{::currency}}",
-      "weight": 2
-    },
-    {
-      "content": "A magical {{::items}}",
-      "weight": 1
-    },
-    {
-      "content": "A chest containing {{::items::Items::1d4}} and {{::currency}}",
-      "weight": 1
-    },
-    {
-      "content": "Nothing of value",
-      "weight": 1
-    }
-  ]
-}
-</arguments>
-</use_mcp_tool>
-```
-
-Repeat this process for each of the other tables (Items, Material, Currency, Gem, Potion Effect, and Spell).
+You'll need to create all seven tables (Treasure, Items, Material, Currency, Gem, Potion Effect, and Spell) for the nested template system to work properly.
 
 ## Rolling on the Table
 
-To roll on the main Treasure table, use the `roll_on_table` tool:
-
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>roll_on_table</tool_name>
-<arguments>
-{
-  "tableId": "treasure",
-  "count": 1
-}
-</arguments>
-</use_mcp_tool>
-```
+Once the tables are created, you can roll on the main Treasure table by asking the LLM to roll on the "Treasure" table. The LLM will use the appropriate MCP tools behind the scenes to roll on the table and present the results to you.
 
 ## Understanding the Results
 

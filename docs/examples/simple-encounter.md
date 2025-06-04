@@ -55,79 +55,11 @@ This example demonstrates a simple encounter table for a forest environment.
 
 ## Creating the Table
 
-To create this table using the MCP Random Tables server, use the `create_table` tool:
-
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>create_table</tool_name>
-<arguments>
-{
-  "name": "Forest Encounters",
-  "description": "Random encounters in the forest",
-  "entries": [
-    {
-      "content": "Wolf pack (1d4+1 wolves)",
-      "weight": 3
-    },
-    {
-      "content": "Friendly traveler offering directions",
-      "weight": 2
-    },
-    {
-      "content": "Bandit ambush (2d4 bandits)",
-      "weight": 2
-    },
-    {
-      "content": "Lost child searching for their parents",
-      "weight": 1
-    },
-    {
-      "content": "Ancient ruins overgrown with vines",
-      "weight": 1
-    },
-    {
-      "content": "Deer grazing peacefully",
-      "weight": 3
-    },
-    {
-      "content": "Poisonous snake hidden in the underbrush",
-      "weight": 2
-    },
-    {
-      "content": "Fey creature playing tricks",
-      "weight": 1
-    },
-    {
-      "content": "Hunter's camp, recently abandoned",
-      "weight": 2
-    },
-    {
-      "content": "Rare medicinal herbs growing in a clearing",
-      "weight": 1
-    }
-  ]
-}
-</arguments>
-</use_mcp_tool>
-```
+When using an LLM application with the MCP Random Tables server connected, you can create this table by asking the LLM to create a "Forest Encounters" table with the entries shown above. The LLM will use the appropriate MCP tools behind the scenes to create the table.
 
 ## Rolling on the Table
 
-To roll on this table, use the `roll_on_table` tool:
-
-```
-<use_mcp_tool>
-<server_name>random-tables</server_name>
-<tool_name>roll_on_table</tool_name>
-<arguments>
-{
-  "tableId": "forest-encounters",
-  "count": 1
-}
-</arguments>
-</use_mcp_tool>
-```
+Once the table is created, you can roll on it by asking the LLM to roll on the "Forest Encounters" table. The LLM will use the appropriate MCP tools behind the scenes to roll on the table and present the results to you.
 
 ## Understanding the Results
 
