@@ -21,7 +21,7 @@ export * from "./adapters/primary/mcp/McpServer";
 
 // Import dependencies for server setup
 import { FileTableRepository } from "./adapters/secondary/persistence/FileTableRepository";
-import { DefaultRandomNumberGenerator } from "./adapters/secondary/rng/DefaultRandomNumberGenerator";
+import { CryptoRandomNumberGenerator } from "./adapters/secondary/rng/CryptoRandomNumberGenerator";
 import { CreateTableUseCase } from "./useCases/CreateTableUseCase";
 import { GetTableUseCase } from "./useCases/GetTableUseCase";
 import { ListTablesUseCase } from "./useCases/ListTablesUseCase";
@@ -47,7 +47,7 @@ async function main() {
 
   // Initialize repositories and services
   const tableRepository = new FileTableRepository(dataDir);
-  const rng = new DefaultRandomNumberGenerator();
+  const rng = new CryptoRandomNumberGenerator();
 
   // Initialize use cases
   const createTableUseCase = new CreateTableUseCase(tableRepository);

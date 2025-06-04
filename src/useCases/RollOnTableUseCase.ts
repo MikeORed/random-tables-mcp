@@ -1,7 +1,9 @@
 import { RollResult } from "../domain/entities/RollResult";
+import { RandomTable } from "../domain/entities/RandomTable";
 import { TableRepository } from "../ports/secondary/TableRepository";
 import { RandomNumberGenerator } from "../ports/secondary/RandomNumberGenerator";
 import { RollTemplate } from "../domain/valueObjects/RollTemplate";
+import { TemplateReference } from "../domain/valueObjects/TemplateReference";
 
 /**
  * Use case for rolling on a random table.
@@ -47,10 +49,13 @@ export class RollOnTableUseCase {
       // Roll on the table using the random value
       const result = table.roll(() => randomValue);
 
-      // If the result is a template, we would need to resolve it
-      // This would involve looking up other tables and rolling on them
-      // For now, we'll just return the unresolved result
-      results.push(result);
+      // If the result is a template, resolve it
+      if (result.isTemplate) {
+        const resolvedResult = await this.resolveTemplateResult(result);
+        results.push(resolvedResult);
+      } else {
+        results.push(result);
+      }
     }
 
     return results;
@@ -58,7 +63,6 @@ export class RollOnTableUseCase {
 
   /**
    * Resolves a template result by rolling on referenced tables.
-   * This is a placeholder for future implementation.
    * @param result The roll result to resolve.
    * @param maxDepth Maximum resolution depth to prevent infinite loops.
    * @returns A resolved roll result.
@@ -67,18 +71,85 @@ export class RollOnTableUseCase {
     result: RollResult,
     maxDepth: number = RollTemplate.MAX_RESOLUTION_DEPTH
   ): Promise<RollResult> {
+    // If not a template or max depth reached, return as is
     if (!result.isTemplate || maxDepth <= 0) {
       return result;
     }
 
-    // This would involve:
-    // 1. Extracting template references from the content
-    // 2. For each reference, looking up the referenced table
-    // 3. Rolling on the referenced table
-    // 4. Replacing the reference with the roll result
-    // 5. Recursively resolving any nested templates
+    // Create a template from the content
+    let template = new RollTemplate(result.content);
 
-    // For now, we'll just return the original result
-    return result;
+    // Extract all references from the template
+    const references = template.extractReferences();
+
+    // If no references, return the original result
+    if (references.length === 0) {
+      return result;
+    }
+
+    // Process each reference
+    for (const reference of references) {
+      // Skip empty references
+      if (!reference.tableId && !reference.tableName) {
+        continue;
+      }
+
+      // Try to get the referenced table by ID
+      let referencedTable = null;
+      if (reference.tableId) {
+        referencedTable = await this.repository.getById(reference.tableId);
+      }
+
+      // If not found by ID and name is provided, try to find by name
+      if (!referencedTable && reference.tableName) {
+        const tables = await this.repository.list();
+        referencedTable = tables.find(
+          (t: RandomTable) => t.name === reference.tableName
+        );
+      }
+
+      // If table not found, skip this reference
+      if (!referencedTable) {
+        continue;
+      }
+
+      // Roll on the referenced table the specified number of times
+      const referenceResults: string[] = [];
+      for (let i = 0; i < reference.rollCount; i++) {
+        // Use the RNG to generate a random number between 0 and 1
+        const randomValue = this.rng.getRandomNumber(0, 1);
+
+        // Roll on the referenced table
+        const rollResult = referencedTable.roll(() => randomValue);
+
+        // If the result is also a template, resolve it recursively
+        const resolvedRollResult = rollResult.isTemplate
+          ? await this.resolveTemplateResult(rollResult, maxDepth - 1)
+          : rollResult;
+
+        // Add the content (resolved if available, otherwise original)
+        referenceResults.push(
+          resolvedRollResult.resolvedContent || resolvedRollResult.content
+        );
+      }
+
+      // Join the results with the specified separator
+      const replacementValue = referenceResults.join(reference.separator);
+
+      // Replace the reference in the template
+      template = template.replaceReference(reference, replacementValue);
+    }
+
+    // Check if there are still unresolved references and we haven't reached max depth
+    if (template.hasUnresolvedReferences() && maxDepth > 1) {
+      // Create a new result with the partially resolved template
+      const partialResult = result.withResolvedContent(template.toString());
+
+      // Resolve remaining references recursively
+      return this.resolveTemplateResult(partialResult, maxDepth - 1);
+    }
+
+    // Return the result with resolved content
+    return result.withResolvedContent(template.toString());
   }
 }
