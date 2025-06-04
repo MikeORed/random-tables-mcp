@@ -63,8 +63,29 @@ const UpdateTableInputSchema = z.object({
             .describe("IDs of entries to remove"),
         })
         .optional()
+        .refine(
+          (data) =>
+            data === undefined ||
+            data.add !== undefined ||
+            data.update !== undefined ||
+            data.remove !== undefined,
+          {
+            message:
+              "At least one of 'add', 'update', or 'remove' must be provided when updating entries",
+          }
+        )
         .describe("Entry updates"),
     })
+    .refine(
+      (data) =>
+        data.name !== undefined ||
+        data.description !== undefined ||
+        data.entries !== undefined,
+      {
+        message:
+          "At least one update property (name, description, or entries) must be provided",
+      }
+    )
     .describe("Updates to apply to the table"),
 });
 
@@ -102,7 +123,9 @@ export class UpdateTableTool {
     return {
       name: this.name,
       description: this.description,
-      inputSchema: zodToJsonSchema(UpdateTableInputSchema),
+      inputSchema: zodToJsonSchema(UpdateTableInputSchema, {
+        $refStrategy: "none",
+      }),
     };
   }
 
