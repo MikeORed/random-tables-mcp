@@ -59,7 +59,14 @@ export class ListTablesTool {
    * @param args The tool arguments.
    * @returns The tool result.
    */
-  public async execute(args: any): Promise<any> {
+  public async execute(args: any): Promise<{
+    tables: {
+      id: string;
+      name: string;
+      description: string;
+      entryCount: number;
+    }[];
+  }> {
     const parsed = ListTablesInputSchema.parse(args);
 
     // Call the table service to list tables

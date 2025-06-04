@@ -9,8 +9,64 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@adapters/*": [
+        "src/adapters/*"
+      ],
+      "@adapters-primary/*": [
+        "src/adapters/primary/*"
+      ],
+      "@adapters-primary-mcp/*": [
+        "src/adapters/primary/mcp/*"
+      ],
+      "@adapters-secondary/*": [
+        "src/adapters/secondary/*"
+      ],
+      "@adapters-secondary-persistence/*": [
+        "src/adapters/secondary/persistence/*"
+      ],
+      "@adapters-secondary-rng/*": [
+        "src/adapters/secondary/rng/*"
+      ],
+      "@domain/*": [
+        "src/domain/*"
+      ],
+      "@domain-entities/*": [
+        "src/domain/entities/*"
+      ],
+      "@domain-valueObjects/*": [
+        "src/domain/valueObjects/*"
+      ],
+      "@ports/*": [
+        "src/ports/*"
+      ],
+      "@ports-primary/*": [
+        "src/ports/primary/*"
+      ],
+      "@ports-secondary/*": [
+        "src/ports/secondary/*"
+      ],
+      "@useCases/*": [
+        "src/useCases/*"
+      ],
+      "@useCases-implementations/*": [
+        "src/useCases/implementations/*"
+      ],
+      "@test/*": [
+        "test/*"
+      ]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ]
 }
