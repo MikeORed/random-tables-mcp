@@ -40,6 +40,7 @@ export class McpServer {
       {
         capabilities: {
           tools: {},
+          resources: {},
         },
       }
     );

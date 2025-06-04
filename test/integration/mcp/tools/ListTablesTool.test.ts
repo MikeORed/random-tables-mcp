@@ -134,16 +134,16 @@ describe("ListTablesTool Integration Tests", () => {
     // This test can be expanded when filtering is implemented
 
     // Mock the listTables method to verify filter is passed
-    const originalListTables = tableService.listTables;
+    const originalListTables = tableService.listTables.bind(tableService);
     tableService.listTables = jest.fn().mockImplementation((filter) => {
       // Only return tables that match the filter criteria
       // For this test, we'll filter by name containing "with"
       if (filter && filter.nameContains === "with") {
-        return originalListTables().then((tables) =>
+        return originalListTables(filter).then((tables) =>
           tables.filter((table) => table.name.toLowerCase().includes("with"))
         );
       }
-      return originalListTables();
+      return originalListTables(filter);
     });
 
     const result = await listTablesTool.execute({
