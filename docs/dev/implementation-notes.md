@@ -113,17 +113,9 @@ The current implementation of template resolution is basic. Future enhancements 
 2. **Caching**: Cache resolved templates to improve performance.
 3. **Error Handling**: Improve error handling for template resolution failures.
 
-### Weighted Distributions
-
-The current implementation supports weighted entries, but future enhancements could include more sophisticated probability distributions.
-
 ### Conditional Results
 
 Future enhancements could include support for conditional results, where the result depends on certain conditions.
-
-### Web UI
-
-A web UI for table management could be added as a future enhancement.
 
 ## Testing Strategy
 

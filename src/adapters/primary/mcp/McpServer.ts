@@ -12,6 +12,7 @@ import { CreateTableTool } from "./tools/CreateTableTool";
 import { RollOnTableTool } from "./tools/RollOnTableTool";
 import { UpdateTableTool } from "./tools/UpdateTableTool";
 import { ListTablesTool } from "./tools/ListTablesTool";
+import { GetTableTool } from "./tools/GetTableTool";
 import { TableResource } from "./resources/TableResource";
 import { TablesResource } from "./resources/TablesResource";
 
@@ -45,6 +46,9 @@ export class McpServer {
       }
     );
 
+    // Check if resources can be used (defaults to false if not specified)
+    const canUseResource = process.env.CAN_USE_RESOURCE === "true";
+
     // Initialize tools
     this.tools = [
       new CreateTableTool(tableService),
@@ -53,11 +57,18 @@ export class McpServer {
       new ListTablesTool(tableService),
     ];
 
+    // Add GetTableTool if resources cannot be used
+    if (!canUseResource) {
+      this.tools.push(new GetTableTool(tableService));
+    }
+
     // Initialize resources
-    this.resources = [
-      new TableResource(tableService),
-      new TablesResource(tableService),
-    ];
+    this.resources = [new TablesResource(tableService)];
+
+    // Add TableResource only if resources can be used
+    if (canUseResource) {
+      this.resources.push(new TableResource(tableService));
+    }
   }
 
   /**

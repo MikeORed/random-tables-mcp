@@ -45,6 +45,10 @@ async function main() {
   // Set up the data directory
   const dataDir = process.env.DATA_DIR || path.join(process.cwd(), "data");
 
+  // Check if resources can be used (defaults to false if not specified)
+  const canUseResource = process.env.CAN_USE_RESOURCE === "true";
+  console.log(`Resources ${canUseResource ? "enabled" : "disabled"}`);
+
   // Initialize repositories and services
   const tableRepository = new FileTableRepository(dataDir);
   const rng = new CryptoRandomNumberGenerator();

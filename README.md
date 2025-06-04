@@ -49,6 +49,7 @@ This project implements an MCP server that allows users to create, persist, look
 - **Weighted Entries**: Table entries can have weights for probability-based tables
 - **MCP Tools**: Tools for creating, rolling on, updating, and listing tables
 - **MCP Resources**: Resources for accessing tables and their metadata
+- **Client Compatibility**: Configurable to use either MCP Resources or Tools for table access, ensuring compatibility with LLM clients that may not fully support resources
 
 ## Documentation
 
@@ -103,6 +104,7 @@ Comprehensive documentation is available in the [docs](./docs) directory:
 │   │   │       │   └── TablesResource.ts
 │   │   │       └── tools/
 │   │   │           ├── CreateTableTool.ts
+│   │   │           ├── GetTableTool.ts
 │   │   │           ├── RollOnTableTool.ts
 │   │   │           ├── UpdateTableTool.ts
 │   │   │           └── ListTablesTool.ts
@@ -164,6 +166,17 @@ cd mcp-random-tables
 # Install dependencies
 npm install
 ```
+
+### Environment Variables
+
+The server can be configured using the following environment variables:
+
+- `DATA_DIR`: Directory where table data is stored (default: `./data`)
+- `CAN_USE_RESOURCE`: Controls whether to use MCP Resources or Tools for certain functionality (default: `false`)
+  - When set to `true`: Uses the `TableResource` for accessing tables
+  - When not set or any other value: Uses the `GetTableTool` instead of `TableResource`
+
+This allows compatibility with LLM clients that may not fully support MCP Resources.
 
 ### Development
 
