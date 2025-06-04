@@ -23,9 +23,23 @@ This project implements an MCP server that allows users to create, persist, look
 
 **Phase 3: Secondary Adapters Implementation** ✅
 
-- Implemented RandomNumberGenerator adapter (DefaultRandomNumberGenerator)
+- Implemented RandomNumberGenerator adapter (DefaultRandomNumberGenerator, CryptoRandomNumberGenerator)
 - Implemented TableRepository adapters (InMemoryTableRepository, FileTableRepository)
 - Added unit tests for all adapters
+
+**Phase 4: MCP Server Implementation** ✅
+
+- Implemented MCP server using the MCP SDK
+- Created tools for table operations (create_table, roll_on_table, update_table, list_tables)
+- Created resources for accessing tables (table://{tableId}, tables://)
+- Added integration tests for MCP server, tools, and resources
+
+**Phase 5: Documentation** 🔄
+
+- Created comprehensive documentation for the project
+- Added user guides for getting started, integration, and using templates
+- Added example tables and usage scenarios
+- Added developer documentation for architecture, extension points, and implementation notes
 
 ## Features
 
@@ -33,16 +47,27 @@ This project implements an MCP server that allows users to create, persist, look
 - **Template Support**: Table entries can contain references to other tables using the syntax `{{reference-title::table-id::table-name::roll-number::separator}}`
 - **Range-based Entries**: Table entries can have ranges for dice-based tables
 - **Weighted Entries**: Table entries can have weights for probability-based tables
+- **MCP Tools**: Tools for creating, rolling on, updating, and listing tables
+- **MCP Resources**: Resources for accessing tables and their metadata
 
-## Next Steps
+## Documentation
 
-- **Phase 4**: Implement MCP server
-- **Phase 5**: Testing and documentation
+Comprehensive documentation is available in the [docs](./docs) directory:
+
+- [API Reference](./docs/api/README.md) - Detailed documentation of the MCP tools and resources
+- [User Guides](./docs/guides/README.md) - Guides for getting started, integration, and using templates
+- [Examples](./docs/examples/README.md) - Example tables and usage scenarios
+- [Developer Documentation](./docs/dev/README.md) - Architecture, extension points, and implementation notes
 
 ## Project Structure
 
 ```
 /
+├── docs/                      # Documentation
+│   ├── api/                   # API reference
+│   ├── guides/                # User guides
+│   ├── examples/              # Example tables and usage scenarios
+│   └── dev/                   # Developer documentation
 ├── src/
 │   ├── domain/
 │   │   ├── entities/
@@ -72,13 +97,21 @@ This project implements an MCP server that allows users to create, persist, look
 │   ├── adapters/
 │   │   ├── primary/
 │   │   │   └── mcp/
+│   │   │       ├── McpServer.ts
 │   │   │       ├── resources/
+│   │   │       │   ├── TableResource.ts
+│   │   │       │   └── TablesResource.ts
 │   │   │       └── tools/
+│   │   │           ├── CreateTableTool.ts
+│   │   │           ├── RollOnTableTool.ts
+│   │   │           ├── UpdateTableTool.ts
+│   │   │           └── ListTablesTool.ts
 │   │   └── secondary/
 │   │       ├── persistence/
 │   │       │   ├── InMemoryTableRepository.ts
 │   │       │   └── FileTableRepository.ts
 │   │       └── rng/
+│   │           ├── CryptoRandomNumberGenerator.ts
 │   │           └── DefaultRandomNumberGenerator.ts
 │   └── index.ts
 ├── test/
@@ -91,17 +124,30 @@ This project implements an MCP server that allows users to create, persist, look
 │   │           │   ├── InMemoryTableRepository.test.ts
 │   │           │   └── FileTableRepository.test.ts
 │   │           └── rng/
+│   │               ├── CryptoRandomNumberGenerator.test.ts
 │   │               └── DefaultRandomNumberGenerator.test.ts
 │   ├── integration/
 │   │   ├── adapters/
 │   │   └── mcp/
+│   │       ├── McpServer.test.ts
+│   │       ├── resources/
+│   │       │   ├── TableResource.test.ts
+│   │       │   └── TablesResource.test.ts
+│   │       └── tools/
+│   │           ├── CreateTableTool.test.ts
+│   │           ├── RollOnTableTool.test.ts
+│   │           ├── UpdateTableTool.test.ts
+│   │           └── ListTablesTool.test.ts
 │   └── e2e/
 ├── package.json
 ├── tsconfig.json
+├── CONTRIBUTING.md
 └── README.md
 ```
 
 ## Getting Started
+
+See the [Getting Started Guide](./docs/guides/getting-started.md) for detailed instructions on how to install, configure, and use the MCP Random Tables server.
 
 ### Prerequisites
 
@@ -161,6 +207,10 @@ npm test
 - Unit tests: `test/unit/` - Test individual components in isolation
 - Integration tests: `test/integration/` - Test interactions between components
 - End-to-end tests: `test/e2e/` - Test the entire system
+
+## Contributing
+
+If you'd like to contribute to the MCP Random Tables project, please see the [Contributing Guide](./CONTRIBUTING.md) for more information.
 
 ## License
 
