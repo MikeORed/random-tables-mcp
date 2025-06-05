@@ -9,27 +9,27 @@
 export * from "./domain";
 
 // Export use cases and ports (Phase 2)
-export * from "./useCases";
-export * from "./useCases/implementations";
+export * from "./use-cases";
+export * from "./use-cases/implementations";
 export * from "./ports";
 
 // Export secondary adapters (Phase 3)
 export * from "./adapters/secondary";
 
 // Export primary adapters (Phase 4)
-export * from "./adapters/primary/mcp/McpServer";
+export * from "./adapters/primary/mcp/mcp-server";
 
 // Import dependencies for server setup
-import { FileTableRepository } from "./adapters/secondary/persistence/FileTableRepository";
-import { CryptoRandomNumberGenerator } from "./adapters/secondary/rng/CryptoRandomNumberGenerator";
-import { CreateTableUseCase } from "./useCases/CreateTableUseCase";
-import { GetTableUseCase } from "./useCases/GetTableUseCase";
-import { ListTablesUseCase } from "./useCases/ListTablesUseCase";
-import { RollOnTableUseCase } from "./useCases/RollOnTableUseCase";
-import { UpdateTableUseCase } from "./useCases/UpdateTableUseCase";
-import { TableServiceImpl } from "./useCases/implementations/TableServiceImpl";
-import { RollServiceImpl } from "./useCases/implementations/RollServiceImpl";
-import { McpServer } from "./adapters/primary/mcp/McpServer";
+import { FileTableRepository } from "./adapters/secondary/persistence/file-table-repository";
+import { CryptoRandomNumberGenerator } from "./adapters/secondary/rng/crypto-random-number-generator";
+import { CreateTableUseCase } from "./use-cases/create-table-use-case";
+import { GetTableUseCase } from "./use-cases/get-table-use-case";
+import { ListTablesUseCase } from "./use-cases/list-tables-use-case";
+import { RollOnTableUseCase } from "./use-cases/roll-on-table-use-case";
+import { UpdateTableUseCase } from "./use-cases/update-table-use-case";
+import { TableServiceImpl } from "./use-cases/implementations/table-service-impl";
+import { RollServiceImpl } from "./use-cases/implementations/roll-service-impl";
+import { McpServer } from "./adapters/primary/mcp/mcp-server";
 import path from "path";
 
 /**

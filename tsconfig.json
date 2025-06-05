@@ -39,8 +39,8 @@
       "@domain-entities/*": [
         "src/domain/entities/*"
       ],
-      "@domain-valueObjects/*": [
-        "src/domain/valueObjects/*"
+      "@domain-value-objects/*": [
+        "src/domain/value-objects/*"
       ],
       "@ports/*": [
         "src/ports/*"
@@ -51,11 +51,11 @@
       "@ports-secondary/*": [
         "src/ports/secondary/*"
       ],
-      "@useCases/*": [
-        "src/useCases/*"
+      "@use-cases/*": [
+        "src/use-cases/*"
       ],
-      "@useCases-implementations/*": [
-        "src/useCases/implementations/*"
+      "@use-cases-implementations/*": [
+        "src/use-cases/implementations/*"
       ],
       "@test/*": [
         "test/*"
