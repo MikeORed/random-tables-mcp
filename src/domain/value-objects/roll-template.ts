@@ -60,11 +60,16 @@ export class RollTemplate {
    * @returns A new RollTemplate with the reference replaced
    */
   replaceReference(reference: TemplateReference, value: string): RollTemplate {
-    // We need to escape special characters in the reference string for use in a regex
-    const escapedRefString = reference
-      .toString()
+    // Get the exact reference string as it appears in the template
+    const refString = reference.toString();
+
+    // Escape special regex characters, but keep the {{ and }} literal
+    const escapedMiddle = refString
+      .slice(2, -2)
       .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(escapedRefString);
+    const exactPattern = `\\{\\{${escapedMiddle}\\}\\}`;
+
+    const regex = new RegExp(exactPattern);
     const newTemplate = this.template.replace(regex, value);
     return new RollTemplate(newTemplate);
   }
