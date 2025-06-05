@@ -11,7 +11,7 @@ This guide will help you get started with the MCP Random Tables server.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/mcp-random-tables.git
+git clone https://github.com/MikeORed/random-tables-mcp
 cd mcp-random-tables
 
 # Install dependencies

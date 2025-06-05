@@ -1,6 +1,6 @@
 {
   "name": "mcp-random-tables",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -8,15 +8,28 @@
     "dev": "ts-node src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
-    "generate-paths": "ts-node scripts/generate-paths.ts"
+    "generate-paths": "ts-node scripts/generate-paths.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MikeORed/random-tables-mcp"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "mcp",
     "random-tables",
     "rpg"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Michael Flanagan",
+  "license": "MIT",
   "description": "MCP server for managing and rolling on random-table assets used in tabletop RPGs",
   "devDependencies": {
     "@types/jest": "^29.5.14",
