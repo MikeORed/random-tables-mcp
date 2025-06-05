@@ -1,4 +1,4 @@
-# MCP Random Tables
+# Random Tables MCP Server
 
 Need a drop‑in random‑table engine for your next one‑shot? **MCP Random Tables has you covered.**
 
