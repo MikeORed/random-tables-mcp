@@ -123,7 +123,7 @@ Replace `/path/to/mcp-random-tables` with the actual path to your local installa
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/MikeORed/random-tables-mcp
 cd mcp-random-tables
 
 # Install dependencies
