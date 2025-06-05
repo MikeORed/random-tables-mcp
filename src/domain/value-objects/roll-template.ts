@@ -63,15 +63,18 @@ export class RollTemplate {
     // Get the exact reference string as it appears in the template
     const refString = reference.toString();
 
-    // Escape special regex characters, but keep the {{ and }} literal
-    const escapedMiddle = refString
-      .slice(2, -2)
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const exactPattern = `\\{\\{${escapedMiddle}\\}\\}`;
+    // Simple string replacement of the first occurrence
+    const index = this.template.indexOf(refString);
+    if (index !== -1) {
+      const newTemplate =
+        this.template.substring(0, index) +
+        value +
+        this.template.substring(index + refString.length);
+      return new RollTemplate(newTemplate);
+    }
 
-    const regex = new RegExp(exactPattern);
-    const newTemplate = this.template.replace(regex, value);
-    return new RollTemplate(newTemplate);
+    // If reference not found, return unchanged template
+    return this;
   }
 
   /**

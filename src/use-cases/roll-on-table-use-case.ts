@@ -94,44 +94,20 @@ export class RollOnTableUseCase {
         continue;
       }
 
-      // Try to get the referenced table by ID
-      let referencedTable = null;
-      if (reference.tableId) {
-        referencedTable = await this.repository.getById(reference.tableId);
-      }
-
-      // If not found by ID and name is provided, try to find by name
-      if (!referencedTable && reference.tableName) {
-        const tables = await this.repository.list();
-        referencedTable = tables.find(
-          (t: RandomTable) => t.name === reference.tableName
-        );
-      }
+      // Find the referenced table
+      const referencedTable = await this.findReferencedTable(reference);
 
       // If table not found, skip this reference
       if (!referencedTable) {
         continue;
       }
 
-      // Roll on the referenced table the specified number of times
-      const referenceResults: string[] = [];
-      for (let i = 0; i < reference.rollCount; i++) {
-        // Use the RNG to generate a random number between 0 and 1
-        const randomValue = this.rng.getRandomNumber(0, 1);
-
-        // Roll on the referenced table
-        const rollResult = referencedTable.roll(() => randomValue);
-
-        // If the result is also a template, resolve it recursively
-        const resolvedRollResult = rollResult.isTemplate
-          ? await this.resolveTemplateResult(rollResult, maxDepth - 1)
-          : rollResult;
-
-        // Add the content (resolved if available, otherwise original)
-        referenceResults.push(
-          resolvedRollResult.resolvedContent || resolvedRollResult.content
-        );
-      }
+      // Roll on the referenced table and get the results
+      const referenceResults = await this.rollOnReferencedTable(
+        referencedTable,
+        reference.rollCount,
+        maxDepth - 1
+      );
 
       // Join the results with the specified separator
       const replacementValue = referenceResults.join(reference.separator);
@@ -151,5 +127,67 @@ export class RollOnTableUseCase {
 
     // Return the result with resolved content
     return result.withResolvedContent(template.toString());
+  }
+
+  /**
+   * Finds a table referenced by a template reference.
+   * @param reference The template reference
+   * @returns The referenced table, or null if not found
+   */
+  private async findReferencedTable(
+    reference: TemplateReference
+  ): Promise<RandomTable | null> {
+    // Try to get the referenced table by ID
+    if (reference.tableId) {
+      const table = await this.repository.getById(reference.tableId);
+      if (table) {
+        return table;
+      }
+    }
+
+    // If not found by ID and name is provided, try to find by name
+    if (reference.tableName) {
+      const tables = await this.repository.list();
+      return (
+        tables.find((t: RandomTable) => t.name === reference.tableName) || null
+      );
+    }
+
+    return null;
+  }
+
+  /**
+   * Rolls on a referenced table multiple times and resolves any nested templates.
+   * @param table The table to roll on
+   * @param count Number of times to roll
+   * @param maxDepth Maximum resolution depth for nested templates
+   * @returns Array of roll result contents
+   */
+  private async rollOnReferencedTable(
+    table: RandomTable,
+    count: number,
+    maxDepth: number
+  ): Promise<string[]> {
+    const results: string[] = [];
+
+    for (let i = 0; i < count; i++) {
+      // Use the RNG to generate a random number between 0 and 1
+      const randomValue = this.rng.getRandomNumber(0, 1);
+
+      // Roll on the referenced table
+      const rollResult = table.roll(() => randomValue);
+
+      // If the result is also a template, resolve it recursively
+      const resolvedRollResult = rollResult.isTemplate
+        ? await this.resolveTemplateResult(rollResult, maxDepth)
+        : rollResult;
+
+      // Add the content (resolved if available, otherwise original)
+      results.push(
+        resolvedRollResult.resolvedContent || resolvedRollResult.content
+      );
+    }
+
+    return results;
   }
 }
