@@ -35,23 +35,52 @@ export class TemplateReference {
    * @returns A new TemplateReference instance
    */
   static fromString(refString: string): TemplateReference {
+    // Handle empty string case
+    if (!refString || refString.trim() === "") {
+      return new TemplateReference("", "", "");
+    }
+
     const parts = refString.split("::");
 
+    // Extract and validate parts
+    const title = parts[0] || "";
+    const tableId = parts[1] || "";
+    const tableName = parts[2] || "";
+
+    // Parse rollCount, defaulting to 1 if invalid
+    let rollCount = 1;
+    if (parts.length > 3 && parts[3]) {
+      const parsed = parseInt(parts[3], 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        rollCount = parsed;
+      }
+    }
+
+    // Get separator, defaulting to ", " if not provided
+    const separator = parts.length > 4 ? parts[4] : ", ";
+
     return new TemplateReference(
-      parts[0] || "",
-      parts[1] || "",
-      parts[2] || "",
-      parts[3] ? parseInt(parts[3], 10) : 1,
-      parts[4] || ", "
+      title,
+      tableId,
+      tableName,
+      rollCount,
+      separator
     );
   }
 
   /**
-   * Gets the full reference string for this template reference.
-   * @returns The reference string in the format {{title::tableId::tableName::rollCount::separator}}
+   * Gets the reference string for this template reference.
+   * Returns the short form if rollCount and separator are at default values,
+   * otherwise returns the full form.
+   * @returns The reference string in the appropriate format
    */
   toString(): string {
-    return `{{${this.title}::${this.tableId}::${this.tableName}}}`;
+    // If using default values for rollCount and separator, return short form
+    if (this.rollCount === 1 && this.separator === ", ") {
+      return `{{${this.title}::${this.tableId}::${this.tableName}}}`;
+    }
+    // Otherwise return the full form with all parameters
+    return this.toFullString();
   }
 
   /**
