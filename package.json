@@ -1,6 +1,6 @@
 {
   "name": "mcp-random-tables",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -9,11 +9,17 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "generate-paths": "ts-node scripts/generate-paths.ts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/MikeORed/random-tables-mcp"
+  },
+  "homepage": "https://github.com/MikeORed/random-tables-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/MikeORed/random-tables-mcp/issues"
   },
   "files": [
     "dist",
@@ -26,16 +32,29 @@
   "keywords": [
     "mcp",
     "random-tables",
-    "rpg"
+    "rpg",
+    "ttrpg",
+    "pathfinder",
+    "pf2e",
+    "dnd",
+    "dungeons-and-dragons",
+    "tabletop",
+    "game-master",
+    "claude",
+    "model-context-protocol"
   ],
   "author": "Michael Flanagan",
   "license": "MIT",
-  "description": "MCP server for managing and rolling on random-table assets used in tabletop RPGs",
+  "description": "An MCP (Model Context Protocol) server for managing and rolling on random-table assets used in tabletop RPGs. Create, update, and roll on random tables with support for nested tables, weighted entries, and range-based results.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.29",
     "@types/uuid": "^10.0.0",
     "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
     "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
