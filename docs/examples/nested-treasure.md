@@ -16,7 +16,7 @@ This example demonstrates how to create nested tables using the template system.
       "weight": 3
     },
     {
-      "content": "{{::items::Items::1d3}} worth {{::currency}}",
+      "content": "{{::items::Items::3}} worth {{::currency}}",
       "weight": 2
     },
     {
@@ -24,7 +24,7 @@ This example demonstrates how to create nested tables using the template system.
       "weight": 1
     },
     {
-      "content": "A chest containing {{::items::Items::1d4}} and {{::currency}}",
+      "content": "A chest containing {{::items::Items::4}} and {{::currency}}",
       "weight": 1
     },
     {
@@ -265,9 +265,9 @@ Once the tables are created, you can roll on the main Treasure table by asking t
 
 ## Understanding the Results
 
-When you roll on the Treasure table, the system will automatically resolve any templates by rolling on the referenced tables. For example, if the result is "{{::items::Items::1d3}} worth {{::currency}}", the system will:
+When you roll on the Treasure table, the system will automatically resolve any templates by rolling on the referenced tables. For example, if the result is "{{::items::Items::3}} worth {{::currency}}", the system will:
 
-1. Roll 1d3 times on the Items table (e.g., if the roll is 2, it will roll twice on the Items table)
+1. Roll 3 times on the Items table
 2. Roll once on the Currency table
 3. Combine the results (e.g., "Steel sword and Bronze shield worth 2d6 silver pieces")
 
@@ -290,8 +290,8 @@ This nested table system can be used by a Game Master during a tabletop RPG sess
 For example:
 
 1. The players defeat a group of goblins and search their lair for treasure.
-2. The GM rolls on the Treasure table and gets "A chest containing {{::items::Items::1d4}} and {{::currency}}".
-3. The system rolls 1d4 (e.g., 3) times on the Items table and once on the Currency table.
+2. The GM rolls on the Treasure table and gets "A chest containing {{::items::Items::4}} and {{::currency}}".
+3. The system rolls 4 times on the Items table and once on the Currency table.
 4. The Items table rolls might result in "Steel sword", "Potion of Healing", and "Scroll of Lightning Bolt".
 5. The Currency table roll might result in "1d6 gold pieces".
 6. The GM then describes the treasure to the players: "You find a chest containing a steel sword, a potion of healing, a scroll of lightning bolt, and 1d6 gold pieces."

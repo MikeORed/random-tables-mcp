@@ -54,7 +54,7 @@ This will roll three times on the "forest-encounters" table and insert the resul
 {{Encounter::forest-encounters}}
 ```
 
-This will roll once on the "forest-encounters" table and insert the result with the title "Encounter: " prefixed.
+This will roll once on the "forest-encounters" table and insert the result. Note that the reference title "Encounter" is included for readability and identification purposes only; it is not added as a prefix to the result.
 
 ## Creating a Table with Templates
 
@@ -70,7 +70,7 @@ Here's an example of creating a table that uses templates:
       "weight": 3
     },
     {
-      "content": "Room with {{Monsters::monsters::Monsters::1d4}}",
+      "content": "Room with {{Monsters::monsters::Monsters::3}}",
       "weight": 2
     },
     {
@@ -84,7 +84,7 @@ Here's an example of creating a table that uses templates:
 In this example:
 
 - The first entry will roll on the "furniture" table and insert the result
-- The second entry will roll 1d4 times on the "monsters" table and insert the results with the title "Monsters: "
+- The second entry will roll 3 times on the "monsters" table and insert the results (the title "Monsters" is for identification only)
 - The third entry will roll on the "treasure" table and insert the result
 
 ## Nested Templates
@@ -97,7 +97,7 @@ Templates can be nested, allowing for complex, hierarchical random generation. F
   "description": "Random treasure",
   "entries": [
     {
-      "content": "{{::items::Items::1d3}} worth {{::currency}}",
+      "content": "{{::items::Items::3}} worth {{::currency}}",
       "weight": 1
     }
   ]
@@ -142,21 +142,17 @@ Templates can be nested, allowing for complex, hierarchical random generation. F
 }
 ```
 
-## Dice Notation
+## Roll Count
 
-The template system supports dice notation for the `roll-number` parameter. For example:
+The template system supports specifying how many times to roll on a referenced table using the `roll-number` parameter. For example:
 
 ```
-{{::monsters::Monsters::1d4}}
+{{::monsters::Monsters::3}}
 ```
 
-This will roll 1d4 (a random number between 1 and 4) times on the "monsters" table.
+This will roll 3 times on the "monsters" table.
 
-Supported dice notation:
-
-- `NdM`: Roll an M-sided die N times and sum the results (e.g., `2d6` rolls two six-sided dice)
-- `NdM+X`: Roll an M-sided die N times, sum the results, and add X (e.g., `2d6+3`)
-- `NdM-X`: Roll an M-sided die N times, sum the results, and subtract X (e.g., `2d6-1`)
+The `roll-number` parameter must be a positive integer. If omitted, the default value is 1.
 
 ## Best Practices
 
