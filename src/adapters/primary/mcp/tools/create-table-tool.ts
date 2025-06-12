@@ -52,7 +52,7 @@ export class CreateTableTool extends BaseTool<CreateTableInput, CreateTableOutpu
    * @returns The tool description.
    */
   protected getToolDescription(): string {
-    return 'Create a new random table';
+    return 'Create a new random table. Table entries can include templates to reference other tables using the format {{reference-title::table-id::table-name::roll-number::separator}}.';
   }
 
   /**
@@ -66,7 +66,11 @@ export class CreateTableTool extends BaseTool<CreateTableInput, CreateTableOutpu
       entries: z
         .array(
           z.object({
-            content: z.string().describe('The content of this entry'),
+            content: z
+              .string()
+              .describe(
+                'The content of this entry. Can include templates in the format {{reference-title::table-id::table-name::roll-number::separator}} to reference other tables.',
+              ),
             weight: z.number().optional().default(1).describe('Probability weight (default: 1)'),
             range: z
               .object({

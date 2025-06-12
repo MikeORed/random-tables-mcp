@@ -69,7 +69,7 @@ export class UpdateTableTool extends BaseTool<UpdateTableInput, UpdateTableOutpu
    * @returns The tool description.
    */
   protected getToolDescription(): string {
-    return 'Update an existing random table';
+    return 'Update an existing random table. Table entries can include templates to reference other tables using the format {{reference-title::table-id::table-name::roll-number::separator}}.';
   }
 
   /**
@@ -88,7 +88,11 @@ export class UpdateTableTool extends BaseTool<UpdateTableInput, UpdateTableOutpu
               add: z
                 .array(
                   z.object({
-                    content: z.string().describe('The content of this entry'),
+                    content: z
+                      .string()
+                      .describe(
+                        'The content of this entry. Can include templates in the format {{reference-title::table-id::table-name::roll-number::separator}} to reference other tables.',
+                      ),
                     weight: z
                       .number()
                       .optional()
@@ -111,7 +115,12 @@ export class UpdateTableTool extends BaseTool<UpdateTableInput, UpdateTableOutpu
                     id: z.string().describe('ID of the entry to update'),
                     updates: z
                       .object({
-                        content: z.string().optional().describe('New content'),
+                        content: z
+                          .string()
+                          .optional()
+                          .describe(
+                            'New content. Can include templates in the format {{reference-title::table-id::table-name::roll-number::separator}} to reference other tables.',
+                          ),
                         weight: z.number().optional().describe('New weight'),
                         range: z
                           .object({
