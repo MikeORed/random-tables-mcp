@@ -1,102 +1,118 @@
-import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import { TableService } from "../../../../ports/primary/table-service";
-import { TableEntry } from "../../../../domain/entities/table-entry";
-import { Range } from "../../../../domain/value-objects/roll-range";
-import { v4 as uuidv4 } from "uuid";
+import { z } from 'zod';
+import { TableService } from '../../../../ports/primary/table-service';
+import { TableEntry } from '../../../../domain/entities/table-entry';
+import { Range } from '../../../../domain/value-objects/roll-range';
+import { v4 as uuidv4 } from 'uuid';
+import { BaseTool } from './tool';
 
-// Define input schema
-const CreateTableInputSchema = z.object({
-  name: z.string().describe("Table name"),
-  description: z.string().optional().describe("Optional description"),
-  entries: z
-    .array(
-      z.object({
-        content: z.string().describe("The content of this entry"),
-        weight: z
-          .number()
-          .optional()
-          .default(1)
-          .describe("Probability weight (default: 1)"),
-        range: z
-          .object({
-            min: z.number().describe("Minimum value (inclusive)"),
-            max: z.number().describe("Maximum value (inclusive)"),
-          })
-          .optional()
-          .describe("Optional range of values this entry corresponds to"),
-      })
-    )
-    .optional()
-    .describe("Optional initial entries"),
-});
+/**
+ * Input type for the create table tool.
+ */
+type CreateTableInput = {
+  name: string;
+  description?: string;
+  entries?: Array<{
+    content: string;
+    weight?: number;
+    range?: {
+      min: number;
+      max: number;
+    };
+  }>;
+};
 
-// Define output schema
-const CreateTableOutputSchema = z.object({
-  tableId: z.string().describe("The ID of the created table"),
-});
+/**
+ * Output type for the create table tool.
+ */
+type CreateTableOutput = {
+  tableId: string;
+};
 
 /**
  * Tool for creating tables.
  */
-export class CreateTableTool {
-  private readonly name = "create_table";
-  private readonly description = "Create a new random table";
-
+export class CreateTableTool extends BaseTool<CreateTableInput, CreateTableOutput> {
   /**
    * Creates a new CreateTableTool instance.
    * @param tableService The table service to use.
    */
-  constructor(private readonly tableService: TableService) {}
+  constructor(private readonly tableService: TableService) {
+    super();
+  }
 
   /**
    * Gets the name of the tool.
    * @returns The tool name.
    */
-  public getName(): string {
-    return this.name;
+  protected getToolName(): string {
+    return 'create_table';
   }
 
   /**
-   * Gets the tool definition for MCP.
-   * @returns The tool definition.
+   * Gets the description of the tool.
+   * @returns The tool description.
    */
-  public getToolDefinition(): any {
-    return {
-      name: this.name,
-      description: this.description,
-      inputSchema: zodToJsonSchema(CreateTableInputSchema),
-    };
+  protected getToolDescription(): string {
+    return 'Create a new random table';
   }
 
   /**
-   * Executes the tool.
-   * @param args The tool arguments.
+   * Gets the input schema for the tool.
+   * @returns The input schema.
+   */
+  protected getInputSchema(): z.ZodType<CreateTableInput> {
+    return z.object({
+      name: z.string().describe('Table name'),
+      description: z.string().optional().describe('Optional description'),
+      entries: z
+        .array(
+          z.object({
+            content: z.string().describe('The content of this entry'),
+            weight: z.number().optional().default(1).describe('Probability weight (default: 1)'),
+            range: z
+              .object({
+                min: z.number().describe('Minimum value (inclusive)'),
+                max: z.number().describe('Maximum value (inclusive)'),
+              })
+              .optional()
+              .describe('Optional range of values this entry corresponds to'),
+          }),
+        )
+        .optional()
+        .describe('Optional initial entries'),
+    });
+  }
+
+  /**
+   * Gets the output schema for the tool.
+   * @returns The output schema.
+   */
+  protected getOutputSchema(): z.ZodType<CreateTableOutput> {
+    return z.object({
+      tableId: z.string().describe('The ID of the created table'),
+    });
+  }
+
+  /**
+   * Implements the tool execution logic.
+   * @param args The validated tool arguments.
    * @returns The tool result.
    */
-  public async execute(args: any): Promise<any> {
-    const parsed = CreateTableInputSchema.parse(args);
-
+  protected async executeImpl(args: CreateTableInput): Promise<CreateTableOutput> {
     // Convert input entries to TableEntry objects
-    const entries = parsed.entries?.map((entry) => {
+    const entries = args.entries?.map(entry => {
       // Generate a unique ID for the entry
       const id = uuidv4();
 
       // Create a Range object if range is provided
-      const range = entry.range
-        ? new Range(entry.range.min, entry.range.max)
-        : undefined;
+      const range = entry.range ? new Range(entry.range.min, entry.range.max) : undefined;
 
       // Create the TableEntry with all required parameters
       return new TableEntry(id, entry.content, entry.weight ?? 1, range);
     });
 
     // Call the table service to create the table
-    const tableId = await this.tableService.createTable(
-      parsed.name,
-      parsed.description,
-      entries
-    );
+    const tableId = await this.tableService.createTable(args.name, args.description, entries);
 
     return { tableId };
   }

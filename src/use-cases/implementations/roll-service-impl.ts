@@ -1,6 +1,6 @@
-import { RollResult } from "../../domain/entities/roll-result";
-import { RollService } from "../../ports/primary/roll-service";
-import { RollOnTableUseCase } from "../roll-on-table-use-case";
+import { RollResult } from '../../domain/entities/roll-result';
+import { RollService } from '../../ports/primary/roll-service';
+import { RollOnTableUseCase } from '../roll-on-table-use-case';
 
 /**
  * Implementation of the RollService interface.

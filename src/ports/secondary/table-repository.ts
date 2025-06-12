@@ -1,4 +1,4 @@
-import { RandomTable } from "../../domain/entities/random-table";
+import { RandomTable } from '../../domain/entities/random-table';
 
 /**
  * Interface for table persistence operations.
@@ -29,7 +29,7 @@ export interface TableRepository {
    * @param filter Optional filter criteria.
    * @returns An array of tables matching the filter.
    */
-  list(filter?: Record<string, any>): Promise<RandomTable[]>;
+  list(filter?: Record<string, unknown>): Promise<RandomTable[]>;
 
   /**
    * Deletes a table by its ID.

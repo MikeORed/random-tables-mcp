@@ -1,7 +1,7 @@
-import { RandomTable } from "../domain/entities/random-table";
-import { TableEntry } from "../domain/entities/table-entry";
-import { TableRepository } from "../ports/secondary/table-repository";
-import { v4 as uuidv4 } from "uuid";
+import { RandomTable } from '../domain/entities/random-table';
+import { TableEntry } from '../domain/entities/table-entry';
+import { TableRepository } from '../ports/secondary/table-repository';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Use case for creating a new random table.
@@ -22,12 +22,12 @@ export class CreateTableUseCase {
    */
   async execute(
     name: string,
-    description: string = "",
-    entries: TableEntry[] = []
+    description: string = '',
+    entries: TableEntry[] = [],
   ): Promise<string> {
     // Validate inputs
     if (!name) {
-      throw new Error("Table name is required");
+      throw new Error('Table name is required');
     }
 
     // Generate a unique ID for the table

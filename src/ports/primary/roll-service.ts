@@ -1,4 +1,4 @@
-import { RollResult } from "../../domain/entities/roll-result";
+import { RollResult } from '../../domain/entities/roll-result';
 
 /**
  * Interface for roll operations.

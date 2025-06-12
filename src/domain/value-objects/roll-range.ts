@@ -8,9 +8,12 @@ export class Range {
    * @param min The minimum value of the range (inclusive).
    * @param max The maximum value of the range (inclusive).
    */
-  constructor(public readonly min: number, public readonly max: number) {
+  constructor(
+    public readonly min: number,
+    public readonly max: number,
+  ) {
     if (min > max) {
-      throw new Error("Minimum value cannot be greater than maximum value");
+      throw new Error('Minimum value cannot be greater than maximum value');
     }
   }
 
@@ -38,7 +41,7 @@ export class Range {
    * @throws Error if the string format is invalid.
    */
   static fromString(rangeStr: string): Range {
-    const parts = rangeStr.split("-");
+    const parts = rangeStr.split('-');
     if (parts.length !== 2) {
       throw new Error('Invalid range format. Expected "min-max"');
     }
@@ -47,7 +50,7 @@ export class Range {
     const max = parseInt(parts[1], 10);
 
     if (isNaN(min) || isNaN(max)) {
-      throw new Error("Invalid range values. Expected numbers");
+      throw new Error('Invalid range values. Expected numbers');
     }
 
     return new Range(min, max);

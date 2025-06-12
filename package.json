@@ -11,7 +11,12 @@
     "generate-paths": "ts-node scripts/generate-paths.ts",
     "prepublishOnly": "npm run build",
     "clean": "rimraf dist",
-    "prebuild": "npm run clean"
+    "prebuild": "npm run clean",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
+    "check": "npm run lint && npm run format:check && npm run test"
   },
   "repository": {
     "type": "git",
@@ -53,7 +58,13 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.29",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
     "jest": "^29.7.0",
+    "prettier": "^3.5.3",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",

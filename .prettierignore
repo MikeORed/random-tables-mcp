@@ -1,0 +1,35 @@
+# Build output
+dist/
+build/
+lib/
+
+# Dependencies
+node_modules/
+
+# Coverage reports
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated files
+package-lock.json
+yarn.lock

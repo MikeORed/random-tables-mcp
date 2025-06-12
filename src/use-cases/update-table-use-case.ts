@@ -1,6 +1,6 @@
-import { TableEntry } from "../domain/entities/table-entry";
-import { RandomTable } from "../domain/entities/random-table";
-import { TableRepository } from "../ports/secondary/table-repository";
+import { TableEntry } from '../domain/entities/table-entry';
+import { RandomTable } from '../domain/entities/random-table';
+import { TableRepository } from '../ports/secondary/table-repository';
 
 /**
  * Use case for updating an existing random table.
@@ -24,14 +24,14 @@ export class UpdateTableUseCase {
       description?: string;
       entries?: {
         add?: TableEntry[];
-        update?: { id: string; updates: Partial<Omit<TableEntry, "id">> }[];
+        update?: { id: string; updates: Partial<Omit<TableEntry, 'id'>> }[];
         remove?: string[];
       };
-    }
+    },
   ): Promise<void> {
     // Validate inputs
     if (!id) {
-      throw new Error("Table ID is required");
+      throw new Error('Table ID is required');
     }
 
     // Get the table from the repository
@@ -49,11 +49,9 @@ export class UpdateTableUseCase {
       // For now, we'll create a new table with the updated properties
       updatedTable = new RandomTable(
         updatedTable.id,
-        updates.name !== undefined ? updates.name : updatedTable.name,
-        updates.description !== undefined
-          ? updates.description
-          : updatedTable.description,
-        updatedTable.entries
+        updates.name ?? updatedTable.name,
+        updates.description ?? updatedTable.description,
+        updatedTable.entries,
       );
     }
 
@@ -68,8 +66,7 @@ export class UpdateTableUseCase {
 
       // Update existing entries
       if (updates.entries.update) {
-        for (const { id: entryId, updates: entryUpdates } of updates.entries
-          .update) {
+        for (const { id: entryId, updates: entryUpdates } of updates.entries.update) {
           updatedTable.updateEntry(entryId, entryUpdates);
         }
       }
