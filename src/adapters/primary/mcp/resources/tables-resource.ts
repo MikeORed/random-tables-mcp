@@ -1,5 +1,5 @@
-import { TableService } from '../../../../ports/primary/table-service';
-import { BaseResource } from './resource';
+import { TableService } from '../../../../ports/index.js';
+import { BaseResource } from './resource.js';
 
 /**
  * Output type for the tables resource.

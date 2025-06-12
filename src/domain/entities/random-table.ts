@@ -1,5 +1,5 @@
-import { TableEntry } from './table-entry';
-import { RollResult } from './roll-result';
+import { TableEntry } from './table-entry.js';
+import { RollResult } from './roll-result.js';
 
 /**
  * Represents a random table with entries that can be rolled on.

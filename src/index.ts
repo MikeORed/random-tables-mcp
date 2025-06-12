@@ -6,30 +6,30 @@
  */
 
 // Re-export domain entities and value objects
-export * from './domain';
+export * from './domain/index.js';
 
 // Export use cases and ports (Phase 2)
-export * from './use-cases';
-export * from './use-cases/implementations';
-export * from './ports';
+export * from './use-cases/index.js';
+export * from './ports/index.js';
 
 // Export secondary adapters (Phase 3)
-export * from './adapters/secondary';
+export * from './adapters/secondary/index.js';
 
 // Export primary adapters (Phase 4)
-export * from './adapters/primary/mcp/mcp-server';
+export * from './adapters/primary/mcp/mcp-server.js';
 
 // Import dependencies for server setup
-import { FileTableRepository } from './adapters/secondary/persistence/file-table-repository';
-import { CryptoRandomNumberGenerator } from './adapters/secondary/rng/crypto-random-number-generator';
-import { CreateTableUseCase } from './use-cases/create-table-use-case';
-import { GetTableUseCase } from './use-cases/get-table-use-case';
-import { ListTablesUseCase } from './use-cases/list-tables-use-case';
-import { RollOnTableUseCase } from './use-cases/roll-on-table-use-case';
-import { UpdateTableUseCase } from './use-cases/update-table-use-case';
-import { TableServiceImpl } from './use-cases/implementations/table-service-impl';
-import { RollServiceImpl } from './use-cases/implementations/roll-service-impl';
-import { McpServer } from './adapters/primary/mcp/mcp-server';
+import { CryptoRandomNumberGenerator, FileTableRepository } from './adapters/secondary/index.js';
+import {
+  CreateTableUseCase,
+  GetTableUseCase,
+  ListTablesUseCase,
+  RollOnTableUseCase,
+  UpdateTableUseCase,
+  RollServiceImpl,
+  TableServiceImpl,
+} from './use-cases/index.js';
+import { McpServer } from './adapters/primary/mcp/mcp-server.js';
 import path from 'path';
 
 /**
@@ -78,10 +78,8 @@ async function main() {
   console.warn('Phase 4: MCP Server Implementation completed');
 }
 
-// Run the main function if this file is executed directly
-if (require.main === module) {
-  main().catch(error => {
-    console.error('Error starting server:', error);
-    process.exit(1);
-  });
-}
+// Run the main function
+main().catch(error => {
+  console.error('Error starting server:', error);
+  process.exit(1);
+});

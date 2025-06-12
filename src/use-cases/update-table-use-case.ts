@@ -1,6 +1,5 @@
-import { TableEntry } from '../domain/entities/table-entry';
-import { RandomTable } from '../domain/entities/random-table';
-import { TableRepository } from '../ports/secondary/table-repository';
+import { RandomTable, TableEntry } from '../domain/index.js';
+import { TableRepository } from '../ports/index.js';
 
 /**
  * Use case for updating an existing random table.

@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { TableService } from '../../../../ports/primary/table-service';
-import { BaseTool } from './tool';
+import { TableService } from '../../../../ports/index.js';
+import { BaseTool } from './tool.js';
 
 /**
  * Input type for the list tables tool.

@@ -1,5 +1,4 @@
-import { RandomTable } from '../../domain/entities/random-table';
-import { TableEntry } from '../../domain/entities/table-entry';
+import { RandomTable, TableEntry } from '../../domain/index.js';
 
 /**
  * Interface for table operations.

@@ -1,4 +1,4 @@
-import { RandomTable } from '../../domain/entities/random-table';
+import { RandomTable } from '../../domain/index.js';
 
 /**
  * Interface for table persistence operations.

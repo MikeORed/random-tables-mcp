@@ -1,6 +1,5 @@
-import { RandomTable } from '../domain/entities/random-table';
-import { TableEntry } from '../domain/entities/table-entry';
-import { TableRepository } from '../ports/secondary/table-repository';
+import { RandomTable, TableEntry } from '../domain/index.js';
+import { TableRepository } from '../ports/index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 /**

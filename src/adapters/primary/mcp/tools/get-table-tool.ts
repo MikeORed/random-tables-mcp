@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { TableService } from '../../../../ports/primary/table-service';
-import { BaseTool } from './tool';
-import { RandomTableDTO } from '@/domain/entities/random-table';
+import { TableService } from '../../../../ports/index.js';
+import { BaseTool } from './tool.js';
+import { RandomTableDTO } from '../../../../domain/index.js';
 
 /**
  * Input type for the get table tool.

@@ -5,17 +5,16 @@ import {
   ListToolsRequestSchema,
   ReadResourceRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { TableService } from '../../../ports/primary/table-service';
-import { RollService } from '../../../ports/primary/roll-service';
-import { CreateTableTool } from './tools/create-table-tool';
-import { RollOnTableTool } from './tools/roll-on-table-tool';
-import { UpdateTableTool } from './tools/update-table-tool';
-import { ListTablesTool } from './tools/list-tables-tool';
-import { GetTableTool } from './tools/get-table-tool';
-import { TableResource } from './resources/table-resource';
-import { TablesResource } from './resources/tables-resource';
-import { BaseTool } from './tools/tool';
-import { BaseResource } from './resources/resource';
+import { RollService, TableService } from '../../../ports/index.js';
+import {
+  BaseTool,
+  CreateTableTool,
+  ListTablesTool,
+  RollOnTableTool,
+  UpdateTableTool,
+  GetTableTool,
+} from './tools/index.js';
+import { BaseResource, TableResource, TablesResource } from './resources/index.js';
 
 /**
  * MCP Server implementation for Random Tables.

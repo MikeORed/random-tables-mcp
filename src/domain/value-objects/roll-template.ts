@@ -1,4 +1,4 @@
-import { TemplateReference } from './template-reference';
+import { TemplateReference } from './template-reference.js';
 
 /**
  * Represents a template string that can contain references to other tables.

@@ -1,5 +1,5 @@
-import { Range } from '../value-objects/roll-range';
-import { RollTemplate } from '../value-objects/roll-template';
+import { Range } from '../value-objects/roll-range.js';
+import { RollTemplate } from '../value-objects/roll-template.js';
 
 /**
  * Represents an entry in a random table.

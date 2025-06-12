@@ -1,10 +1,9 @@
-import { RandomTable } from '../../domain/entities/random-table';
-import { TableEntry } from '../../domain/entities/table-entry';
-import { TableService } from '../../ports/primary/table-service';
-import { CreateTableUseCase } from '../create-table-use-case';
-import { GetTableUseCase } from '../get-table-use-case';
-import { ListTablesUseCase } from '../list-tables-use-case';
-import { UpdateTableUseCase } from '../update-table-use-case';
+import { RandomTable, TableEntry } from '../../domain/index.js';
+import { TableService } from '../../ports/index.js';
+import { CreateTableUseCase } from '../create-table-use-case.js';
+import { GetTableUseCase } from '../get-table-use-case.js';
+import { ListTablesUseCase } from '../list-tables-use-case.js';
+import { UpdateTableUseCase } from '../update-table-use-case.js';
 
 /**
  * Implementation of the TableService interface.

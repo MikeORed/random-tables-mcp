@@ -1,5 +1,5 @@
-import { RandomTable } from '../../../domain/entities/random-table';
-import { TableRepository } from '../../../ports/secondary/table-repository';
+import { RandomTable } from '../../../domain/index.js';
+import { TableRepository } from '../../../ports/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';

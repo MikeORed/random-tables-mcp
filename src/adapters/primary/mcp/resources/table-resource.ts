@@ -1,6 +1,6 @@
-import { TableService } from '../../../../ports/primary/table-service';
-import { BaseResource } from './resource';
-import { RandomTableDTO } from '../../../../domain/entities/random-table';
+import { TableService } from '../../../../ports/index.js';
+import { BaseResource } from './resource.js';
+import { RandomTableDTO } from '../../../../domain/index.js';
 
 /**
  * Parameters for the table resource.

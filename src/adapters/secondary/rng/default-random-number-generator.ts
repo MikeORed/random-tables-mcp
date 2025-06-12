@@ -1,4 +1,4 @@
-import { RandomNumberGenerator } from '../../../ports/secondary/random-number-generator';
+import { RandomNumberGenerator } from '../../../ports/index.js';
 
 /**
  * Default implementation of the RandomNumberGenerator interface.

@@ -1,4 +1,4 @@
-import { RollResult } from '../../domain/entities/roll-result';
+import { RollResult } from '../../domain/index.js';
 
 /**
  * Interface for roll operations.

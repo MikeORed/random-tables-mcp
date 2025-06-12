@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { RollService } from '../../../../ports/primary/roll-service';
-import { BaseTool } from './tool';
+import { BaseTool } from './tool.js';
+import { RollService } from '../../../../ports/index.js';
 
 /**
  * Input type for the roll on table tool.

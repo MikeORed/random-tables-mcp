@@ -1,9 +1,5 @@
-import { RollResult } from '../domain/entities/roll-result';
-import { RandomTable } from '../domain/entities/random-table';
-import { TableRepository } from '../ports/secondary/table-repository';
-import { RandomNumberGenerator } from '../ports/secondary/random-number-generator';
-import { RollTemplate } from '../domain/value-objects/roll-template';
-import { TemplateReference } from '../domain/value-objects/template-reference';
+import { RandomTable, RollResult, RollTemplate, TemplateReference } from '../domain/index.js';
+import { RandomNumberGenerator, TableRepository } from '../ports/index.js';
 
 /**
  * Use case for rolling on a random table.

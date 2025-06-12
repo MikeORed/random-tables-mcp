@@ -1,9 +1,8 @@
 import { z } from 'zod';
-import { TableService } from '../../../../ports/primary/table-service';
-import { TableEntry } from '../../../../domain/entities/table-entry';
-import { Range } from '../../../../domain/value-objects/roll-range';
+import { TableService } from '../../../../ports/index.js';
+import { Range, TableEntry } from '../../../../domain/index.js';
 import { v4 as uuidv4 } from 'uuid';
-import { BaseTool } from './tool';
+import { BaseTool } from './tool.js';
 
 /**
  * Input type for the create table tool.

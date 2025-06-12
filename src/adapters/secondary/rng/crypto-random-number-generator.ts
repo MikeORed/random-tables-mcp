@@ -1,4 +1,4 @@
-import { RandomNumberGenerator } from '../../../ports/secondary/random-number-generator';
+import { RandomNumberGenerator } from '../../../ports/index.js';
 import * as crypto from 'crypto';
 
 /**
