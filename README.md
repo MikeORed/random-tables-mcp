@@ -35,6 +35,7 @@ This section details the server's core capabilities and architecture—how rando
 - `list_templates` - List all available roll templates
 - `update_template` - Update an existing roll template
 - `delete_template` - Delete a roll template by ID
+- `evaluate_template` - Evaluate a roll template by resolving all references to tables
 
 _See the [Environment Variables](#environment-variables) section for how to switch between using Tools and Resources._
 

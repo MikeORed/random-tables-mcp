@@ -11,3 +11,4 @@ export * from './get-template-tool.js';
 export * from './list-templates-tool.js';
 export * from './update-template-tool.js';
 export * from './delete-template-tool.js';
+export * from './evaluate-template-tool.js';

@@ -18,6 +18,7 @@ import {
   ListTemplateTool,
   UpdateTemplateTool,
   DeleteTemplateTool,
+  EvaluateTemplateTool,
 } from './tools/index.js';
 import {
   BaseResource,
@@ -73,6 +74,7 @@ export class McpServer {
       new ListTemplateTool(templateService),
       new UpdateTemplateTool(templateService),
       new DeleteTemplateTool(templateService),
+      new EvaluateTemplateTool(templateService),
     ];
 
     // Add GetTableTool if resources cannot be used

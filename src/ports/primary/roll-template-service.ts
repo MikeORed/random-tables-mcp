@@ -1,4 +1,5 @@
 import { RollTemplateEntity } from '../../domain/entities/roll-template-entity.js';
+import { TemplateEvaluationResult } from '../../use-cases/evaluate-template-use-case.js';
 
 /**
  * Interface for roll template operations.
@@ -46,4 +47,12 @@ export interface RollTemplateService {
    * @param id The ID of the template to delete.
    */
   deleteTemplate(id: string): Promise<void>;
+
+  /**
+   * Evaluates a template by resolving all references to tables.
+   * @param id The ID of the template to evaluate.
+   * @param count The number of evaluations to perform (default: 1).
+   * @returns An array of template evaluation results.
+   */
+  evaluateTemplate(id: string, count?: number): Promise<TemplateEvaluationResult[]>;
 }

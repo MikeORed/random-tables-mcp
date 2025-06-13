@@ -9,4 +9,5 @@ export { GetTemplateUseCase } from './get-template-use-case.js';
 export { ListTemplatesUseCase } from './list-templates-use-case.js';
 export { UpdateTemplateUseCase } from './update-template-use-case.js';
 export { DeleteTemplateUseCase } from './delete-template-use-case.js';
+export { EvaluateTemplateUseCase } from './evaluate-template-use-case.js';
 export * from './implementations/index.js';

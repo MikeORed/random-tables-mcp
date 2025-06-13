@@ -15,6 +15,7 @@ import { GetTemplateUseCase } from '../../../src/use-cases/get-template-use-case
 import { ListTemplatesUseCase } from '../../../src/use-cases/list-templates-use-case';
 import { UpdateTemplateUseCase } from '../../../src/use-cases/update-template-use-case';
 import { DeleteTemplateUseCase } from '../../../src/use-cases/delete-template-use-case';
+import { EvaluateTemplateUseCase } from '../../../src/use-cases/evaluate-template-use-case';
 
 describe('McpServer Integration Tests', () => {
   let mcpServer: McpServer;
@@ -55,6 +56,7 @@ describe('McpServer Integration Tests', () => {
       new ListTemplatesUseCase(templateRepository),
       new UpdateTemplateUseCase(templateRepository),
       new DeleteTemplateUseCase(templateRepository),
+      new EvaluateTemplateUseCase(templateRepository, tableRepository, rng),
     );
 
     // Initialize MCP server
@@ -80,7 +82,7 @@ describe('McpServer Integration Tests', () => {
     // Access private tools array using type assertion
     const tools = (mcpServer as any).tools;
 
-    expect(tools.length).toBe(10);
+    expect(tools.length).toBe(11);
 
     const toolNames = tools.map((tool: any) => tool.getName());
     expect(toolNames).toContain('create_table');

@@ -35,6 +35,7 @@ import {
   ListTemplatesUseCase,
   UpdateTemplateUseCase,
   DeleteTemplateUseCase,
+  EvaluateTemplateUseCase,
   RollServiceImpl,
   TableServiceImpl,
   RollTemplateServiceImpl,
@@ -78,6 +79,11 @@ async function main() {
   const listTemplatesUseCase = new ListTemplatesUseCase(templateRepository);
   const updateTemplateUseCase = new UpdateTemplateUseCase(templateRepository);
   const deleteTemplateUseCase = new DeleteTemplateUseCase(templateRepository);
+  const evaluateTemplateUseCase = new EvaluateTemplateUseCase(
+    templateRepository,
+    tableRepository,
+    rng,
+  );
 
   // Initialize services
   const tableService = new TableServiceImpl(
@@ -93,6 +99,7 @@ async function main() {
     listTemplatesUseCase,
     updateTemplateUseCase,
     deleteTemplateUseCase,
+    evaluateTemplateUseCase,
   );
 
   // Initialize and start MCP server
