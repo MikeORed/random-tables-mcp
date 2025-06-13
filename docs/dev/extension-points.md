@@ -22,9 +22,9 @@ You can implement a new table repository to store tables in a different way, suc
 #### Example: Database Table Repository
 
 ```typescript
-import { TableRepository } from "../../ports/secondary/TableRepository";
-import { RandomTable } from "../../domain/entities/RandomTable";
-import { Database } from "your-database-library";
+import { TableRepository } from '../../ports/secondary/table-repository.js';
+import { RandomTable } from '../../domain/entities/random-table.js';
+import { Database } from 'your-database-library';
 
 export class DatabaseTableRepository implements TableRepository {
   private db: Database;
@@ -33,13 +33,14 @@ export class DatabaseTableRepository implements TableRepository {
     this.db = new Database(connectionString);
   }
 
-  async save(table: RandomTable): Promise<void> {
+  async save(table: RandomTable): Promise<string> {
     await this.db.tables.upsert({
       id: table.id,
       name: table.name,
       description: table.description,
       entries: JSON.stringify(table.entries),
     });
+    return table.id;
   }
 
   async getById(id: string): Promise<RandomTable | null> {
@@ -48,29 +49,113 @@ export class DatabaseTableRepository implements TableRepository {
       return null;
     }
 
-    return new RandomTable(
-      record.id,
-      record.name,
-      record.description,
-      JSON.parse(record.entries)
-    );
+    return RandomTable.fromObject({
+      id: record.id,
+      name: record.name,
+      description: record.description,
+      entries: JSON.parse(record.entries),
+    });
   }
 
-  async getAll(): Promise<RandomTable[]> {
-    const records = await this.db.tables.findAll();
-    return records.map(
-      (record) =>
-        new RandomTable(
-          record.id,
-          record.name,
-          record.description,
-          JSON.parse(record.entries)
-        )
+  async update(table: RandomTable): Promise<void> {
+    await this.db.tables.update({
+      id: table.id,
+      name: table.name,
+      description: table.description,
+      entries: JSON.stringify(table.entries),
+    });
+  }
+
+  async list(filter?: Record<string, unknown>): Promise<RandomTable[]> {
+    const query = filter ? { ...filter } : {};
+    const records = await this.db.tables.find(query);
+    return records.map(record =>
+      RandomTable.fromObject({
+        id: record.id,
+        name: record.name,
+        description: record.description,
+        entries: JSON.parse(record.entries),
+      }),
     );
   }
 
   async delete(id: string): Promise<void> {
     await this.db.tables.delete({ id });
+  }
+}
+```
+
+### Implementing a New Roll Template Repository
+
+The `RollTemplateRepository` interface defines how roll templates are persisted. The system comes with two implementations:
+
+- `InMemoryRollTemplateRepository`: Stores templates in memory (useful for testing)
+- `FileRollTemplateRepository`: Stores templates as JSON files on the filesystem
+
+You can implement a new roll template repository to store templates in a different way, such as in a database.
+
+#### Example: Database Roll Template Repository
+
+```typescript
+import { RollTemplateRepository } from '../../ports/secondary/roll-template-repository.js';
+import { RollTemplateEntity } from '../../domain/entities/roll-template-entity.js';
+import { Database } from 'your-database-library';
+
+export class DatabaseRollTemplateRepository implements RollTemplateRepository {
+  private db: Database;
+
+  constructor(connectionString: string) {
+    this.db = new Database(connectionString);
+  }
+
+  async save(template: RollTemplateEntity): Promise<string> {
+    await this.db.templates.upsert({
+      id: template.id,
+      name: template.name,
+      description: template.description,
+      template: template.template.toString(),
+    });
+    return template.id;
+  }
+
+  async getById(id: string): Promise<RollTemplateEntity | null> {
+    const record = await this.db.templates.findOne({ id });
+    if (!record) {
+      return null;
+    }
+
+    return RollTemplateEntity.fromObject({
+      id: record.id,
+      name: record.name,
+      description: record.description,
+      template: record.template,
+    });
+  }
+
+  async update(template: RollTemplateEntity): Promise<void> {
+    await this.db.templates.update({
+      id: template.id,
+      name: template.name,
+      description: template.description,
+      template: template.template.toString(),
+    });
+  }
+
+  async list(filter?: Record<string, unknown>): Promise<RollTemplateEntity[]> {
+    const query = filter ? { ...filter } : {};
+    const records = await this.db.templates.find(query);
+    return records.map(record =>
+      RollTemplateEntity.fromObject({
+        id: record.id,
+        name: record.name,
+        description: record.description,
+        template: record.template,
+      }),
+    );
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.templates.delete({ id });
   }
 }
 ```
@@ -87,8 +172,8 @@ You can implement a new random number generator to use a different source of ran
 #### Example: External API Random Number Generator
 
 ```typescript
-import { RandomNumberGenerator } from "../../ports/secondary/RandomNumberGenerator";
-import axios from "axios";
+import { RandomNumberGenerator } from '../../ports/secondary/RandomNumberGenerator';
+import axios from 'axios';
 
 export class ApiRandomNumberGenerator implements RandomNumberGenerator {
   private apiUrl: string;
@@ -117,20 +202,16 @@ The system comes with an MCP server adapter, but you could implement a different
 #### Example: REST API Adapter
 
 ```typescript
-import express from "express";
-import { TableService } from "../../ports/primary/TableService";
-import { RollService } from "../../ports/primary/RollService";
+import express from 'express';
+import { TableService } from '../../ports/primary/TableService';
+import { RollService } from '../../ports/primary/RollService';
 
 export class RestApiAdapter {
   private app: express.Application;
   private tableService: TableService;
   private rollService: RollService;
 
-  constructor(
-    tableService: TableService,
-    rollService: RollService,
-    port: number
-  ) {
+  constructor(tableService: TableService, rollService: RollService, port: number) {
     this.app = express();
     this.tableService = tableService;
     this.rollService = rollService;
@@ -145,19 +226,16 @@ export class RestApiAdapter {
 
   private setupRoutes(): void {
     // Table routes
-    this.app.post("/tables", this.createTable.bind(this));
-    this.app.get("/tables/:id", this.getTable.bind(this));
-    this.app.put("/tables/:id", this.updateTable.bind(this));
-    this.app.get("/tables", this.listTables.bind(this));
+    this.app.post('/tables', this.createTable.bind(this));
+    this.app.get('/tables/:id', this.getTable.bind(this));
+    this.app.put('/tables/:id', this.updateTable.bind(this));
+    this.app.get('/tables', this.listTables.bind(this));
 
     // Roll routes
-    this.app.post("/tables/:id/roll", this.rollOnTable.bind(this));
+    this.app.post('/tables/:id/roll', this.rollOnTable.bind(this));
   }
 
-  private async createTable(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
+  private async createTable(req: express.Request, res: express.Response): Promise<void> {
     try {
       const table = await this.tableService.createTable(req.body);
       res.status(201).json(table);
@@ -166,14 +244,11 @@ export class RestApiAdapter {
     }
   }
 
-  private async getTable(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
+  private async getTable(req: express.Request, res: express.Response): Promise<void> {
     try {
       const table = await this.tableService.getTable(req.params.id);
       if (!table) {
-        res.status(404).json({ error: "Table not found" });
+        res.status(404).json({ error: 'Table not found' });
         return;
       }
       res.json(table);
@@ -182,17 +257,11 @@ export class RestApiAdapter {
     }
   }
 
-  private async updateTable(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
+  private async updateTable(req: express.Request, res: express.Response): Promise<void> {
     try {
-      const table = await this.tableService.updateTable(
-        req.params.id,
-        req.body
-      );
+      const table = await this.tableService.updateTable(req.params.id, req.body);
       if (!table) {
-        res.status(404).json({ error: "Table not found" });
+        res.status(404).json({ error: 'Table not found' });
         return;
       }
       res.json(table);
@@ -201,10 +270,7 @@ export class RestApiAdapter {
     }
   }
 
-  private async listTables(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
+  private async listTables(req: express.Request, res: express.Response): Promise<void> {
     try {
       const tables = await this.tableService.listTables();
       res.json(tables);
@@ -213,10 +279,7 @@ export class RestApiAdapter {
     }
   }
 
-  private async rollOnTable(
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> {
+  private async rollOnTable(req: express.Request, res: express.Response): Promise<void> {
     try {
       const count = req.body.count || 1;
       const results = await this.rollService.rollOnTable(req.params.id, count);
@@ -237,7 +300,7 @@ You can also extend the domain layer by adding new entities, value objects, or e
 #### Example: RollHistory Entity
 
 ```typescript
-import { RollResult } from "./RollResult";
+import { RollResult } from './RollResult';
 
 export class RollHistory {
   private _tableId: string;
@@ -269,10 +332,13 @@ export class RollHistory {
       return null;
     }
 
-    const counts = this._rolls.reduce((acc, roll) => {
-      acc[roll.entryId] = (acc[roll.entryId] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const counts = this._rolls.reduce(
+      (acc, roll) => {
+        acc[roll.entryId] = (acc[roll.entryId] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     let maxEntryId = this._rolls[0].entryId;
     let maxCount = counts[maxEntryId];
@@ -298,8 +364,8 @@ You can add new use cases to implement additional functionality.
 #### Example: GetRollHistoryUseCase
 
 ```typescript
-import { RollHistory } from "../domain/entities/RollHistory";
-import { TableRepository } from "../ports/secondary/TableRepository";
+import { RollHistory } from '../domain/entities/RollHistory';
+import { TableRepository } from '../ports/secondary/TableRepository';
 
 export class GetRollHistoryUseCase {
   private tableRepository: TableRepository;
@@ -328,24 +394,24 @@ The MCP Random Tables server can be configured in various ways. You can extend t
 ### Example: Custom Configuration
 
 ```typescript
-import { TableRepository } from "./ports/secondary/TableRepository";
-import { RandomNumberGenerator } from "./ports/secondary/RandomNumberGenerator";
-import { FileTableRepository } from "./adapters/secondary/persistence/FileTableRepository";
-import { InMemoryTableRepository } from "./adapters/secondary/persistence/InMemoryTableRepository";
-import { DefaultRandomNumberGenerator } from "./adapters/secondary/rng/DefaultRandomNumberGenerator";
-import { CryptoRandomNumberGenerator } from "./adapters/secondary/rng/CryptoRandomNumberGenerator";
+import { TableRepository } from './ports/secondary/TableRepository';
+import { RandomNumberGenerator } from './ports/secondary/RandomNumberGenerator';
+import { FileTableRepository } from './adapters/secondary/persistence/FileTableRepository';
+import { InMemoryTableRepository } from './adapters/secondary/persistence/InMemoryTableRepository';
+import { DefaultRandomNumberGenerator } from './adapters/secondary/rng/DefaultRandomNumberGenerator';
+import { CryptoRandomNumberGenerator } from './adapters/secondary/rng/CryptoRandomNumberGenerator';
 
 export interface Config {
   port: number;
   storage: {
-    type: "file" | "memory" | "database";
+    type: 'file' | 'memory' | 'database';
     options: {
       path?: string;
       connectionString?: string;
     };
   };
   rng: {
-    type: "default" | "crypto" | "api";
+    type: 'default' | 'crypto' | 'api';
     options: {
       apiUrl?: string;
     };
@@ -354,29 +420,27 @@ export interface Config {
 
 export function createTableRepository(config: Config): TableRepository {
   switch (config.storage.type) {
-    case "file":
-      return new FileTableRepository(config.storage.options.path || "./tables");
-    case "memory":
+    case 'file':
+      return new FileTableRepository(config.storage.options.path || './tables');
+    case 'memory':
       return new InMemoryTableRepository();
-    case "database":
+    case 'database':
       // You would need to implement this adapter
-      throw new Error("Database storage not implemented");
+      throw new Error('Database storage not implemented');
     default:
       return new InMemoryTableRepository();
   }
 }
 
-export function createRandomNumberGenerator(
-  config: Config
-): RandomNumberGenerator {
+export function createRandomNumberGenerator(config: Config): RandomNumberGenerator {
   switch (config.rng.type) {
-    case "default":
+    case 'default':
       return new DefaultRandomNumberGenerator();
-    case "crypto":
+    case 'crypto':
       return new CryptoRandomNumberGenerator();
-    case "api":
+    case 'api':
       // You would need to implement this adapter
-      throw new Error("API RNG not implemented");
+      throw new Error('API RNG not implemented');
     default:
       return new DefaultRandomNumberGenerator();
   }

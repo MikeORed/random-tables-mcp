@@ -1,14 +1,14 @@
-import { DefaultRandomNumberGenerator } from "../../../../../src/adapters/secondary/rng/default-random-number-generator";
+import { DefaultRandomNumberGenerator } from '../../../../../src/adapters/secondary/rng/default-random-number-generator';
 
-describe("DefaultRandomNumberGenerator", () => {
+describe('DefaultRandomNumberGenerator', () => {
   let rng: DefaultRandomNumberGenerator;
 
   beforeEach(() => {
     rng = new DefaultRandomNumberGenerator();
   });
 
-  describe("getRandomNumber", () => {
-    it("should return a number within the specified range", () => {
+  describe('getRandomNumber', () => {
+    it('should return a number within the specified range', () => {
       const min = 1;
       const max = 10;
 
@@ -21,15 +21,15 @@ describe("DefaultRandomNumberGenerator", () => {
       }
     });
 
-    it("should handle min equal to max", () => {
+    it('should handle min equal to max', () => {
       const value = 5;
       const result = rng.getRandomNumber(value, value);
       expect(result).toBe(value);
     });
   });
 
-  describe("getWeightedIndex", () => {
-    it("should return an index within the bounds of the weights array", () => {
+  describe('getWeightedIndex', () => {
+    it('should return an index within the bounds of the weights array', () => {
       const weights = [1, 2, 3, 4];
 
       // Test multiple times to ensure bounds are respected
@@ -41,27 +41,21 @@ describe("DefaultRandomNumberGenerator", () => {
       }
     });
 
-    it("should throw an error for empty weights array", () => {
-      expect(() => rng.getWeightedIndex([])).toThrow(
-        "Weights array cannot be empty"
-      );
+    it('should throw an error for empty weights array', () => {
+      expect(() => rng.getWeightedIndex([])).toThrow('Weights array cannot be empty');
     });
 
-    it("should throw an error for weights containing non-positive values", () => {
-      expect(() => rng.getWeightedIndex([1, 0, 3])).toThrow(
-        "All weights must be positive"
-      );
-      expect(() => rng.getWeightedIndex([1, -1, 3])).toThrow(
-        "All weights must be positive"
-      );
+    it('should throw an error for weights containing non-positive values', () => {
+      expect(() => rng.getWeightedIndex([1, 0, 3])).toThrow('All weights must be positive');
+      expect(() => rng.getWeightedIndex([1, -1, 3])).toThrow('All weights must be positive');
     });
 
-    it("should return the only index for a single-element weights array", () => {
+    it('should return the only index for a single-element weights array', () => {
       const result = rng.getWeightedIndex([5]);
       expect(result).toBe(0);
     });
 
-    it("should respect the weights in probability distribution", () => {
+    it('should respect the weights in probability distribution', () => {
       // Mock Math.random to return predictable values
       const originalRandom = Math.random;
 

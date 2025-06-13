@@ -1,10 +1,10 @@
-import { CryptoRandomNumberGenerator } from "../../../../../src/adapters/secondary/rng/crypto-random-number-generator";
-import * as crypto from "crypto";
+import { CryptoRandomNumberGenerator } from '../../../../../src/adapters/secondary/rng/crypto-random-number-generator';
+import * as crypto from 'crypto';
 
 // Mock the crypto module
-jest.mock("crypto");
+jest.mock('crypto');
 
-describe("CryptoRandomNumberGenerator", () => {
+describe('CryptoRandomNumberGenerator', () => {
   let rng: CryptoRandomNumberGenerator;
 
   beforeEach(() => {
@@ -12,8 +12,8 @@ describe("CryptoRandomNumberGenerator", () => {
     rng = new CryptoRandomNumberGenerator();
   });
 
-  describe("getRandomNumber", () => {
-    it("should return a number within the specified range for integers", () => {
+  describe('getRandomNumber', () => {
+    it('should return a number within the specified range for integers', () => {
       // Mock randomInt to return predictable values
       (crypto.randomInt as jest.Mock).mockImplementation((min, max) => min);
 
@@ -27,7 +27,7 @@ describe("CryptoRandomNumberGenerator", () => {
       expect(result).toBeLessThanOrEqual(max);
     });
 
-    it("should handle floating point values between 0 and 1", () => {
+    it('should handle floating point values between 0 and 1', () => {
       // Create a mock buffer that will produce a known value when read
       const mockBuffer = Buffer.alloc(4);
       mockBuffer.writeUInt32LE(0x80000000, 0); // This will give 0.5 when divided by 0x100000000
@@ -41,7 +41,7 @@ describe("CryptoRandomNumberGenerator", () => {
       expect(result).toBeCloseTo(0.5, 5);
     });
 
-    it("should handle min equal to max", () => {
+    it('should handle min equal to max', () => {
       const value = 5;
       const result = rng.getRandomNumber(value, value);
 
@@ -52,17 +52,15 @@ describe("CryptoRandomNumberGenerator", () => {
       expect(result).toBe(value);
     });
 
-    it("should throw an error if min is greater than max", () => {
-      expect(() => rng.getRandomNumber(10, 1)).toThrow(
-        "Min must be less than or equal to max"
-      );
+    it('should throw an error if min is greater than max', () => {
+      expect(() => rng.getRandomNumber(10, 1)).toThrow('Min must be less than or equal to max');
     });
   });
 
-  describe("getWeightedIndex", () => {
-    it("should return an index within the bounds of the weights array", () => {
+  describe('getWeightedIndex', () => {
+    it('should return an index within the bounds of the weights array', () => {
       // Mock getRandomNumber to return a predictable value
-      jest.spyOn(rng, "getRandomNumber").mockReturnValue(0.5);
+      jest.spyOn(rng, 'getRandomNumber').mockReturnValue(0.5);
 
       const weights = [1, 2, 3, 4];
       const result = rng.getWeightedIndex(weights);
@@ -72,33 +70,27 @@ describe("CryptoRandomNumberGenerator", () => {
       expect(Number.isInteger(result)).toBe(true);
     });
 
-    it("should throw an error for empty weights array", () => {
-      expect(() => rng.getWeightedIndex([])).toThrow(
-        "Weights array cannot be empty"
-      );
+    it('should throw an error for empty weights array', () => {
+      expect(() => rng.getWeightedIndex([])).toThrow('Weights array cannot be empty');
     });
 
-    it("should throw an error for weights containing non-positive values", () => {
-      expect(() => rng.getWeightedIndex([1, 0, 3])).toThrow(
-        "All weights must be positive"
-      );
-      expect(() => rng.getWeightedIndex([1, -1, 3])).toThrow(
-        "All weights must be positive"
-      );
+    it('should throw an error for weights containing non-positive values', () => {
+      expect(() => rng.getWeightedIndex([1, 0, 3])).toThrow('All weights must be positive');
+      expect(() => rng.getWeightedIndex([1, -1, 3])).toThrow('All weights must be positive');
     });
 
-    it("should return the only index for a single-element weights array", () => {
+    it('should return the only index for a single-element weights array', () => {
       const result = rng.getWeightedIndex([5]);
       expect(result).toBe(0);
     });
 
-    it("should respect the weights in probability distribution", () => {
+    it('should respect the weights in probability distribution', () => {
       // Test with weights [1, 3, 6]
       const weights = [1, 3, 6];
       const totalWeight = weights.reduce((sum, w) => sum + w, 0); // 10
 
       // Mock getRandomNumber to return specific values
-      const mockGetRandomNumber = jest.spyOn(rng, "getRandomNumber");
+      const mockGetRandomNumber = jest.spyOn(rng, 'getRandomNumber');
 
       // For value 0.05 (5% of total), should select index 0
       mockGetRandomNumber.mockReturnValue(0.05);
