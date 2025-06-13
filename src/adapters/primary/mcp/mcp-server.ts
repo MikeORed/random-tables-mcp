@@ -5,7 +5,7 @@ import {
   ListToolsRequestSchema,
   ReadResourceRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { RollService, TableService } from '../../../ports/index.js';
+import { RollService, TableService, RollTemplateService } from '../../../ports/index.js';
 import {
   BaseTool,
   CreateTableTool,
@@ -13,8 +13,19 @@ import {
   RollOnTableTool,
   UpdateTableTool,
   GetTableTool,
+  CreateTemplateTool,
+  GetTemplateTool,
+  ListTemplateTool,
+  UpdateTemplateTool,
+  DeleteTemplateTool,
 } from './tools/index.js';
-import { BaseResource, TableResource, TablesResource } from './resources/index.js';
+import {
+  BaseResource,
+  TableResource,
+  TablesResource,
+  TemplateResource,
+  TemplatesResource,
+} from './resources/index.js';
 
 /**
  * MCP Server implementation for Random Tables.
@@ -28,10 +39,12 @@ export class McpServer {
    * Creates a new McpServer instance.
    * @param tableService The table service to use.
    * @param rollService The roll service to use.
+   * @param templateService The roll template service to use.
    */
   constructor(
     private readonly tableService: TableService,
     private readonly rollService: RollService,
+    private readonly templateService: RollTemplateService,
   ) {
     this.server = new Server(
       {
@@ -55,6 +68,11 @@ export class McpServer {
       new RollOnTableTool(rollService),
       new UpdateTableTool(tableService),
       new ListTablesTool(tableService),
+      new CreateTemplateTool(templateService),
+      new GetTemplateTool(templateService),
+      new ListTemplateTool(templateService),
+      new UpdateTemplateTool(templateService),
+      new DeleteTemplateTool(templateService),
     ];
 
     // Add GetTableTool if resources cannot be used
@@ -63,11 +81,12 @@ export class McpServer {
     }
 
     // Initialize resources
-    this.resources = [new TablesResource(tableService)];
+    this.resources = [new TablesResource(tableService), new TemplatesResource(templateService)];
 
     // Add TableResource only if resources can be used
     if (canUseResource) {
       this.resources.push(new TableResource(tableService));
+      this.resources.push(new TemplateResource(templateService));
     }
   }
 

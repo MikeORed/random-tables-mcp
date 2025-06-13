@@ -1,4 +1,4 @@
-import { RandomTable } from '../../../domain/index.js';
+import { RandomTable, RandomTableDTO } from '../../../domain/index.js';
 import { TableRepository } from '../../../ports/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -45,7 +45,7 @@ export class FileTableRepository implements TableRepository {
    * @returns The file path.
    */
   private getFilePath(id: string): string {
-    return path.join(this.dataDir, `${id}.json`);
+    return path.join(this.dataDir, `table-${id}.json`);
   }
 
   /**
@@ -71,7 +71,7 @@ export class FileTableRepository implements TableRepository {
 
     try {
       const data = await readFile(filePath, 'utf8');
-      const tableData = JSON.parse(data);
+      const tableData = JSON.parse(data) as RandomTableDTO;
       return RandomTable.fromObject(tableData);
     } catch {
       // File doesn't exist or can't be read
@@ -113,7 +113,7 @@ export class FileTableRepository implements TableRepository {
       for (const file of tableFiles) {
         try {
           const data = await readFile(path.join(this.dataDir, file), 'utf8');
-          const tableData = JSON.parse(data);
+          const tableData = JSON.parse(data) as RandomTableDTO;
           const table = RandomTable.fromObject(tableData);
           tables.push(table);
         } catch (err) {

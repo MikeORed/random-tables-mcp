@@ -19,15 +19,25 @@ export * from './adapters/secondary/index.js';
 export * from './adapters/primary/mcp/mcp-server.js';
 
 // Import dependencies for server setup
-import { CryptoRandomNumberGenerator, FileTableRepository } from './adapters/secondary/index.js';
+import {
+  CryptoRandomNumberGenerator,
+  FileTableRepository,
+  FileRollTemplateRepository,
+} from './adapters/secondary/index.js';
 import {
   CreateTableUseCase,
   GetTableUseCase,
   ListTablesUseCase,
   RollOnTableUseCase,
   UpdateTableUseCase,
+  CreateTemplateUseCase,
+  GetTemplateUseCase,
+  ListTemplatesUseCase,
+  UpdateTemplateUseCase,
+  DeleteTemplateUseCase,
   RollServiceImpl,
   TableServiceImpl,
+  RollTemplateServiceImpl,
 } from './use-cases/index.js';
 import { McpServer } from './adapters/primary/mcp/mcp-server.js';
 import path from 'path';
@@ -52,14 +62,22 @@ async function main() {
 
   // Initialize repositories and services
   const tableRepository = new FileTableRepository(dataDir);
+  const templateRepository = new FileRollTemplateRepository(dataDir);
   const rng = new CryptoRandomNumberGenerator();
 
-  // Initialize use cases
+  // Initialize table use cases
   const createTableUseCase = new CreateTableUseCase(tableRepository);
   const getTableUseCase = new GetTableUseCase(tableRepository);
   const listTablesUseCase = new ListTablesUseCase(tableRepository);
   const updateTableUseCase = new UpdateTableUseCase(tableRepository);
   const rollOnTableUseCase = new RollOnTableUseCase(tableRepository, rng);
+
+  // Initialize template use cases
+  const createTemplateUseCase = new CreateTemplateUseCase(templateRepository);
+  const getTemplateUseCase = new GetTemplateUseCase(templateRepository);
+  const listTemplatesUseCase = new ListTemplatesUseCase(templateRepository);
+  const updateTemplateUseCase = new UpdateTemplateUseCase(templateRepository);
+  const deleteTemplateUseCase = new DeleteTemplateUseCase(templateRepository);
 
   // Initialize services
   const tableService = new TableServiceImpl(
@@ -69,9 +87,16 @@ async function main() {
     updateTableUseCase,
   );
   const rollService = new RollServiceImpl(rollOnTableUseCase);
+  const templateService = new RollTemplateServiceImpl(
+    createTemplateUseCase,
+    getTemplateUseCase,
+    listTemplatesUseCase,
+    updateTemplateUseCase,
+    deleteTemplateUseCase,
+  );
 
   // Initialize and start MCP server
-  const mcpServer = new McpServer(tableService, rollService);
+  const mcpServer = new McpServer(tableService, rollService, templateService);
   mcpServer.initialize();
   await mcpServer.start();
 

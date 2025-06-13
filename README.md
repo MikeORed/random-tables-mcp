@@ -85,6 +85,7 @@ Add this to your `claude_desktop_config.json` (located at `%APPDATA%\\Claude\\cl
       "command": "node",
       "args": ["C:\\path\\to\\mcp-random-tables\\dist\\index.js"],
       "env": {
+        "DATA_DIR": "C:\\path\\to\\data-directory",
         "CAN_USE_RESOURCE": "false"
       }
     }
@@ -106,6 +107,7 @@ Add this to your `claude_desktop_config.json` (located at `~/Library/Application
       "command": "node",
       "args": ["/path/to/mcp-random-tables/dist/index.js"],
       "env": {
+        "DATA_DIR": "/path/to/your/preferred/data/directory",
         "CAN_USE_RESOURCE": "false"
       }
     }
