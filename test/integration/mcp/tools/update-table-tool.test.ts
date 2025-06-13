@@ -1,15 +1,15 @@
-import { UpdateTableTool } from "../../../../src/adapters/primary/mcp/tools/update-table-tool";
-import { TableServiceImpl } from "../../../../src/use-cases/implementations/table-service-impl";
-import { CreateTableUseCase } from "../../../../src/use-cases/create-table-use-case";
-import { GetTableUseCase } from "../../../../src/use-cases/get-table-use-case";
-import { ListTablesUseCase } from "../../../../src/use-cases/list-tables-use-case";
-import { UpdateTableUseCase } from "../../../../src/use-cases/update-table-use-case";
-import { InMemoryTableRepository } from "../../../../src/adapters/secondary/persistence/in-memory-table-repository";
-import { RandomTable } from "../../../../src/domain/entities/random-table";
-import { TableEntry } from "../../../../src/domain/entities/table-entry";
-import { v4 as uuidv4 } from "uuid";
+import { UpdateTableTool } from '../../../../src/adapters/primary/mcp/tools/update-table-tool';
+import { TableServiceImpl } from '../../../../src/use-cases/implementations/table-service-impl';
+import { CreateTableUseCase } from '../../../../src/use-cases/create-table-use-case';
+import { GetTableUseCase } from '../../../../src/use-cases/get-table-use-case';
+import { ListTablesUseCase } from '../../../../src/use-cases/list-tables-use-case';
+import { UpdateTableUseCase } from '../../../../src/use-cases/update-table-use-case';
+import { InMemoryTableRepository } from '../../../../src/adapters/secondary/persistence/in-memory-table-repository';
+import { RandomTable } from '../../../../src/domain/entities/random-table';
+import { TableEntry } from '../../../../src/domain/entities/table-entry';
+import { v4 as uuidv4 } from 'uuid';
 
-describe("UpdateTableTool Integration Tests", () => {
+describe('UpdateTableTool Integration Tests', () => {
   let updateTableTool: UpdateTableTool;
   let tableService: TableServiceImpl;
   let tableRepository: InMemoryTableRepository;
@@ -31,7 +31,7 @@ describe("UpdateTableTool Integration Tests", () => {
       createTableUseCase,
       getTableUseCase,
       listTablesUseCase,
-      updateTableUseCase
+      updateTableUseCase,
     );
 
     // Initialize tool
@@ -41,59 +41,51 @@ describe("UpdateTableTool Integration Tests", () => {
     tableId = uuidv4();
     entryIds = [uuidv4(), uuidv4(), uuidv4()];
     const entries = [
-      new TableEntry(entryIds[0], "Entry 1", 1),
-      new TableEntry(entryIds[1], "Entry 2", 2),
-      new TableEntry(entryIds[2], "Entry 3", 1),
+      new TableEntry(entryIds[0], 'Entry 1', 1),
+      new TableEntry(entryIds[1], 'Entry 2', 2),
+      new TableEntry(entryIds[2], 'Entry 3', 1),
     ];
-    const table = new RandomTable(
-      tableId,
-      "Test Table",
-      "A test table",
-      entries
-    );
+    const table = new RandomTable(tableId, 'Test Table', 'A test table', entries);
     await tableRepository.save(table);
   });
 
-  it("should have the correct name and description", () => {
-    expect(updateTableTool.getName()).toBe("update_table");
+  it('should have the correct name and description', () => {
+    expect(updateTableTool.getName()).toBe('update_table');
     expect(updateTableTool.getToolDefinition().description).toBe(
-      "Update an existing random table"
+      'Update an existing random table. Table entries can include templates to reference other tables using the format {{reference-title::table-id::table-name::roll-number::separator}}.',
     );
   });
 
-  it("should update table name and description", async () => {
+  it('should update table name and description', async () => {
     const result = await updateTableTool.execute({
       tableId,
       updates: {
-        name: "Updated Table Name",
-        description: "Updated description",
+        name: 'Updated Table Name',
+        description: 'Updated description',
       },
     });
 
-    expect(result).toHaveProperty("success", true);
+    expect(result).toHaveProperty('success', true);
 
     // Verify the table was updated in the repository
     const table = await tableService.getTable(tableId);
     expect(table).not.toBeNull();
-    expect(table!.name).toBe("Updated Table Name");
-    expect(table!.description).toBe("Updated description");
+    expect(table!.name).toBe('Updated Table Name');
+    expect(table!.description).toBe('Updated description');
     expect(table!.entries).toHaveLength(3); // Entries should remain unchanged
   });
 
-  it("should add new entries", async () => {
+  it('should add new entries', async () => {
     const result = await updateTableTool.execute({
       tableId,
       updates: {
         entries: {
-          add: [
-            { content: "New Entry 1" },
-            { content: "New Entry 2", weight: 3 },
-          ],
+          add: [{ content: 'New Entry 1' }, { content: 'New Entry 2', weight: 3 }],
         },
       },
     });
 
-    expect(result).toHaveProperty("success", true);
+    expect(result).toHaveProperty('success', true);
 
     // Verify the entries were added
     const table = await tableService.getTable(tableId);
@@ -101,17 +93,17 @@ describe("UpdateTableTool Integration Tests", () => {
     expect(table!.entries).toHaveLength(5); // 3 original + 2 new entries
 
     // Verify the new entries
-    const entryContents = table!.entries.map((e) => e.content);
-    expect(entryContents).toContain("New Entry 1");
-    expect(entryContents).toContain("New Entry 2");
+    const entryContents = table!.entries.map(e => e.content);
+    expect(entryContents).toContain('New Entry 1');
+    expect(entryContents).toContain('New Entry 2');
 
     // Verify the weight of the new entry
-    const newEntry2 = table!.entries.find((e) => e.content === "New Entry 2");
+    const newEntry2 = table!.entries.find(e => e.content === 'New Entry 2');
     expect(newEntry2).toBeDefined();
     expect(newEntry2!.weight).toBe(3);
   });
 
-  it("should update existing entries", async () => {
+  it('should update existing entries', async () => {
     const result = await updateTableTool.execute({
       tableId,
       updates: {
@@ -120,7 +112,7 @@ describe("UpdateTableTool Integration Tests", () => {
             {
               id: entryIds[0],
               updates: {
-                content: "Updated Entry 1",
+                content: 'Updated Entry 1',
                 weight: 5,
               },
             },
@@ -129,19 +121,19 @@ describe("UpdateTableTool Integration Tests", () => {
       },
     });
 
-    expect(result).toHaveProperty("success", true);
+    expect(result).toHaveProperty('success', true);
 
     // Verify the entry was updated
     const table = await tableService.getTable(tableId);
     expect(table).not.toBeNull();
 
-    const updatedEntry = table!.entries.find((e) => e.id === entryIds[0]);
+    const updatedEntry = table!.entries.find(e => e.id === entryIds[0]);
     expect(updatedEntry).toBeDefined();
-    expect(updatedEntry!.content).toBe("Updated Entry 1");
+    expect(updatedEntry!.content).toBe('Updated Entry 1');
     expect(updatedEntry!.weight).toBe(5);
   });
 
-  it("should remove entries", async () => {
+  it('should remove entries', async () => {
     const result = await updateTableTool.execute({
       tableId,
       updates: {
@@ -151,7 +143,7 @@ describe("UpdateTableTool Integration Tests", () => {
       },
     });
 
-    expect(result).toHaveProperty("success", true);
+    expect(result).toHaveProperty('success', true);
 
     // Verify the entry was removed
     const table = await tableService.getTable(tableId);
@@ -159,26 +151,26 @@ describe("UpdateTableTool Integration Tests", () => {
     expect(table!.entries).toHaveLength(2);
 
     // Verify the specific entry was removed
-    const removedEntry = table!.entries.find((e) => e.id === entryIds[1]);
+    const removedEntry = table!.entries.find(e => e.id === entryIds[1]);
     expect(removedEntry).toBeUndefined();
 
     // Verify the other entries are still there
-    const remainingEntryIds = table!.entries.map((e) => e.id);
+    const remainingEntryIds = table!.entries.map(e => e.id);
     expect(remainingEntryIds).toContain(entryIds[0]);
     expect(remainingEntryIds).toContain(entryIds[2]);
   });
 
-  it("should perform multiple update operations at once", async () => {
+  it('should perform multiple update operations at once', async () => {
     const result = await updateTableTool.execute({
       tableId,
       updates: {
-        name: "Comprehensive Update",
+        name: 'Comprehensive Update',
         entries: {
-          add: [{ content: "New Entry" }],
+          add: [{ content: 'New Entry' }],
           update: [
             {
               id: entryIds[0],
-              updates: { content: "Updated Content" },
+              updates: { content: 'Updated Content' },
             },
           ],
           remove: [entryIds[2]],
@@ -186,47 +178,47 @@ describe("UpdateTableTool Integration Tests", () => {
       },
     });
 
-    expect(result).toHaveProperty("success", true);
+    expect(result).toHaveProperty('success', true);
 
     // Verify all updates were applied
     const table = await tableService.getTable(tableId);
     expect(table).not.toBeNull();
-    expect(table!.name).toBe("Comprehensive Update");
+    expect(table!.name).toBe('Comprehensive Update');
     expect(table!.entries).toHaveLength(3); // 3 original - 1 removed + 1 added
 
     // Verify entry was updated
-    const updatedEntry = table!.entries.find((e) => e.id === entryIds[0]);
+    const updatedEntry = table!.entries.find(e => e.id === entryIds[0]);
     expect(updatedEntry).toBeDefined();
-    expect(updatedEntry!.content).toBe("Updated Content");
+    expect(updatedEntry!.content).toBe('Updated Content');
 
     // Verify entry was removed
-    const removedEntry = table!.entries.find((e) => e.id === entryIds[2]);
+    const removedEntry = table!.entries.find(e => e.id === entryIds[2]);
     expect(removedEntry).toBeUndefined();
 
     // Verify entry was added
-    const newEntry = table!.entries.find((e) => e.content === "New Entry");
+    const newEntry = table!.entries.find(e => e.content === 'New Entry');
     expect(newEntry).toBeDefined();
   });
 
-  it("should throw an error when updating a non-existent table", async () => {
+  it('should throw an error when updating a non-existent table', async () => {
     await expect(
       updateTableTool.execute({
-        tableId: "non-existent-id",
+        tableId: 'non-existent-id',
         updates: {
-          name: "This will fail",
+          name: 'This will fail',
         },
-      })
+      }),
     ).rejects.toThrow();
   });
 
-  it("should validate input schema", async () => {
+  it('should validate input schema', async () => {
     // Missing required tableId field
     await expect(
       updateTableTool.execute({
         updates: {
-          name: "Invalid update",
+          name: 'Invalid update',
         },
-      } as any)
+      } as any),
     ).rejects.toThrow();
   });
 });
