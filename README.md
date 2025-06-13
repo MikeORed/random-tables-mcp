@@ -6,7 +6,7 @@ An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for ma
 
 ## Project Overview
 
-This section details the server’s core capabilities and architecture—how random‑table definitions are stored, rolled, and extended while ports & adapters keep concerns isolated and the codebase easy to test and maintain.
+This section details the server's core capabilities and architecture—how random‑table definitions and roll templates are stored, rolled, and extended while ports & adapters keep concerns isolated and the codebase easy to test and maintain.
 
 ## Features
 
@@ -15,9 +15,12 @@ This section details the server’s core capabilities and architecture—how ran
 - **Link** tables together with powerful template support
 - **Define** range‑based entries for dice‑driven tables
 - **Weight** entries to fine‑tune probabilities
+- **Manage** standalone roll templates for reusable content
 - **Choose** your access model – MCP _Resources_ or _Tools_ (see the [Environment Variables](#environment-variables) section to toggle)
 
 ## Available Tools
+
+### Table Tools
 
 - `create_table` - Create a new random table with optional initial entries
 - `roll_on_table` - Roll on a specific table and returns the result
@@ -25,12 +28,27 @@ This section details the server’s core capabilities and architecture—how ran
 - `list_tables` - List available tables with metadata
 - `get_table` - Get details of a specific table
 
+### Template Tools
+
+- `create_template` - Create a new roll template
+- `get_template` - Get a specific roll template by ID
+- `list_templates` - List all available roll templates
+- `update_template` - Update an existing roll template
+- `delete_template` - Delete a roll template by ID
+
 _See the [Environment Variables](#environment-variables) section for how to switch between using Tools and Resources._
 
 ## Available Resources
 
+### Table Resources
+
 - `table://{tableId}` - Access a specific table
 - `tables://` - Access a list of all tables
+
+### Template Resources
+
+- `template://{id}` - Access a specific roll template
+- `templates://` - Access a list of all roll templates
 
 ## Key Use Cases
 
@@ -38,10 +56,11 @@ _See the [Environment Variables](#environment-variables) section for how to swit
 - **Loot Generation**: Create dynamic treasure and item drops
 - **NPC Generation**: Build complex NPCs with personality traits, equipment, and motivations
 - **Story Prompt Generation**: Generate creative writing prompts and plot hooks
+- **Reusable Templates**: Create standalone templates that can be used across multiple tables
 
 ## Template System Example
 
-Here’s how easy it is to chain tables together:
+Here's how easy it is to chain tables together:
 
 ```json
 {
@@ -61,6 +80,20 @@ Here’s how easy it is to chain tables together:
 ```
 
 When you roll on this table, the system automatically resolves templates by rolling on referenced tables. For example, `{{::items::Items::3}}` will roll 3 times on the "Items" table.
+
+### Standalone Templates
+
+You can also create standalone templates that can be reused across multiple tables:
+
+```json
+{
+  "name": "NPC Description",
+  "description": "Template for generating NPC descriptions",
+  "template": "A {{::appearance}} {{::race}} {{::class}} who {{::personality}}"
+}
+```
+
+These templates can be managed independently of tables, allowing for more modular and reusable content.
 
 ## Requirements
 
@@ -83,7 +116,7 @@ Add this to your `claude_desktop_config.json` (located at `%APPDATA%\\Claude\\cl
     "random-tables": {
       "type": "stdio",
       "command": "node",
-      "args": ["C:\\path\\to\\mcp-random-tables\\dist\\index.js"],
+      "args": ["C:\\path\\to\\random-tables-mcp\\dist\\index.js"],
       "env": {
         "DATA_DIR": "C:\\path\\to\\data-directory",
         "CAN_USE_RESOURCE": "false"
@@ -93,7 +126,7 @@ Add this to your `claude_desktop_config.json` (located at `%APPDATA%\\Claude\\cl
 }
 ```
 
-Replace `C:\\path\\to\\mcp-random-tables` with the actual path to your local installation.
+Replace `C:\\path\\to\\random-tables-mcp` with the actual path to your local installation.
 
 #### macOS Configuration
 
@@ -105,7 +138,7 @@ Add this to your `claude_desktop_config.json` (located at `~/Library/Application
     "random-tables": {
       "type": "stdio",
       "command": "node",
-      "args": ["/path/to/mcp-random-tables/dist/index.js"],
+      "args": ["/path/to/random-tables-mcp/dist/index.js"],
       "env": {
         "DATA_DIR": "/path/to/your/preferred/data/directory",
         "CAN_USE_RESOURCE": "false"
@@ -115,9 +148,9 @@ Add this to your `claude_desktop_config.json` (located at `~/Library/Application
 }
 ```
 
-Replace `/path/to/mcp-random-tables` with the actual path to your local installation.
+Replace `/path/to/random-tables-mcp` with the actual path to your local installation.
 
-### NPX Configuration – 🚧 We’re hammering out the NPX package; stay tuned!
+### NPX Configuration – 🚧 We're hammering out the NPX package; stay tuned!
 
 > **Note:** The MCP Random Tables server is not yet published to npm. We plan to deploy it after test coverage is solid and we're comfortable with the functionality.
 
@@ -126,7 +159,7 @@ Replace `/path/to/mcp-random-tables` with the actual path to your local installa
 ```bash
 # Clone the repository
 git clone https://github.com/MikeORed/random-tables-mcp
-cd mcp-random-tables
+cd random-tables-mcp
 
 # Install dependencies
 npm install
@@ -142,8 +175,8 @@ The server can be configured using the following environment variables:
 - `DATA_DIR`: Directory where table data is stored (default: `./data`)
 - `CAN_USE_RESOURCE`: Controls whether to use MCP Resources or Tools for certain functionality (default: `false`)
 
-  - When set to `true`: Uses the `TableResource` for accessing tables
-  - When not set or any other value: Uses the `GetTableTool` instead of `TableResource`
+  - When set to `true`: Uses the `TableResource` and `TemplateResource` for accessing tables and templates
+  - When not set or any other value: Uses the `GetTableTool` and `GetTemplateTool` instead of resources
 
 This allows compatibility with LLM clients that may not fully support MCP Resources.
 
@@ -231,7 +264,7 @@ npm test
 
 ## Contributing
 
-Got an idea or bug? Open an issue and let’s chat—PRs are welcome! See the [Contributing Guide](./CONTRIBUTING.md) for more details.
+Got an idea or bug? Open an issue and let's chat—PRs are welcome! See the [Contributing Guide](./CONTRIBUTING.md) for more details.
 
 ## License
 
