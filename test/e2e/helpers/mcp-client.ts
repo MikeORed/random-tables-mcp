@@ -15,7 +15,7 @@ export class McpClient {
    */
   constructor() {
     this.client = new Client({
-      name: 'mcp-random-tables-test-client',
+      name: 'random-tables-mcp-test-client',
       version: '1.0.0',
     });
   }

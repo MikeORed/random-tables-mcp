@@ -35,7 +35,7 @@ There are many ways to contribute to MCP Random Tables:
 
    ```bash
    git clone https://github.com/YOUR-USERNAME/random-tables-mcp.git
-   cd mcp-random-tables
+   cd random-tables-mcp
    ```
 
 3. Install dependencies:

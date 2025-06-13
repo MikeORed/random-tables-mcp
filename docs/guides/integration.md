@@ -16,7 +16,7 @@ Add this to your `claude_desktop_config.json`:
     "random-tables": {
       "type": "stdio",
       "command": "node",
-      "args": ["C:\\path\\to\\mcp-random-tables\\dist\\index.js"],
+      "args": ["C:\\path\\to\\random-tables-mcp\\dist\\index.js"],
       "env": {
         "CAN_USE_RESOURCE": "false"
       }
@@ -25,7 +25,7 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
-Replace `C:\\path\\to\\mcp-random-tables` with the actual path to your local installation of the MCP Random Tables server. Set `CAN_USE_RESOURCE` to `"true"` only if you're certain the LLM Application is able to leverage MCP resources.
+Replace `C:\\path\\to\\random-tables-mcp` with the actual path to your local installation of the MCP Random Tables server. Set `CAN_USE_RESOURCE` to `"true"` only if you're certain the LLM Application is able to leverage MCP resources.
 
 ### NPX Configuration - COMING SOON!
 

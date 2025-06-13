@@ -151,9 +151,26 @@ Add this to your `claude_desktop_config.json` (located at `~/Library/Application
 
 Replace `/path/to/random-tables-mcp` with the actual path to your local installation.
 
-### NPX Configuration – 🚧 We're hammering out the NPX package; stay tuned!
+### NPX Configuration
 
-> **Note:** The MCP Random Tables server is not yet published to npm. We plan to deploy it after test coverage is solid and we're comfortable with the functionality.
+You can now run the MCP Random Tables server directly using npx:
+
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "command": "npx",
+      "args": ["-y", "random-tables-mcp"],
+      "env": {
+        "DATA_DIR": "/path/to/your/preferred/data/directory",
+        "CAN_USE_RESOURCE": "false"
+      }
+    }
+  }
+}
+```
+
+This will automatically download and run the latest version of the package without requiring manual installation.
 
 ### Manual Installation
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * MCP Random Tables Server
  *
