@@ -1,0 +1,37 @@
+{
+  "id": "12377f03-b757-44ac-a048-4ef8fd6a9ac8",
+  "name": "Treasure Types",
+  "description": "Parent table for different types of treasure found in an area",
+  "entries": [
+    {
+      "id": "ce39cef3-e52c-4785-9fb6-dbfb2044ecbd",
+      "content": "{{Gold::af282a58-03db-45eb-bcd6-6f9f7079150b::Gold Quantities::1:: }}",
+      "weight": 1
+    },
+    {
+      "id": "9d607643-8175-4059-9306-22c32315c59a",
+      "content": "{{Gemstone::b99e39fa-2d95-4e78-868b-378b0b303aef::Gemstones::1:: }}",
+      "weight": 1
+    },
+    {
+      "id": "bc20c65e-9d8b-4ed7-bb5d-0b23d5181ecc",
+      "content": "{{Weapon::95929a51-c136-42e6-b025-c0342a0ea49d::Generic Weapons::1:: }} that is {{Quirk::e5f240f4-21ad-41f6-b273-8dc0d94600c0::Magical Weapon Quirks::1:: }}",
+      "weight": 1
+    },
+    {
+      "id": "2333fd7e-4ccd-409c-a0a2-c91524fb4a65",
+      "content": "{{Armor::fac37667-4457-489a-9f88-6eab0d13ca94::Generic Armor::1:: }} that is {{Quirk::7400fe71-5632-4807-aca0-0cbf66b59882::Magical Armor Quirks::1:: }}",
+      "weight": 1
+    },
+    {
+      "id": "4f259682-f80c-491d-b41a-de32d2936df1",
+      "content": "{{Trinket::4a23e6ca-fea1-450b-b676-ab2bf3fafd12::Generic Trinkets::1:: }} that is {{Quirk::cd8933e9-f065-4469-8587-b58d2de707f0::Magical Trinket Quirks::1:: }}",
+      "weight": 1
+    },
+    {
+      "id": "7bdea4eb-eb95-4530-b35a-20df9f626f97",
+      "content": "{{Gemstone::b99e39fa-2d95-4e78-868b-378b0b303aef::Gemstones::1:: }}",
+      "weight": 1
+    }
+  ]
+}

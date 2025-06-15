@@ -1,0 +1,67 @@
+{
+  "id": "e5f240f4-21ad-41f6-b273-8dc0d94600c0",
+  "name": "Magical Weapon Quirks",
+  "description": "Magical quirks, curses, and normal state for weapons",
+  "entries": [
+    {
+      "id": "3c00593e-188f-4aa7-bdf9-5d4ea4109606",
+      "content": "glowing with inner fire",
+      "weight": 1
+    },
+    {
+      "id": "92d37bea-6c64-481d-8952-59bea6092d57",
+      "content": "humming with electricity",
+      "weight": 1
+    },
+    {
+      "id": "ea99a483-ec37-4975-81bd-879fb883335e",
+      "content": "cold to the touch",
+      "weight": 1
+    },
+    {
+      "id": "cab68798-2a3a-4932-9448-ed10483476a2",
+      "content": "whispering ancient secrets",
+      "weight": 1
+    },
+    {
+      "id": "68fc34c6-63d2-4e33-acb7-ff34daf3da1c",
+      "content": "changing color with mood",
+      "weight": 1
+    },
+    {
+      "id": "e9eecdd3-69ce-44e1-819b-091c7218c649",
+      "content": "vibrating with energy",
+      "weight": 1
+    },
+    {
+      "id": "a1ff6ca6-69fd-418b-8dd4-fd88a26487f4",
+      "content": "leaving frost in its wake",
+      "weight": 1
+    },
+    {
+      "id": "5ef6ff2e-c047-4a6e-91f5-d8f5d93f279c",
+      "content": "emanating a faint melody",
+      "weight": 1
+    },
+    {
+      "id": "04d2e4ab-b66d-4b98-a168-f214140f30a1",
+      "content": "shifting between light and shadow",
+      "weight": 1
+    },
+    {
+      "id": "9f8ef810-56e9-47a9-9e08-c8056c8119a6",
+      "content": "pulsing with heartbeat rhythm",
+      "weight": 1
+    },
+    {
+      "id": "749cc8c1-85da-40f1-a803-515aeb69a6c0",
+      "content": "cursed to betray its wielder",
+      "weight": 1
+    },
+    {
+      "id": "42b2a3b5-0b2d-4501-901a-81f48afb898e",
+      "content": "unenchanted",
+      "weight": 4
+    }
+  ]
+}

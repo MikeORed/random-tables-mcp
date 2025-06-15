@@ -1,0 +1,57 @@
+{
+  "id": "b99e39fa-2d95-4e78-868b-378b0b303aef",
+  "name": "Gemstones",
+  "description": "Various gemstones of different qualities",
+  "entries": [
+    {
+      "id": "761dd7ca-ff92-49db-ba8a-2c8fad63465c",
+      "content": "rough diamond",
+      "weight": 1
+    },
+    {
+      "id": "33e3e38c-0f8a-471f-ab61-ab670ee30fa2",
+      "content": "polished ruby",
+      "weight": 1
+    },
+    {
+      "id": "842438ff-0b96-459c-987f-07b435d921c2",
+      "content": "flawless emerald",
+      "weight": 1
+    },
+    {
+      "id": "c2d06c0f-ce0e-49d6-aa51-92bc905727c4",
+      "content": "cracked sapphire",
+      "weight": 1
+    },
+    {
+      "id": "cd4061d2-bb61-4864-b3ba-965dfb71a704",
+      "content": "lustrous pearl",
+      "weight": 1
+    },
+    {
+      "id": "84b7783c-2645-448f-b179-64b96e295999",
+      "content": "chipped topaz",
+      "weight": 1
+    },
+    {
+      "id": "3ac8259b-06ed-44b7-9d7c-56dd0e39b419",
+      "content": "pristine amethyst",
+      "weight": 1
+    },
+    {
+      "id": "a8a677d9-d702-46dc-b9c1-a7bdd5718a84",
+      "content": "cloudy quartz",
+      "weight": 1
+    },
+    {
+      "id": "78addb55-39f7-4451-9e95-b0580e41b23e",
+      "content": "brilliant opal",
+      "weight": 1
+    },
+    {
+      "id": "63d4a891-f4d3-4133-a0c1-554ff60d086b",
+      "content": "dull garnet",
+      "weight": 1
+    }
+  ]
+}

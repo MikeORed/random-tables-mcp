@@ -1,0 +1,6 @@
+{
+  "id": "56346844-2fce-474b-9a09-fc6d49cf33cc",
+  "name": "Treasure Discovery",
+  "description": "Template for discovering treasure",
+  "template": "You find a {{Treasure::12377f03-b757-44ac-a048-4ef8fd6a9ac8::Treasure Types::1:: }}"
+}

@@ -4,9 +4,7 @@ Welcome to the documentation for the MCP Random Tables server. This documentatio
 
 ## Documentation Sections
 
-- [API Reference](./api/README.md) - Detailed documentation of the MCP tools and resources
-- [User Guides](./guides/README.md) - Guides for getting started, integration, and using templates
-- [Examples](./examples/README.md) - Example tables and usage scenarios
+- [Examples and Guides](./examples-and-guides/README.md) - Example tables and usage scenarios
 - [Developer Documentation](./dev/README.md) - Architecture, extension points, and implementation notes
 
 ## What is MCP Random Tables?

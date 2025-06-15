@@ -1,0 +1,32 @@
+{
+  "id": "af282a58-03db-45eb-bcd6-6f9f7079150b",
+  "name": "Gold Quantities",
+  "description": "Different quantities/containers of gold",
+  "entries": [
+    {
+      "id": "b18847df-43d2-4465-ac9a-7c844e4d535b",
+      "content": "pile of gold coins",
+      "weight": 1
+    },
+    {
+      "id": "daf3214d-2043-4770-b8a2-ac1e5af34e6c",
+      "content": "bag of gold coins",
+      "weight": 1
+    },
+    {
+      "id": "3623384b-2b67-43e4-98a0-701ca2caedca",
+      "content": "pouch of gold coins",
+      "weight": 1
+    },
+    {
+      "id": "18a6d09c-3a36-4afc-8b85-80aa50620e95",
+      "content": "chest of gold coins",
+      "weight": 1
+    },
+    {
+      "id": "031a92cc-a699-4c07-a351-78e9215d5c8c",
+      "content": "handful of gold coins",
+      "weight": 1
+    }
+  ]
+}

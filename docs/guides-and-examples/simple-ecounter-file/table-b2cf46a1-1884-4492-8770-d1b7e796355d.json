@@ -1,0 +1,107 @@
+{
+  "id": "b2cf46a1-1884-4492-8770-d1b7e796355d",
+  "name": "Low-Mid Level Forest Encounters",
+  "description": "A varied table of forest encounters suitable for low to mid-level adventurers, including natural hazards, wildlife, fey trickery, and interesting discoveries",
+  "entries": [
+    {
+      "id": "73704174-c92e-46be-9e58-3a59df199680",
+      "content": "A pack of 2-4 wolves emerges from the underbrush, hungry and territorial",
+      "weight": 4
+    },
+    {
+      "id": "06c7f44c-0e32-467a-b1dc-4f66e5411716",
+      "content": "Hidden pit trap covered by branches and leaves (10 ft deep, 1d6 damage)",
+      "weight": 3
+    },
+    {
+      "id": "8d836a07-0c9d-41ef-98bd-d9c160481210",
+      "content": "A bear foraging for berries, will attack if surprised or threatened",
+      "weight": 3
+    },
+    {
+      "id": "e92904da-6009-432d-92d9-6f4ddb6f8796",
+      "content": "Thick fog suddenly rolls in, reducing visibility to 10 feet for 1 hour",
+      "weight": 2
+    },
+    {
+      "id": "fca2e820-7354-4178-a567-a4a42cccc2a1",
+      "content": "A group of bandits (3-5) demands toll for passage through 'their' forest",
+      "weight": 3
+    },
+    {
+      "id": "fa5da8be-31e1-4d6d-8809-8bd4d448c3eb",
+      "content": "Mischievous sprites swap one random item from each character's pack with forest debris",
+      "weight": 2
+    },
+    {
+      "id": "60ecc1e7-6e49-4087-bde8-7ff0c0a60438",
+      "content": "A wounded deer approaches, seeking help - arrow in its flank suggests hunters nearby",
+      "weight": 2
+    },
+    {
+      "id": "32dc4551-88ca-45db-89a1-89628ac1c421",
+      "content": "Poisonous berries that look identical to safe ones (Constitution save or poisoned)",
+      "weight": 3
+    },
+    {
+      "id": "ab98fa56-5f78-436e-982f-4a6bfd270894",
+      "content": "An owlbear's territorial roar echoes through the trees, growing closer",
+      "weight": 2
+    },
+    {
+      "id": "95141145-2131-4bd9-aeec-70aa2d06eb37",
+      "content": "A dryad's tree is being cut down by loggers - she pleads for help",
+      "weight": 1
+    },
+    {
+      "id": "17a45210-18f5-4613-a5e4-d2bf8a182637",
+      "content": "Swarm of angry wasps from a disturbed nest",
+      "weight": 4
+    },
+    {
+      "id": "a01d5b0a-2818-4dfd-9709-d740ac89ccc4",
+      "content": "A pixie offers to guide the party but leads them in circles for its amusement",
+      "weight": 2
+    },
+    {
+      "id": "e9c1a44d-215e-4bdb-89b8-42424426a51b",
+      "content": "Unstable ground gives way to a sinkhole (Dexterity save or fall 15 ft)",
+      "weight": 2
+    },
+    {
+      "id": "befdab47-b603-49bd-ad92-4c9619c24fa7",
+      "content": "A lone dire wolf stalks the party from the shadows",
+      "weight": 2
+    },
+    {
+      "id": "013b3b14-3b72-4265-8641-353a20a833ff",
+      "content": "Wild boar with piglets charges when party gets too close to her young",
+      "weight": 3
+    },
+    {
+      "id": "3e3a12dc-1e42-462d-9409-ebf3ece2a0fc",
+      "content": "Ancient standing stones hum with fey magic - touching them teleports characters 1 mile in random direction",
+      "weight": 1
+    },
+    {
+      "id": "01e9b5fc-c99a-46cc-b250-a689db9f08d5",
+      "content": "A hunter's abandoned camp with mysterious claw marks and signs of struggle",
+      "weight": 2
+    },
+    {
+      "id": "6d5c1bb8-a4e8-4069-be2c-2cf65d5ed494",
+      "content": "Thorny vines animate and attempt to entangle anyone who passes (awakened shrub stats)",
+      "weight": 2
+    },
+    {
+      "id": "2b8e8a67-bff1-4d51-9743-574e8170f236",
+      "content": "A talking raven offers cryptic warnings about dangers ahead in exchange for shiny objects",
+      "weight": 1
+    },
+    {
+      "id": "567d00e0-f0a1-47ea-8042-b080efaa167d",
+      "content": "Flash flood from distant storm turns peaceful stream into raging torrent",
+      "weight": 1
+    }
+  ]
+}

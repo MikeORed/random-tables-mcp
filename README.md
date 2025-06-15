@@ -8,6 +8,13 @@ An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for ma
 
 This section details the server's core capabilities and architecture—how random‑table definitions and roll templates are stored, rolled, and extended while ports & adapters keep concerns isolated and the codebase easy to test and maintain.
 
+The hexagonal architecture (ports & adapters) approach provides several key benefits:
+
+- **Separation of Concerns**: Core business logic is isolated from external dependencies
+- **Testability**: Domain logic can be tested without relying on external systems
+- **Flexibility**: New adapters can be added without changing the core logic
+- **Maintainability**: Changes to external systems have minimal impact on the core business logic
+
 ## Features
 
 - **Create** random tables in seconds and keep them updated
@@ -59,9 +66,119 @@ _See the [Environment Variables](#environment-variables) section for how to swit
 - **Story Prompt Generation**: Generate creative writing prompts and plot hooks
 - **Reusable Templates**: Create standalone templates that can be used across multiple tables
 
-## Template System Example
+## Real-World Examples
 
-Here's how easy it is to chain tables together:
+> **Note**: The examples below use simplified table IDs (like "gold-quantities") for readability. In actual implementation, table IDs are UUIDs (e.g., "b2cf46a1-1884-4492-8770-d1b7e796355d"). The template syntax structure itself is strict and must be followed exactly. For more comprehensive examples, see the [Simple Encounter](./docs/guides-and-examples/simple-encounter.md) and [Nested Treasure](./docs/guides-and-examples/nested-treasure.md) guides.
+
+### Simple Encounter Table
+
+Create a forest encounter table with weighted entries for different encounter types:
+
+```json
+{
+  "name": "Low-Mid Level Forest Encounters",
+  "description": "A varied table of forest encounters for low to mid-level adventurers",
+  "entries": [
+    {
+      "content": "A pack of 2-4 wolves emerges from the underbrush, hungry and territorial",
+      "weight": 4
+    },
+    {
+      "content": "Hidden pit trap covered by branches and leaves (10 ft deep, 1d6 damage)",
+      "weight": 3
+    },
+    {
+      "content": "Mischievous sprites swap one random item from each character's pack with forest debris",
+      "weight": 2
+    },
+    {
+      "content": "A dryad's tree is being cut down by loggers - she pleads for help",
+      "weight": 1
+    }
+  ]
+}
+```
+
+Higher weights (4) make encounters more common than rare encounters (1).
+
+### Nested Treasure System
+
+Create a comprehensive treasure generation system with multiple interconnected tables:
+
+```json
+{
+  "name": "Treasure Types",
+  "description": "Parent table for different types of treasure",
+  "entries": [
+    {
+      "content": "{{Gold::gold-quantities}}",
+      "weight": 1
+    },
+    {
+      "content": "{{Gemstone::gemstones}}",
+      "weight": 1
+    },
+    {
+      "content": "{{Weapon::weapons}} that is {{Quirk::weapon-quirks}}",
+      "weight": 1
+    }
+  ]
+}
+```
+
+When you roll on this table, it automatically resolves references to other tables (gold-quantities, gemstones, weapons, weapon-quirks), creating rich, varied results like "a bag of gold coins" or "a sword that is glowing with inner fire".
+
+## Template System
+
+The template system allows you to create complex, nested random generation systems by referencing other tables. Templates use double curly braces with a flexible syntax:
+
+```
+{{reference-title::table-id::table-name::roll-number::separator}}
+```
+
+Where:
+
+- `reference-title`: Optional title for the reference
+- `table-id`: ID of the table to roll on
+- `table-name`: Optional name for readability
+- `roll-number`: Number of times to roll (default: 1)
+- `separator`: Separator between multiple rolls (default: ", ")
+
+### Basic Examples
+
+**Simple Reference:**
+
+```json
+{
+  "content": "{{::currency}}"
+}
+```
+
+Rolls once on the "currency" table.
+
+**Multiple Rolls:**
+
+```json
+{
+  "content": "{{::items::Items::3}}"
+}
+```
+
+Rolls 3 times on the "items" table, results separated by commas.
+
+**Custom Separator:**
+
+```json
+{
+  "content": "{{::monsters::Monsters::2::||}}"
+}
+```
+
+Rolls twice on the "monsters" table, results separated by "||".
+
+### Nested Tables Example
+
+Here's how to chain tables together:
 
 ```json
 {
@@ -80,7 +197,7 @@ Here's how easy it is to chain tables together:
 }
 ```
 
-When you roll on this table, the system automatically resolves templates by rolling on referenced tables. For example, `{{::items::Items::3}}` will roll 3 times on the "Items" table.
+When you roll on this table, the system automatically resolves templates by rolling on referenced tables.
 
 ### Standalone Templates
 
@@ -201,8 +318,7 @@ Common issues:
 
 Comprehensive documentation is available in the [docs](./docs) directory:
 
-- [User Guides](./docs/guides/README.md) - Step-by-step instructions for installation, integration, and template usage
-- [Examples](./docs/examples/README.md) - Sample tables from simple encounters to complex nested treasure generators
+- [Guides and Examples](./docs/guides-and-examples/README.md) - Example tables and usage scenarios
 - [Developer Documentation](./docs/dev/README.md) - Architecture details, extension points, and implementation decisions
 
 ## Project Structure

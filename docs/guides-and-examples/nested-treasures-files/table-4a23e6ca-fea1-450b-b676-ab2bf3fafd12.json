@@ -1,0 +1,57 @@
+{
+  "id": "4a23e6ca-fea1-450b-b676-ab2bf3fafd12",
+  "name": "Generic Trinkets",
+  "description": "Generic types of trinkets",
+  "entries": [
+    {
+      "id": "2c14adda-026a-402d-811a-4341faf1264b",
+      "content": "ring",
+      "weight": 1
+    },
+    {
+      "id": "73ccee78-5d32-4f62-be88-c067dd78eb1a",
+      "content": "amulet",
+      "weight": 1
+    },
+    {
+      "id": "95f9982c-8a10-411f-bf5f-de015a05b08a",
+      "content": "bracer",
+      "weight": 1
+    },
+    {
+      "id": "3e4a3ec8-3fe5-4d17-9177-e06ded14dcfe",
+      "content": "pendant",
+      "weight": 1
+    },
+    {
+      "id": "c1940f80-a674-4d53-bafd-b39f4ba13e6f",
+      "content": "brooch",
+      "weight": 1
+    },
+    {
+      "id": "074ec45a-5dcb-4ff4-becd-b5206750e123",
+      "content": "circlet",
+      "weight": 1
+    },
+    {
+      "id": "1756318a-b510-45d0-9f83-e3a0d83cb363",
+      "content": "bracelet",
+      "weight": 1
+    },
+    {
+      "id": "0f2199de-026f-4d55-b0d1-7c1b8711bf1c",
+      "content": "necklace",
+      "weight": 1
+    },
+    {
+      "id": "5f233715-928c-4798-a6ae-42f7d60739f4",
+      "content": "earring",
+      "weight": 1
+    },
+    {
+      "id": "5ad26f1d-c8c9-41db-8bc6-df915590c81f",
+      "content": "anklet",
+      "weight": 1
+    }
+  ]
+}
