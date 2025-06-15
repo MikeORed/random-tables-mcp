@@ -4,7 +4,7 @@ Welcome to the documentation for the MCP Random Tables server. This documentatio
 
 ## Documentation Sections
 
-- [Examples and Guides](./examples-and-guides/README.md) - Example tables and usage scenarios
+- [Examples and Guides](./guides-and-examples/README.md) - Example tables and usage scenarios
 - [Developer Documentation](./dev/README.md) - Architecture, extension points, and implementation notes
 
 ## What is MCP Random Tables?
@@ -21,7 +21,7 @@ MCP Random Tables is an MCP server that allows you to create, persist, look up, 
 
 ## Quick Start
 
-See the [Getting Started Guide](./guides/getting-started.md) for instructions on how to install, configure, and use the MCP Random Tables server.
+To use the MCP Random Tables server, you'll need to configure it with your LLM client. See the examples in the [Examples and Guides](./guides-and-examples/README.md) section for configuration instructions and usage scenarios.
 
 ## Contributing
 
