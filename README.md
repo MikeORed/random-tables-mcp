@@ -66,6 +66,14 @@ _See the [Environment Variables](#environment-variables) section for how to swit
 - **Story Prompt Generation**: Generate creative writing prompts and plot hooks
 - **Reusable Templates**: Create standalone templates that can be used across multiple tables
 
+## Functionality Checklist
+
+- [x] **MCP Tools - Table CRUD** - Create, read, update, and delete random tables
+- [x] **MCP Tools - Table Template CRUD** - Create, read, update, and delete roll templates
+- [x] **MCP Tools - Table and Template Rolling Functions** - Roll on tables and resolve templates
+- [ ] **Local Tool - Roller** - JavaScript console app to use server logic for rolling on tables or resolving templates without LLMs
+- [ ] **Local Tool - Simple Text Consumption** - Console app extension to create tables from text files (balanced with weight 1) or CSV files (with name, description, weight format)
+
 ## Real-World Examples
 
 > **Note**: The examples below use simplified table IDs (like "gold-quantities") for readability. In actual implementation, table IDs are UUIDs (e.g., "b2cf46a1-1884-4492-8770-d1b7e796355d"). The template syntax structure itself is strict and must be followed exactly. For more comprehensive examples, see the [Simple Encounter](./docs/guides-and-examples/simple-encounter.md) and [Nested Treasure](./docs/guides-and-examples/nested-treasure.md) guides.
