@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -11,62 +11,26 @@
     "declaration": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "moduleResolution": "NodeNext",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@adapters/*": [
-        "src/adapters/*"
-      ],
-      "@adapters-primary/*": [
-        "src/adapters/primary/*"
-      ],
-      "@adapters-primary-mcp/*": [
-        "src/adapters/primary/mcp/*"
-      ],
-      "@adapters-secondary/*": [
-        "src/adapters/secondary/*"
-      ],
-      "@adapters-secondary-persistence/*": [
-        "src/adapters/secondary/persistence/*"
-      ],
-      "@adapters-secondary-rng/*": [
-        "src/adapters/secondary/rng/*"
-      ],
-      "@domain/*": [
-        "src/domain/*"
-      ],
-      "@domain-entities/*": [
-        "src/domain/entities/*"
-      ],
-      "@domain-value-objects/*": [
-        "src/domain/value-objects/*"
-      ],
-      "@ports/*": [
-        "src/ports/*"
-      ],
-      "@ports-primary/*": [
-        "src/ports/primary/*"
-      ],
-      "@ports-secondary/*": [
-        "src/ports/secondary/*"
-      ],
-      "@use-cases/*": [
-        "src/use-cases/*"
-      ],
-      "@use-cases-implementations/*": [
-        "src/use-cases/implementations/*"
-      ],
-      "@test/*": [
-        "test/*"
-      ]
+      "@/*": ["src/*"],
+      "@adapters/*": ["src/adapters/*"],
+      "@adapters-primary/*": ["src/adapters/primary/*"],
+      "@adapters-primary-mcp/*": ["src/adapters/primary/mcp/*"],
+      "@adapters-secondary/*": ["src/adapters/secondary/*"],
+      "@adapters-secondary-persistence/*": ["src/adapters/secondary/persistence/*"],
+      "@adapters-secondary-rng/*": ["src/adapters/secondary/rng/*"],
+      "@domain/*": ["src/domain/*"],
+      "@domain-entities/*": ["src/domain/entities/*"],
+      "@domain-value-objects/*": ["src/domain/value-objects/*"],
+      "@ports/*": ["src/ports/*"],
+      "@ports-primary/*": ["src/ports/primary/*"],
+      "@ports-secondary/*": ["src/ports/secondary/*"],
+      "@use-cases/*": ["src/use-cases/*"],
+      "@use-cases-implementations/*": ["src/use-cases/implementations/*"],
+      "@test/*": ["test/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

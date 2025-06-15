@@ -1,5 +1,5 @@
-import { RandomTable } from "../../../domain/entities/random-table";
-import { TableRepository } from "../../../ports/secondary/table-repository";
+import { RandomTable } from '../../../domain/index.js';
+import { TableRepository } from '../../../ports/index.js';
 
 /**
  * In-memory implementation of the TableRepository interface.
@@ -15,7 +15,7 @@ export class InMemoryTableRepository implements TableRepository {
    */
   async save(table: RandomTable): Promise<string> {
     this.tables.set(table.id, table);
-    return table.id;
+    return await Promise.resolve(table.id);
   }
 
   /**
@@ -25,7 +25,7 @@ export class InMemoryTableRepository implements TableRepository {
    */
   async getById(id: string): Promise<RandomTable | null> {
     const table = this.tables.get(id);
-    return table || null;
+    return await Promise.resolve(table ?? null);
   }
 
   /**
@@ -38,6 +38,7 @@ export class InMemoryTableRepository implements TableRepository {
       throw new Error(`Table with ID ${table.id} does not exist`);
     }
     this.tables.set(table.id, table);
+    await Promise.resolve();
   }
 
   /**
@@ -45,32 +46,35 @@ export class InMemoryTableRepository implements TableRepository {
    * @param filter Optional filter criteria.
    * @returns An array of tables matching the filter.
    */
-  async list(filter?: Record<string, any>): Promise<RandomTable[]> {
+  async list(filter?: Record<string, unknown>): Promise<RandomTable[]> {
     let tables = Array.from(this.tables.values());
 
+    await Promise.resolve();
+
     if (filter) {
-      tables = tables.filter((table) => {
+      tables = tables.filter(table => {
         // Check if all filter criteria match
         return Object.entries(filter).every(([key, value]) => {
           // Handle nested properties with dot notation (e.g., "entries.length")
-          const keys = key.split(".");
-          let obj: any = table;
+          const keys = key.split('.');
+          let obj: RandomTable = table;
 
           // Navigate to the nested property
+          let currentObj: unknown = obj;
           for (let i = 0; i < keys.length - 1; i++) {
-            obj = obj[keys[i]];
-            if (obj === undefined) return false;
+            currentObj = (currentObj as Record<string, unknown>)[keys[i]];
+            if (currentObj === undefined) return false;
           }
 
           const prop = keys[keys.length - 1];
 
           // Special case for array length
-          if (prop === "length" && Array.isArray(obj)) {
-            return obj.length === value;
+          if (prop === 'length' && Array.isArray(currentObj)) {
+            return currentObj.length === value;
           }
 
           // Regular property comparison
-          return obj[prop] === value;
+          return (currentObj as Record<string, unknown>)[prop] === value;
         });
       });
     }
@@ -88,6 +92,7 @@ export class InMemoryTableRepository implements TableRepository {
       throw new Error(`Table with ID ${id} does not exist`);
     }
     this.tables.delete(id);
+    await Promise.resolve();
   }
 
   /**

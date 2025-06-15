@@ -1,0 +1,57 @@
+{
+  "id": "95929a51-c136-42e6-b025-c0342a0ea49d",
+  "name": "Generic Weapons",
+  "description": "Generic types of weapons",
+  "entries": [
+    {
+      "id": "f6d0743d-9216-473d-95fa-6249ff6e9fd9",
+      "content": "sword",
+      "weight": 1
+    },
+    {
+      "id": "572cdaee-f895-4ad6-858f-f192f6649f90",
+      "content": "axe",
+      "weight": 1
+    },
+    {
+      "id": "0f9355a0-6b95-4480-8c9d-e5ee01d34554",
+      "content": "dagger",
+      "weight": 1
+    },
+    {
+      "id": "1cb52dff-457d-4358-a31b-64526475e58f",
+      "content": "mace",
+      "weight": 1
+    },
+    {
+      "id": "8b59372f-1ba6-4e77-8472-457e95c08eb8",
+      "content": "spear",
+      "weight": 1
+    },
+    {
+      "id": "0e8ecd0f-f229-4e6d-bfcb-e4a656feb850",
+      "content": "bow",
+      "weight": 1
+    },
+    {
+      "id": "b36da453-f77e-4fdc-9bb0-66d37ac181f0",
+      "content": "crossbow",
+      "weight": 1
+    },
+    {
+      "id": "3098ee9f-69e9-41cf-a67c-ac091185552b",
+      "content": "staff",
+      "weight": 1
+    },
+    {
+      "id": "5ff1a28a-25c4-43b3-a182-25ef9ab03710",
+      "content": "sickle",
+      "weight": 1
+    },
+    {
+      "id": "d40fed6a-ba9c-4d76-83e5-fa86561462d5",
+      "content": "hammer",
+      "weight": 1
+    }
+  ]
+}

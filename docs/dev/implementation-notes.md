@@ -31,11 +31,18 @@ The template system allows for creating complex, nested random generation system
 {{reference-title::table-id::table-name::roll-number::separator}}
 ```
 
-This syntax was chosen for its readability and flexibility. The template system is implemented using the `RollTemplate` and `TemplateReference` value objects.
+This syntax was chosen for its readability and flexibility. The template system is implemented using the `RollTemplate` and `TemplateReference` value objects, along with the `RollTemplateEntity` entity.
+
+The `RollTemplateEntity` represents a persisted template with metadata (ID, name, description) and contains a `RollTemplate` value object. This separation allows the template content to be treated as an immutable value object while the entity itself can have identity and be persisted.
 
 ### Repository Pattern
 
-The `TableRepository` interface follows the Repository pattern, providing a clean separation between the domain layer and the persistence layer. This allows for different persistence mechanisms to be used without affecting the core business logic.
+The system implements two repository interfaces:
+
+1. **TableRepository**: Provides persistence operations for random tables.
+2. **RollTemplateRepository**: Provides persistence operations for roll templates.
+
+Both interfaces follow the Repository pattern, providing a clean separation between the domain layer and the persistence layer. This allows for different persistence mechanisms to be used without affecting the core business logic.
 
 ## Implementation Details
 
@@ -63,11 +70,20 @@ The MCP server is implemented using the MCP SDK. It provides tools and resources
 2. **roll_on_table**: Rolls on a specific table and returns the result.
 3. **update_table**: Updates an existing table (name, description, entries).
 4. **list_tables**: Lists available tables with metadata.
+5. **get_table**: Gets a specific table by ID (only available if resources are disabled).
+6. **create_template**: Creates a new roll template.
+7. **get_template**: Gets a specific template by ID.
+8. **list_templates**: Lists available templates with metadata.
+9. **update_template**: Updates an existing template.
+10. **delete_template**: Deletes a template.
+11. **evaluate_template**: Evaluates a template by resolving all references to tables.
 
 #### Resources:
 
 1. **table://{tableId}**: Provides access to a specific table.
 2. **tables://**: Provides access to a list of all tables.
+3. **template://{templateId}**: Provides access to a specific template.
+4. **templates://**: Provides access to a list of all templates.
 
 ### Input Validation
 

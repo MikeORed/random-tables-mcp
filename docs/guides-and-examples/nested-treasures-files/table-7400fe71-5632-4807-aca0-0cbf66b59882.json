@@ -1,0 +1,67 @@
+{
+  "id": "7400fe71-5632-4807-aca0-0cbf66b59882",
+  "name": "Magical Armor Quirks",
+  "description": "Magical quirks, curses, and normal state for armor",
+  "entries": [
+    {
+      "id": "b23de2ba-a91a-455b-bbc3-13698a911312",
+      "content": "shimmering with protective wards",
+      "weight": 1
+    },
+    {
+      "id": "9e2edb1d-9185-45b0-ab61-e940b45f69c4",
+      "content": "crackling with defensive energy",
+      "weight": 1
+    },
+    {
+      "id": "a8365035-31ca-46ed-a91f-36b335087e99",
+      "content": "reflecting attacks back at enemies",
+      "weight": 1
+    },
+    {
+      "id": "52098b88-a3c4-43ba-a47f-0333fb950551",
+      "content": "healing minor wounds slowly",
+      "weight": 1
+    },
+    {
+      "id": "54944950-3f96-4b0f-9de8-5a9937fe0597",
+      "content": "changing appearance to match surroundings",
+      "weight": 1
+    },
+    {
+      "id": "0bc202c6-d807-448d-8666-02c7d651e780",
+      "content": "growing spikes when threatened",
+      "weight": 1
+    },
+    {
+      "id": "be60fff8-74fa-4777-8942-86d873b2e718",
+      "content": "absorbing magical energy",
+      "weight": 1
+    },
+    {
+      "id": "4671b349-c83b-4225-8e57-6c0284c2ebdc",
+      "content": "becoming lighter with each battle",
+      "weight": 1
+    },
+    {
+      "id": "3dbfe0f3-1aa5-4be0-b321-6016d87efaa6",
+      "content": "resonating with the wearer's emotions",
+      "weight": 1
+    },
+    {
+      "id": "ff971736-7744-4364-b4e3-255401fea008",
+      "content": "providing glimpses of the future",
+      "weight": 1
+    },
+    {
+      "id": "20ce681c-3d2e-4c1d-b2a6-b4d408360e24",
+      "content": "cursed to slowly drain the wearer's strength",
+      "weight": 1
+    },
+    {
+      "id": "6fe7c751-c74d-472a-90d1-6e8df1f23335",
+      "content": "unenchanted",
+      "weight": 4
+    }
+  ]
+}

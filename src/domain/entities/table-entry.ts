@@ -1,5 +1,5 @@
-import { Range } from "../value-objects/roll-range";
-import { RollTemplate } from "../value-objects/roll-template";
+import { Range } from '../value-objects/roll-range.js';
+import { RollTemplate } from '../value-objects/roll-template.js';
 
 /**
  * Represents an entry in a random table.
@@ -16,10 +16,10 @@ export class TableEntry {
     public readonly id: string,
     public readonly content: string,
     public readonly weight: number = 1,
-    public readonly range?: Range
+    public readonly range?: Range,
   ) {
     if (weight <= 0) {
-      throw new Error("Weight must be greater than zero");
+      throw new Error('Weight must be greater than zero');
     }
   }
 
@@ -48,12 +48,12 @@ export class TableEntry {
    * @param updates Object containing the properties to update.
    * @returns A new TableEntry instance with updated properties.
    */
-  update(updates: Partial<Omit<TableEntry, "id">>): TableEntry {
+  update(updates: Partial<Omit<TableEntry, 'id'>>): TableEntry {
     return new TableEntry(
       this.id,
       updates.content ?? this.content,
       updates.weight ?? this.weight,
-      updates.range ?? this.range
+      updates.range ?? this.range,
     );
   }
 
@@ -72,7 +72,7 @@ export class TableEntry {
       obj.id,
       obj.content,
       obj.weight,
-      obj.range ? new Range(obj.range.min, obj.range.max) : undefined
+      obj.range ? new Range(obj.range.min, obj.range.max) : undefined,
     );
   }
 
@@ -90,9 +90,7 @@ export class TableEntry {
       id: this.id,
       content: this.content,
       weight: this.weight,
-      range: this.range
-        ? { min: this.range.min, max: this.range.max }
-        : undefined,
+      range: this.range ? { min: this.range.min, max: this.range.max } : undefined,
     };
   }
 }

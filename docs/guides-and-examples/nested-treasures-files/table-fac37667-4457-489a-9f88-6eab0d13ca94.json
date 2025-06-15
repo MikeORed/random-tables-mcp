@@ -1,0 +1,57 @@
+{
+  "id": "fac37667-4457-489a-9f88-6eab0d13ca94",
+  "name": "Generic Armor",
+  "description": "Generic types of armor",
+  "entries": [
+    {
+      "id": "5ba45871-db37-442d-930b-84b032c71008",
+      "content": "plate armor",
+      "weight": 1
+    },
+    {
+      "id": "693d6228-1cfc-4608-b310-d2002224539b",
+      "content": "chain mail",
+      "weight": 1
+    },
+    {
+      "id": "2a330e81-1e5c-4ee6-8195-06c82352270b",
+      "content": "leather armor",
+      "weight": 1
+    },
+    {
+      "id": "108bdd2b-9c13-4580-9ad9-1b44826be138",
+      "content": "hide armor",
+      "weight": 1
+    },
+    {
+      "id": "41eb9ea7-1f87-494e-8b8d-3ce0c9d37ec9",
+      "content": "robes",
+      "weight": 1
+    },
+    {
+      "id": "f0709003-b206-4790-a931-b29d2ef5d5bf",
+      "content": "clothing",
+      "weight": 1
+    },
+    {
+      "id": "b6210497-7b07-482a-9f3f-e64d75b6b4eb",
+      "content": "scale mail",
+      "weight": 1
+    },
+    {
+      "id": "685266f9-7e41-4038-90a1-98b7cc59004e",
+      "content": "studded leather",
+      "weight": 1
+    },
+    {
+      "id": "fc7f9a19-3a67-47e7-838d-87d680ed6d8a",
+      "content": "splint armor",
+      "weight": 1
+    },
+    {
+      "id": "d12703ed-ff2f-4652-b524-f71e883ff814",
+      "content": "padded armor",
+      "weight": 1
+    }
+  ]
+}

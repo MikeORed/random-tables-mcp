@@ -22,10 +22,10 @@ export class TemplateReference {
     public readonly tableId: string,
     public readonly tableName: string,
     public readonly rollCount: number = 1,
-    public readonly separator: string = ", "
+    public readonly separator: string = ', ',
   ) {
     if (rollCount < 1) {
-      throw new Error("Roll count must be at least 1");
+      throw new Error('Roll count must be at least 1');
     }
   }
 
@@ -36,16 +36,16 @@ export class TemplateReference {
    */
   static fromString(refString: string): TemplateReference {
     // Handle empty string case
-    if (!refString || refString.trim() === "") {
-      return new TemplateReference("", "", "");
+    if (!refString || refString.trim() === '') {
+      return new TemplateReference('', '', '');
     }
 
-    const parts = refString.split("::");
+    const parts = refString.split('::');
 
     // Extract and validate parts
-    const title = parts[0] || "";
-    const tableId = parts[1] || "";
-    const tableName = parts[2] || "";
+    const title = parts[0] || '';
+    const tableId = parts[1] || '';
+    const tableName = parts[2] || '';
 
     // Parse rollCount, defaulting to 1 if invalid
     let rollCount = 1;
@@ -57,15 +57,9 @@ export class TemplateReference {
     }
 
     // Get separator, defaulting to ", " if not provided
-    const separator = parts.length > 4 ? parts[4] : ", ";
+    const separator = parts.length > 4 ? parts[4] : ', ';
 
-    return new TemplateReference(
-      title,
-      tableId,
-      tableName,
-      rollCount,
-      separator
-    );
+    return new TemplateReference(title, tableId, tableName, rollCount, separator);
   }
 
   /**
@@ -76,7 +70,7 @@ export class TemplateReference {
    */
   toString(): string {
     // If using default values for rollCount and separator, return short form
-    if (this.rollCount === 1 && this.separator === ", ") {
+    if (this.rollCount === 1 && this.separator === ', ') {
       return `{{${this.title}::${this.tableId}::${this.tableName}}}`;
     }
     // Otherwise return the full form with all parameters

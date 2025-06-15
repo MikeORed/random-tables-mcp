@@ -1,5 +1,5 @@
-import { TableEntry } from "./table-entry";
-import { RollResult } from "./roll-result";
+import { TableEntry } from './table-entry.js';
+import { RollResult } from './roll-result.js';
 
 /**
  * Represents a random table with entries that can be rolled on.
@@ -17,18 +17,18 @@ export class RandomTable {
   constructor(
     public readonly id: string,
     public readonly name: string,
-    public readonly description: string = "",
-    entries: TableEntry[] = []
+    public readonly description: string = '',
+    entries: TableEntry[] = [],
   ) {
     if (!id) {
-      throw new Error("Table ID is required");
+      throw new Error('Table ID is required');
     }
     if (!name) {
-      throw new Error("Table name is required");
+      throw new Error('Table name is required');
     }
 
     // Add initial entries
-    entries.forEach((entry) => this.addEntry(entry));
+    entries.forEach(entry => this.addEntry(entry));
   }
 
   /**
@@ -77,7 +77,7 @@ export class RandomTable {
    * @param updates Object containing the properties to update.
    * @throws Error if the entry does not exist.
    */
-  updateEntry(entryId: string, updates: Partial<Omit<TableEntry, "id">>): void {
+  updateEntry(entryId: string, updates: Partial<Omit<TableEntry, 'id'>>): void {
     const entry = this._entries.get(entryId);
     if (!entry) {
       throw new Error(`Entry with ID ${entryId} does not exist`);
@@ -102,28 +102,24 @@ export class RandomTable {
    */
   roll(rng: () => number = Math.random): RollResult {
     if (this.entries.length === 0) {
-      throw new Error("Cannot roll on an empty table");
+      throw new Error('Cannot roll on an empty table');
     }
 
     // Handle tables with entries that have ranges
-    const entriesWithRanges = this.entries.filter((entry) => entry.range);
+    const entriesWithRanges = this.entries.filter(entry => entry.range);
     if (entriesWithRanges.length > 0) {
       // Find the maximum range value across all entries
-      const maxRange = Math.max(
-        ...entriesWithRanges.map((entry) => entry.range!.max)
-      );
+      const maxRange = Math.max(...entriesWithRanges.map(entry => entry.range!.max));
 
       // Roll a value within the range
       const rollValue = Math.floor(rng() * maxRange) + 1;
 
       // Find the entry that contains this value
-      const entry = this.entries.find(
-        (entry) => entry.range && entry.isInRange(rollValue)
-      );
+      const foundEntry = this.entries.find(entry => entry.range && entry.isInRange(rollValue));
 
-      if (entry) {
-        const isTemplate = entry.isTemplate();
-        return new RollResult(this.id, entry.id, entry.content, isTemplate);
+      if (foundEntry) {
+        const isTemplate = foundEntry.isTemplate();
+        return new RollResult(this.id, foundEntry.id, foundEntry.content, isTemplate);
       }
     }
 
@@ -142,12 +138,7 @@ export class RandomTable {
     // Fallback (should never happen with proper weights)
     const fallbackEntry = this.entries[0];
     const isTemplate = fallbackEntry.isTemplate();
-    return new RollResult(
-      this.id,
-      fallbackEntry.id,
-      fallbackEntry.content,
-      isTemplate
-    );
+    return new RollResult(this.id, fallbackEntry.id, fallbackEntry.content, isTemplate);
   }
 
   /**
@@ -166,31 +157,32 @@ export class RandomTable {
       range?: { min: number; max: number };
     }>;
   }): RandomTable {
-    const entries =
-      obj.entries?.map((entry) => TableEntry.fromObject(entry)) || [];
-    return new RandomTable(obj.id, obj.name, obj.description || "", entries);
+    const entries = obj.entries?.map(entry => TableEntry.fromObject(entry)) ?? [];
+    return new RandomTable(obj.id, obj.name, obj.description ?? '', entries);
   }
 
   /**
    * Converts this table to a plain object.
    * @returns A plain object representation of this table.
    */
-  toObject(): {
-    id: string;
-    name: string;
-    description: string;
-    entries: Array<{
-      id: string;
-      content: string;
-      weight: number;
-      range?: { min: number; max: number };
-    }>;
-  } {
+  toObject(): RandomTableDTO {
     return {
       id: this.id,
       name: this.name,
       description: this.description,
-      entries: this.entries.map((entry) => entry.toObject()),
+      entries: this.entries.map(entry => entry.toObject()),
     };
   }
+}
+
+export interface RandomTableDTO {
+  id: string;
+  name: string;
+  description: string;
+  entries: Array<{
+    id: string;
+    content: string;
+    weight: number;
+    range?: { min: number; max: number };
+  }>;
 }

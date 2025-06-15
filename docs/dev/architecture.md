@@ -143,7 +143,39 @@ The use case layer orchestrates the domain entities to fulfill specific applicat
    - Find and return table by ID
 
 5. **ListTablesUseCase**
+
    - Return list of available tables with metadata
+
+6. **CreateTemplateUseCase**
+
+   - Create a new roll template
+   - Validate template data
+   - Save to repository
+
+7. **GetTemplateUseCase**
+
+   - Find template by ID
+   - Return template
+
+8. **UpdateTemplateUseCase**
+
+   - Find template by ID
+   - Apply updates (name, description, template content)
+   - Save updated template
+
+9. **ListTemplatesUseCase**
+
+   - Return list of available templates with metadata
+
+10. **DeleteTemplateUseCase**
+
+    - Find template by ID
+    - Delete template from repository
+
+11. **EvaluateTemplateUseCase**
+    - Find template by ID
+    - Resolve all references to tables
+    - Return evaluated template
 
 ### 3. Port Interfaces
 
@@ -151,10 +183,12 @@ The use case layer orchestrates the domain entities to fulfill specific applicat
 
 - `TableService`: Interface for table operations (create, get, update, list)
 - `RollService`: Interface for performing rolls
+- `RollTemplateService`: Interface for template operations (create, get, update, list, delete, evaluate)
 
 #### Secondary (Driven) Ports:
 
 - `TableRepository`: Interface for table persistence
+- `RollTemplateRepository`: Interface for template persistence
 - `RandomNumberGenerator`: Interface for generating random numbers
 
 ### 4. Adapters
@@ -167,14 +201,25 @@ The use case layer orchestrates the domain entities to fulfill specific applicat
     - `RollOnTableTool`: Tool for rolling on tables
     - `UpdateTableTool`: Tool for updating tables
     - `ListTablesTool`: Tool for listing tables
+    - `GetTableTool`: Tool for getting a specific table
+    - `CreateTemplateTool`: Tool for creating templates
+    - `GetTemplateTool`: Tool for getting a specific template
+    - `ListTemplatesTool`: Tool for listing templates
+    - `UpdateTemplateTool`: Tool for updating templates
+    - `DeleteTemplateTool`: Tool for deleting templates
+    - `EvaluateTemplateTool`: Tool for evaluating templates
   - **Resources**:
     - `TableResource`: Resource for accessing a specific table
     - `TablesResource`: Resource for accessing a list of all tables
+    - `TemplateResource`: Resource for accessing a specific template
+    - `TemplatesResource`: Resource for accessing a list of all templates
 
 #### Secondary (Driven) Adapters:
 
 - **FileTableRepository**: Implements TableRepository using the filesystem (JSON files)
 - **InMemoryTableRepository**: Implements TableRepository using in-memory storage
+- **FileRollTemplateRepository**: Implements RollTemplateRepository using the filesystem (JSON files)
+- **InMemoryRollTemplateRepository**: Implements RollTemplateRepository using in-memory storage
 - **CryptoRandomNumberGenerator**: Implements RandomNumberGenerator using Node's crypto module
 - **DefaultRandomNumberGenerator**: Implements RandomNumberGenerator using Math.random()
 
@@ -209,45 +254,71 @@ The project structure reflects the hexagonal architecture:
 ├── src/
 │   ├── domain/
 │   │   ├── entities/
-│   │   │   ├── RandomTable.ts
-│   │   │   ├── TableEntry.ts
-│   │   │   └── RollResult.ts
-│   │   └── valueObjects/
-│   │       ├── Range.ts
-│   │       ├── RollTemplate.ts
-│   │       └── TemplateReference.ts
-│   ├── useCases/
-│   │   ├── CreateTableUseCase.ts
-│   │   ├── RollOnTableUseCase.ts
-│   │   ├── UpdateTableUseCase.ts
-│   │   ├── GetTableUseCase.ts
-│   │   └── ListTablesUseCase.ts
+│   │   │   ├── random-table.ts
+│   │   │   ├── roll-result.ts
+│   │   │   ├── roll-template-entity.ts
+│   │   │   └── table-entry.ts
+│   │   └── value-objects/
+│   │       ├── roll-range.ts
+│   │       ├── roll-template.ts
+│   │       └── template-reference.ts
+│   ├── use-cases/
+│   │   ├── create-table-use-case.ts
+│   │   ├── create-template-use-case.ts
+│   │   ├── delete-template-use-case.ts
+│   │   ├── evaluate-template-use-case.ts
+│   │   ├── get-table-use-case.ts
+│   │   ├── get-template-use-case.ts
+│   │   ├── list-tables-use-case.ts
+│   │   ├── list-templates-use-case.ts
+│   │   ├── roll-on-table-use-case.ts
+│   │   ├── update-table-use-case.ts
+│   │   └── update-template-use-case.ts
+│   │   └── implementations/
+│   │       ├── roll-service-impl.ts
+│   │       ├── roll-template-service-impl.ts
+│   │       └── table-service-impl.ts
 │   ├── ports/
 │   │   ├── primary/
-│   │   │   ├── TableService.ts
-│   │   │   └── RollService.ts
+│   │   │   ├── roll-service.ts
+│   │   │   ├── roll-template-service.ts
+│   │   │   └── table-service.ts
 │   │   └── secondary/
-│   │       ├── TableRepository.ts
-│   │       └── RandomNumberGenerator.ts
+│   │       ├── random-number-generator.ts
+│   │       ├── roll-template-repository.ts
+│   │       └── table-repository.ts
 │   ├── adapters/
 │   │   ├── primary/
 │   │   │   └── mcp/
-│   │   │       ├── McpServer.ts
+│   │   │       ├── mcp-server.ts
 │   │   │       ├── tools/
-│   │   │       │   ├── CreateTableTool.ts
-│   │   │       │   ├── RollOnTableTool.ts
-│   │   │       │   ├── UpdateTableTool.ts
-│   │   │       │   └── ListTablesTool.ts
+│   │   │       │   ├── create-table-tool.ts
+│   │   │       │   ├── create-template-tool.ts
+│   │   │       │   ├── delete-template-tool.ts
+│   │   │       │   ├── evaluate-template-tool.ts
+│   │   │       │   ├── get-table-tool.ts
+│   │   │       │   ├── get-template-tool.ts
+│   │   │       │   ├── list-tables-tool.ts
+│   │   │       │   ├── list-templates-tool.ts
+│   │   │       │   ├── roll-on-table-tool.ts
+│   │   │       │   ├── tool.ts
+│   │   │       │   ├── update-table-tool.ts
+│   │   │       │   └── update-template-tool.ts
 │   │   │       └── resources/
-│   │   │           ├── TableResource.ts
-│   │   │           └── TablesResource.ts
+│   │   │           ├── resource.ts
+│   │   │           ├── table-resource.ts
+│   │   │           ├── tables-resource.ts
+│   │   │           ├── template-resource.ts
+│   │   │           └── templates-resource.ts
 │   │   └── secondary/
 │   │       ├── persistence/
-│   │       │   ├── FileTableRepository.ts
-│   │       │   └── InMemoryTableRepository.ts
+│   │       │   ├── file-roll-template-repository.ts
+│   │       │   ├── file-table-repository.ts
+│   │       │   ├── in-memory-roll-template-repository.ts
+│   │       │   └── in-memory-table-repository.ts
 │   │       └── rng/
-│   │           ├── CryptoRandomNumberGenerator.ts
-│   │           └── DefaultRandomNumberGenerator.ts
+│   │           ├── crypto-random-number-generator.ts
+│   │           └── default-random-number-generator.ts
 │   └── index.ts
 ```
 

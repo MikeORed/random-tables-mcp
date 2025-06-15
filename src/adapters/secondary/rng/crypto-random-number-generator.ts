@@ -1,5 +1,5 @@
-import { RandomNumberGenerator } from "../../../ports/secondary/random-number-generator";
-import * as crypto from "crypto";
+import { RandomNumberGenerator } from '../../../ports/index.js';
+import * as crypto from 'crypto';
 
 /**
  * Implementation of the RandomNumberGenerator interface using Node's crypto module.
@@ -15,7 +15,7 @@ export class CryptoRandomNumberGenerator implements RandomNumberGenerator {
   getRandomNumber(min: number, max: number): number {
     // Ensure min is less than or equal to max
     if (min > max) {
-      throw new Error("Min must be less than or equal to max");
+      throw new Error('Min must be less than or equal to max');
     }
 
     // Handle special case where min equals max
@@ -45,11 +45,11 @@ export class CryptoRandomNumberGenerator implements RandomNumberGenerator {
    */
   getWeightedIndex(weights: number[]): number {
     if (weights.length === 0) {
-      throw new Error("Weights array cannot be empty");
+      throw new Error('Weights array cannot be empty');
     }
 
-    if (weights.some((weight) => weight <= 0)) {
-      throw new Error("All weights must be positive");
+    if (weights.some(weight => weight <= 0)) {
+      throw new Error('All weights must be positive');
     }
 
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);

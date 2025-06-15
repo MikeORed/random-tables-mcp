@@ -1,63 +1,106 @@
-import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import { TableService } from "../../../../ports/primary/table-service";
+import { z } from 'zod';
+import { TableService } from '../../../../ports/index.js';
+import { BaseTool } from './tool.js';
+import { RandomTableDTO } from '../../../../domain/index.js';
 
-// Define input schema
-const GetTableInputSchema = z.object({
-  tableId: z.string().describe("ID of the table to retrieve"),
-});
+/**
+ * Input type for the get table tool.
+ */
+type GetTableInput = {
+  tableId: string;
+};
 
-// Define output schema
-const GetTableOutputSchema = z.object({
-  table: z.any().describe("The retrieved table"),
-});
+/**
+ * Output type for the get table tool.
+ */
+type GetTableOutput = {
+  table: RandomTableDTO;
+};
 
 /**
  * Tool for getting a specific table.
  */
-export class GetTableTool {
-  private readonly name = "get_table";
-  private readonly description = "Get a specific random table by ID";
-
+export class GetTableTool extends BaseTool<GetTableInput, GetTableOutput> {
   /**
    * Creates a new GetTableTool instance.
    * @param tableService The table service to use.
    */
-  constructor(private readonly tableService: TableService) {}
+  constructor(private readonly tableService: TableService) {
+    super();
+  }
 
   /**
    * Gets the name of the tool.
    * @returns The tool name.
    */
-  public getName(): string {
-    return this.name;
+  protected getToolName(): string {
+    return 'get_table';
   }
 
   /**
-   * Gets the tool definition for MCP.
-   * @returns The tool definition.
+   * Gets the description of the tool.
+   * @returns The tool description.
    */
-  public getToolDefinition(): any {
-    return {
-      name: this.name,
-      description: this.description,
-      inputSchema: zodToJsonSchema(GetTableInputSchema),
-    };
+  protected getToolDescription(): string {
+    return 'Get a specific random table by ID';
   }
 
   /**
-   * Executes the tool.
-   * @param args The tool arguments.
+   * Gets the input schema for the tool.
+   * @returns The input schema.
+   */
+  protected getInputSchema(): z.ZodType<GetTableInput> {
+    return z.object({
+      tableId: z.string().describe('ID of the table to retrieve'),
+    });
+  }
+
+  /**
+   * Gets the output schema for the tool.
+   * @returns The output schema.
+   */
+  protected getOutputSchema(): z.ZodType<GetTableOutput> {
+    // Define a schema that matches the PlainRandomTable interface structure
+    return z
+      .object({
+        table: z
+          .object({
+            id: z.string().describe('Table ID'),
+            name: z.string().describe('Table name'),
+            description: z.string().describe('Table description'),
+            entries: z
+              .array(
+                z.object({
+                  id: z.string().describe('Entry ID'),
+                  content: z.string().describe('Entry content'),
+                  weight: z.number().describe('Entry weight'),
+                  range: z
+                    .object({
+                      min: z.number().describe('Minimum value (inclusive)'),
+                      max: z.number().describe('Maximum value (inclusive)'),
+                    })
+                    .optional()
+                    .describe('Optional range of values this entry corresponds to'),
+                }),
+              )
+              .describe('Array of table entries'),
+          })
+          .describe('The retrieved table'),
+      })
+      .strict();
+  }
+
+  /**
+   * Implements the tool execution logic.
+   * @param args The validated tool arguments.
    * @returns The tool result.
    */
-  public async execute(args: any): Promise<{ table: any }> {
-    const parsed = GetTableInputSchema.parse(args);
-
+  protected async executeImpl(args: GetTableInput): Promise<GetTableOutput> {
     // Call the table service to get the table
-    const table = await this.tableService.getTable(parsed.tableId);
+    const table = await this.tableService.getTable(args.tableId);
 
     if (!table) {
-      throw new Error(`Table with ID ${parsed.tableId} not found`);
+      throw new Error(`Table with ID ${args.tableId} not found`);
     }
 
     // Return the table in a serializable format

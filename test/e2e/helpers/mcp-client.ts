@@ -1,7 +1,7 @@
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { spawn, ChildProcess } from "child_process";
-import path from "path";
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { spawn, ChildProcess } from 'child_process';
+import path from 'path';
 
 /**
  * A helper class for testing the MCP server.
@@ -15,8 +15,8 @@ export class McpClient {
    */
   constructor() {
     this.client = new Client({
-      name: "mcp-random-tables-test-client",
-      version: "1.0.0",
+      name: 'random-tables-mcp-test-client',
+      version: '1.0.0',
     });
   }
 
@@ -25,13 +25,13 @@ export class McpClient {
    */
   async connect(): Promise<void> {
     // Start the server process
-    const serverPath = path.join(process.cwd(), "dist", "index.js");
-    this.serverProcess = spawn("node", [serverPath], {
-      stdio: ["pipe", "pipe", "pipe"],
+    const serverPath = path.join(process.cwd(), 'dist', 'index.js');
+    this.serverProcess = spawn('node', [serverPath], {
+      stdio: ['pipe', 'pipe', 'pipe'],
     });
 
     if (!this.serverProcess.stdin || !this.serverProcess.stdout) {
-      throw new Error("Failed to start server process");
+      throw new Error('Failed to start server process');
     }
 
     // Create a transport that communicates with the server process
@@ -43,7 +43,7 @@ export class McpClient {
     await this.client.connect(transport);
 
     // Wait for the server to initialize
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
   /**
@@ -69,18 +69,14 @@ export class McpClient {
     });
 
     // Extract the result from the response
-    if (
-      response.content &&
-      Array.isArray(response.content) &&
-      response.content.length > 0
-    ) {
+    if (response.content && Array.isArray(response.content) && response.content.length > 0) {
       const content = response.content[0];
-      if (content.type === "text" && typeof content.text === "string") {
+      if (content.type === 'text' && typeof content.text === 'string') {
         return JSON.parse(content.text);
       }
       throw new Error(`Unexpected content type: ${content.type}`);
     }
-    throw new Error("No content in response");
+    throw new Error('No content in response');
   }
 
   /**
@@ -94,17 +90,13 @@ export class McpClient {
     });
 
     // Extract the content from the response
-    if (
-      response.content &&
-      Array.isArray(response.content) &&
-      response.content.length > 0
-    ) {
+    if (response.content && Array.isArray(response.content) && response.content.length > 0) {
       const content = response.content[0];
-      if (content.type === "text" && typeof content.text === "string") {
+      if (content.type === 'text' && typeof content.text === 'string') {
         return JSON.parse(content.text);
       }
       throw new Error(`Unexpected content type: ${content.type}`);
     }
-    throw new Error("No content in response");
+    throw new Error('No content in response');
   }
 }

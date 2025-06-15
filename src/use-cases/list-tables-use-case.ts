@@ -1,5 +1,5 @@
-import { RandomTable } from "../domain/entities/random-table";
-import { TableRepository } from "../ports/secondary/table-repository";
+import { RandomTable } from '../domain/index.js';
+import { TableRepository } from '../ports/index.js';
 
 /**
  * Use case for listing random tables.
@@ -16,7 +16,7 @@ export class ListTablesUseCase {
    * @param filter Optional filter criteria.
    * @returns An array of tables matching the filter.
    */
-  async execute(filter?: Record<string, any>): Promise<RandomTable[]> {
+  async execute(filter?: Record<string, unknown>): Promise<RandomTable[]> {
     return await this.repository.list(filter);
   }
 }

@@ -1,5 +1,4 @@
-import { RandomTable } from "../../domain/entities/random-table";
-import { TableEntry } from "../../domain/entities/table-entry";
+import { RandomTable, TableEntry } from '../../domain/index.js';
 
 /**
  * Interface for table operations.
@@ -12,11 +11,7 @@ export interface TableService {
    * @param entries Optional initial entries.
    * @returns The ID of the created table.
    */
-  createTable(
-    name: string,
-    description?: string,
-    entries?: TableEntry[]
-  ): Promise<string>;
+  createTable(name: string, description?: string, entries?: TableEntry[]): Promise<string>;
 
   /**
    * Gets a table by its ID.
@@ -37,10 +32,10 @@ export interface TableService {
       description?: string;
       entries?: {
         add?: TableEntry[];
-        update?: { id: string; updates: Partial<Omit<TableEntry, "id">> }[];
+        update?: { id: string; updates: Partial<Omit<TableEntry, 'id'>> }[];
         remove?: string[];
       };
-    }
+    },
   ): Promise<void>;
 
   /**
@@ -48,5 +43,5 @@ export interface TableService {
    * @param filter Optional filter criteria.
    * @returns An array of tables matching the filter.
    */
-  listTables(filter?: Record<string, any>): Promise<RandomTable[]>;
+  listTables(filter?: Record<string, unknown>): Promise<RandomTable[]>;
 }

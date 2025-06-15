@@ -1,4 +1,4 @@
-import { TemplateReference } from "./template-reference";
+import { TemplateReference } from './template-reference.js';
 
 /**
  * Represents a template string that can contain references to other tables.
@@ -44,9 +44,7 @@ export class RollTemplate {
     // Reset the regex state
     RollTemplate.REFERENCE_REGEX.lastIndex = 0;
 
-    while (
-      (match = RollTemplate.REFERENCE_REGEX.exec(this.template)) !== null
-    ) {
+    while ((match = RollTemplate.REFERENCE_REGEX.exec(this.template)) !== null) {
       references.push(TemplateReference.fromString(match[1]));
     }
 

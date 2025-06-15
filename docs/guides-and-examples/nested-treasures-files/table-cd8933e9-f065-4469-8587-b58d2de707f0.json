@@ -1,0 +1,67 @@
+{
+  "id": "cd8933e9-f065-4469-8587-b58d2de707f0",
+  "name": "Magical Trinket Quirks",
+  "description": "Magical quirks, curses, and normal state for trinkets",
+  "entries": [
+    {
+      "id": "c5914e4a-e6d0-4c44-b831-0e54cd447f64",
+      "content": "granting enhanced senses",
+      "weight": 1
+    },
+    {
+      "id": "d3e1c9e4-b347-46b3-a5a3-0ef313bd2702",
+      "content": "allowing communication with animals",
+      "weight": 1
+    },
+    {
+      "id": "173088e5-41b9-427b-aff9-f5964642070e",
+      "content": "revealing hidden truths",
+      "weight": 1
+    },
+    {
+      "id": "936db96c-81b7-46f8-b692-3b9964f0e603",
+      "content": "providing resistance to charm effects",
+      "weight": 1
+    },
+    {
+      "id": "75fc380f-69c5-4117-9e51-9d64adca505b",
+      "content": "glowing when danger is near",
+      "weight": 1
+    },
+    {
+      "id": "c35fe991-a79a-4343-8e64-d20e6cfd3f5e",
+      "content": "storing memories of past owners",
+      "weight": 1
+    },
+    {
+      "id": "e9e9b61c-9450-4bb0-a2e5-4254e936ad70",
+      "content": "creating minor illusions",
+      "weight": 1
+    },
+    {
+      "id": "c8ab062a-ff95-427f-b4ef-3ba02c16e01a",
+      "content": "enhancing the wearer's charisma",
+      "weight": 1
+    },
+    {
+      "id": "dd4ccee0-f6d8-4862-b46a-638046f3d7ea",
+      "content": "protecting against scrying",
+      "weight": 1
+    },
+    {
+      "id": "1a62e93b-6a9d-421f-9453-15ae9021ddee",
+      "content": "translating foreign languages",
+      "weight": 1
+    },
+    {
+      "id": "a43f1d80-6512-4544-81a5-fabc7c55080c",
+      "content": "cursed to cause nightmares",
+      "weight": 1
+    },
+    {
+      "id": "3c7013e6-fab9-4892-b4a4-0496b8051228",
+      "content": "unenchanted",
+      "weight": 4
+    }
+  ]
+}

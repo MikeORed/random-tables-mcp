@@ -1,9 +1,5 @@
-import { RollResult } from "../domain/entities/roll-result";
-import { RandomTable } from "../domain/entities/random-table";
-import { TableRepository } from "../ports/secondary/table-repository";
-import { RandomNumberGenerator } from "../ports/secondary/random-number-generator";
-import { RollTemplate } from "../domain/value-objects/roll-template";
-import { TemplateReference } from "../domain/value-objects/template-reference";
+import { RandomTable, RollResult, RollTemplate, TemplateReference } from '../domain/index.js';
+import { RandomNumberGenerator, TableRepository } from '../ports/index.js';
 
 /**
  * Use case for rolling on a random table.
@@ -16,7 +12,7 @@ export class RollOnTableUseCase {
    */
   constructor(
     private readonly repository: TableRepository,
-    private readonly rng: RandomNumberGenerator
+    private readonly rng: RandomNumberGenerator,
   ) {}
 
   /**
@@ -28,10 +24,10 @@ export class RollOnTableUseCase {
   async execute(tableId: string, count: number = 1): Promise<RollResult[]> {
     // Validate inputs
     if (!tableId) {
-      throw new Error("Table ID is required");
+      throw new Error('Table ID is required');
     }
     if (count < 1) {
-      throw new Error("Count must be at least 1");
+      throw new Error('Count must be at least 1');
     }
 
     // Get the table from the repository
@@ -71,7 +67,7 @@ export class RollOnTableUseCase {
   private async resolveTemplateResult(
     result: RollResult,
     maxDepth: number = RollTemplate.MAX_RESOLUTION_DEPTH,
-    visitedTables: Set<string> = new Set()
+    visitedTables: Set<string> = new Set(),
   ): Promise<RollResult> {
     // If not a template or max depth reached, return as is
     if (!result.isTemplate || maxDepth <= 0) {
@@ -131,7 +127,7 @@ export class RollOnTableUseCase {
         referencedTable,
         reference.rollCount,
         maxDepth - 1,
-        new Set(visitedTables) // Create a copy of the set to avoid modifying the original
+        new Set(visitedTables), // Create a copy of the set to avoid modifying the original
       );
 
       // Join the results with the specified separator
@@ -147,11 +143,7 @@ export class RollOnTableUseCase {
       const partialResult = result.withResolvedContent(template.toString());
 
       // Resolve remaining references recursively
-      return this.resolveTemplateResult(
-        partialResult,
-        maxDepth - 1,
-        visitedTables
-      );
+      return this.resolveTemplateResult(partialResult, maxDepth - 1, visitedTables);
     }
 
     // Return the result with resolved content
@@ -163,9 +155,7 @@ export class RollOnTableUseCase {
    * @param reference The template reference
    * @returns The referenced table, or null if not found
    */
-  private async findReferencedTable(
-    reference: TemplateReference
-  ): Promise<RandomTable | null> {
+  private async findReferencedTable(reference: TemplateReference): Promise<RandomTable | null> {
     // Try to get the referenced table by ID
     if (reference.tableId) {
       const table = await this.repository.getById(reference.tableId);
@@ -177,9 +167,7 @@ export class RollOnTableUseCase {
     // If not found by ID and name is provided, try to find by name
     if (reference.tableName) {
       const tables = await this.repository.list();
-      return (
-        tables.find((t: RandomTable) => t.name === reference.tableName) || null
-      );
+      return tables.find((t: RandomTable) => t.name === reference.tableName) ?? null;
     }
 
     return null;
@@ -197,7 +185,7 @@ export class RollOnTableUseCase {
     table: RandomTable,
     count: number,
     maxDepth: number,
-    visitedTables: Set<string> = new Set()
+    visitedTables: Set<string> = new Set(),
   ): Promise<string[]> {
     const results: string[] = [];
 
@@ -214,9 +202,7 @@ export class RollOnTableUseCase {
         : rollResult;
 
       // Add the content (resolved if available, otherwise original)
-      results.push(
-        resolvedRollResult.resolvedContent || resolvedRollResult.content
-      );
+      results.push(resolvedRollResult.resolvedContent ?? resolvedRollResult.content);
     }
 
     return results;

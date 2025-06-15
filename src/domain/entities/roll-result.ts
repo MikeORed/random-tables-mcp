@@ -17,7 +17,7 @@ export class RollResult {
     public readonly content: string,
     public readonly isTemplate: boolean = false,
     public readonly resolvedContent?: string,
-    public readonly timestamp: Date = new Date()
+    public readonly timestamp: Date = new Date(),
   ) {}
 
   /**
@@ -43,9 +43,9 @@ export class RollResult {
       obj.tableId,
       obj.entryId,
       obj.content,
-      obj.isTemplate || false,
+      obj.isTemplate ?? false,
       obj.resolvedContent,
-      timestamp
+      timestamp,
     );
   }
 
@@ -83,7 +83,7 @@ export class RollResult {
       this.content,
       this.isTemplate,
       resolvedContent,
-      this.timestamp
+      this.timestamp,
     );
   }
 }

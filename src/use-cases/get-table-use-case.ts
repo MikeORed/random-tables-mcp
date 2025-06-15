@@ -1,5 +1,5 @@
-import { RandomTable } from "../domain/entities/random-table";
-import { TableRepository } from "../ports/secondary/table-repository";
+import { RandomTable } from '../domain/index.js';
+import { TableRepository } from '../ports/index.js';
 
 /**
  * Use case for getting a random table by ID.
@@ -19,7 +19,7 @@ export class GetTableUseCase {
   async execute(id: string): Promise<RandomTable | null> {
     // Validate inputs
     if (!id) {
-      throw new Error("Table ID is required");
+      throw new Error('Table ID is required');
     }
 
     // Get the table from the repository

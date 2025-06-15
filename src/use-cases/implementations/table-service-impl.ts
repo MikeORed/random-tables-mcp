@@ -1,10 +1,9 @@
-import { RandomTable } from "../../domain/entities/random-table";
-import { TableEntry } from "../../domain/entities/table-entry";
-import { TableService } from "../../ports/primary/table-service";
-import { CreateTableUseCase } from "../create-table-use-case";
-import { GetTableUseCase } from "../get-table-use-case";
-import { ListTablesUseCase } from "../list-tables-use-case";
-import { UpdateTableUseCase } from "../update-table-use-case";
+import { RandomTable, TableEntry } from '../../domain/index.js';
+import { TableService } from '../../ports/index.js';
+import { CreateTableUseCase } from '../create-table-use-case.js';
+import { GetTableUseCase } from '../get-table-use-case.js';
+import { ListTablesUseCase } from '../list-tables-use-case.js';
+import { UpdateTableUseCase } from '../update-table-use-case.js';
 
 /**
  * Implementation of the TableService interface.
@@ -21,7 +20,7 @@ export class TableServiceImpl implements TableService {
     private readonly createTableUseCase: CreateTableUseCase,
     private readonly getTableUseCase: GetTableUseCase,
     private readonly listTablesUseCase: ListTablesUseCase,
-    private readonly updateTableUseCase: UpdateTableUseCase
+    private readonly updateTableUseCase: UpdateTableUseCase,
   ) {}
 
   /**
@@ -31,11 +30,7 @@ export class TableServiceImpl implements TableService {
    * @param entries Optional initial entries.
    * @returns The ID of the created table.
    */
-  async createTable(
-    name: string,
-    description?: string,
-    entries?: TableEntry[]
-  ): Promise<string> {
+  async createTable(name: string, description?: string, entries?: TableEntry[]): Promise<string> {
     return await this.createTableUseCase.execute(name, description, entries);
   }
 
@@ -60,10 +55,10 @@ export class TableServiceImpl implements TableService {
       description?: string;
       entries?: {
         add?: TableEntry[];
-        update?: { id: string; updates: Partial<Omit<TableEntry, "id">> }[];
+        update?: { id: string; updates: Partial<Omit<TableEntry, 'id'>> }[];
         remove?: string[];
       };
-    }
+    },
   ): Promise<void> {
     await this.updateTableUseCase.execute(id, updates);
   }
@@ -73,7 +68,7 @@ export class TableServiceImpl implements TableService {
    * @param filter Optional filter criteria.
    * @returns An array of tables matching the filter.
    */
-  async listTables(filter?: Record<string, any>): Promise<RandomTable[]> {
+  async listTables(filter?: Record<string, unknown>): Promise<RandomTable[]> {
     return await this.listTablesUseCase.execute(filter);
   }
 }

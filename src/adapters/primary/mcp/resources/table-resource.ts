@@ -1,23 +1,32 @@
-import { TableService } from "../../../../ports/primary/table-service";
+import { TableService } from '../../../../ports/index.js';
+import { BaseResource } from './resource.js';
+import { RandomTableDTO } from '../../../../domain/index.js';
+
+/**
+ * Parameters for the table resource.
+ */
+type TableResourceParams = {
+  tableId: string;
+};
 
 /**
  * Resource for accessing a specific table.
  */
-export class TableResource {
-  private readonly uriPattern = "table://{tableId}";
-
+export class TableResource extends BaseResource<TableResourceParams, RandomTableDTO> {
   /**
    * Creates a new TableResource instance.
    * @param tableService The table service to use.
    */
-  constructor(private readonly tableService: TableService) {}
+  constructor(private readonly tableService: TableService) {
+    super();
+  }
 
   /**
    * Gets the URI pattern for this resource.
    * @returns The URI pattern.
    */
-  public getUriPattern(): string {
-    return this.uriPattern;
+  protected getResourceUriPattern(): string {
+    return 'table://{tableId}';
   }
 
   /**
@@ -25,7 +34,7 @@ export class TableResource {
    * @param params The resource parameters.
    * @returns The resource content.
    */
-  public async getContent(params: { tableId: string }): Promise<any> {
+  protected async getResourceContent(params: TableResourceParams): Promise<RandomTableDTO> {
     const table = await this.tableService.getTable(params.tableId);
 
     if (!table) {

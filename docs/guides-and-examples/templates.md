@@ -1,10 +1,10 @@
 # Template System Guide
 
-This guide provides instructions on how to use the template system to create complex tables that reference other tables.
+This guide provides instructions on how to use the template system to create complex tables that reference other tables and standalone templates.
 
 ## What are Templates?
 
-Templates allow you to create tables that reference other tables. This is useful for creating complex, nested random generation systems. For example, you might have a "Treasure" table that references an "Item" table and a "Currency" table.
+Templates allow you to create tables that reference other tables or standalone templates that can be reused across multiple tables. This is useful for creating complex, nested random generation systems. For example, you might have a "Treasure" table that references an "Item" table and a "Currency" table, or a standalone "NPC Description" template that can be used in multiple contexts.
 
 ## Template Syntax
 
@@ -142,6 +142,24 @@ Templates can be nested, allowing for complex, hierarchical random generation. F
 }
 ```
 
+## Standalone Templates
+
+In addition to using templates within table entries, you can also create standalone templates that can be reused across multiple tables. These are particularly useful for complex text patterns that you want to use in different contexts.
+
+```json
+{
+  "name": "NPC Description",
+  "description": "Template for generating NPC descriptions",
+  "template": "A {{::appearance}} {{::race}} {{::class}} who {{::personality}}"
+}
+```
+
+When you reference this template from another table or directly evaluate it, the system will resolve all the nested references by rolling on the appropriate tables.
+
+For example, if you have tables for "appearance", "race", "class", and "personality", the template might resolve to something like "A tall human wizard who speaks in riddles".
+
+Standalone templates can be managed independently of tables, allowing for more modular and reusable content.
+
 ## Roll Count
 
 The template system supports specifying how many times to roll on a referenced table using the `roll-number` parameter. For example:
@@ -172,9 +190,16 @@ Test your templates thoroughly to ensure they produce the expected results. Comp
 
 Use weights to control the probability of different entries being selected. This can help you create more realistic and balanced random generation.
 
-## Next Steps
+### Combine Tables and Standalone Templates
 
-Now that you've learned how to use the template system, you can:
+For complex generation systems, consider using a combination of tables and standalone templates. Tables are great for selecting from a list of options, while standalone templates are ideal for creating reusable text patterns.
 
-- Explore the [API reference](../api/README.md) for more details on the available tools and resources
-- Check out the [examples](../examples/README.md) for more complex table examples
+### Use Real UUIDs in Production
+
+While the examples in this guide use simple identifiers like "forest-encounters" for readability, in a real implementation, table IDs are typically UUIDs. For example:
+
+```
+{{::b2cf46a1-1884-4492-8770-d1b7e796355d::Forest Encounters::1}}
+```
+
+The MCP Random Tables server automatically generates these UUIDs when you create tables and templates.

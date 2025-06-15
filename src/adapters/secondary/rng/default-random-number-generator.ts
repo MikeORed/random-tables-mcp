@@ -1,4 +1,4 @@
-import { RandomNumberGenerator } from "../../../ports/secondary/random-number-generator";
+import { RandomNumberGenerator } from '../../../ports/index.js';
 
 /**
  * Default implementation of the RandomNumberGenerator interface.
@@ -23,11 +23,11 @@ export class DefaultRandomNumberGenerator implements RandomNumberGenerator {
    */
   getWeightedIndex(weights: number[]): number {
     if (weights.length === 0) {
-      throw new Error("Weights array cannot be empty");
+      throw new Error('Weights array cannot be empty');
     }
 
-    if (weights.some((weight) => weight <= 0)) {
-      throw new Error("All weights must be positive");
+    if (weights.some(weight => weight <= 0)) {
+      throw new Error('All weights must be positive');
     }
 
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
