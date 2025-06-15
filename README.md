@@ -107,70 +107,36 @@ These templates can be managed independently of tables, allowing for more modula
 
 To integrate the MCP Random Tables server with Claude Desktop, you need to add the server configuration to your `claude_desktop_config.json` file.
 
-#### Windows Configuration
+```json
+{
+  "mcpServers": {
+    "random-tables": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "random-tables-mcp"],
+      "env": {} // Empty object uses default values
+    }
+  }
+}
+```
 
-Add this to your `claude_desktop_config.json` (located at `%APPDATA%\\Claude\\claude_desktop_config.json`):
+When using an empty `env` object, the server will use default values (DATA_DIR='./data' and CAN_USE_RESOURCE='false'). If you need to customize these values, specify them explicitly:
 
 ```json
 {
   "mcpServers": {
     "random-tables": {
       "type": "stdio",
-      "command": "node",
-      "args": ["C:\\path\\to\\random-tables-mcp\\dist\\index.js"],
-      "env": {
-        "DATA_DIR": "C:\\path\\to\\data-directory",
-        "CAN_USE_RESOURCE": "false"
-      }
-    }
-  }
-}
-```
-
-Replace `C:\\path\\to\\random-tables-mcp` with the actual path to your local installation.
-
-#### macOS Configuration
-
-Add this to your `claude_desktop_config.json` (located at `~/Library/Application Support/Claude/claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "random-tables": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/random-tables-mcp/dist/index.js"],
-      "env": {
-        "DATA_DIR": "/path/to/your/preferred/data/directory",
-        "CAN_USE_RESOURCE": "false"
-      }
-    }
-  }
-}
-```
-
-Replace `/path/to/random-tables-mcp` with the actual path to your local installation.
-
-### NPX Configuration
-
-You can now run the MCP Random Tables server directly using npx:
-
-```json
-{
-  "mcpServers": {
-    "random-tables": {
       "command": "npx",
       "args": ["-y", "random-tables-mcp"],
       "env": {
         "DATA_DIR": "/path/to/your/preferred/data/directory",
-        "CAN_USE_RESOURCE": "false"
+        "CAN_USE_RESOURCE": "true"
       }
     }
   }
 }
 ```
-
-This will automatically download and run the latest version of the package without requiring manual installation.
 
 ### Manual Installation
 

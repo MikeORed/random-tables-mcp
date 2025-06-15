@@ -106,7 +106,7 @@ export class FileTableRepository implements TableRepository {
 
     try {
       const files = await readdir(this.dataDir);
-      const tableFiles = files.filter(file => file.endsWith('.json'));
+      const tableFiles = files.filter(file => file.startsWith('table-') && file.endsWith('.json'));
 
       const tables: RandomTable[] = [];
 
