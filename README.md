@@ -1,19 +1,21 @@
 # Random Tables MCP Server
 
-Need a drop‑in random‑table engine for your next one‑shot? **MCP Random Tables has you covered.**
+From manually flipping through sourcebooks to wrestling with nested Excel formulas, I've tried every random table solution out there—which is exactly why I built **MCP Random Tables** to be the flexible generation tool I've always wanted.
 
-An [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server for managing and rolling on random-table assets used in tabletop RPGs, following a hexagonal architecture (ports & adapters) approach.
+This [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server bridges worlds: drop in your tables for LLM interaction or use the standalone scripts for token-free efficiency. Either way, the hexagonal architecture ensures your random generation stays organized, maintainable, and ready when inspiration runs dry.
 
 ## Project Overview
 
-This section details the server's core capabilities and architecture—how random‑table definitions and roll templates are stored, rolled, and extended while ports & adapters keep concerns isolated and the codebase easy to test and maintain.
+My random table journey probably looks familiar to many of you—starting with physical books and dice, graduating to spreadsheets with formulas, and now exploring what's possible in the LLM space. This server is the culmination of that journey, designed to handle everything from simple lookups to complex nested tables with the flexibility modern GMs deserve.
 
-The hexagonal architecture (ports & adapters) approach provides several key benefits:
+Why build it on hexagonal architecture? Because as my own needs evolved from manual lookups to programmatic generation, I learned that keeping the core logic separate from how you access it is the key to longevity:
 
-- **Separation of Concerns**: Core business logic is isolated from external dependencies
-- **Testability**: Domain logic can be tested without relying on external systems
-- **Flexibility**: New adapters can be added without changing the core logic
-- **Maintainability**: Changes to external systems have minimal impact on the core business logic
+- **Separation of Concerns**: Your table definitions and rolling logic remain pristine, regardless of how you interact with them
+- **Testability**: Every random generation rule can be verified without spinning up an entire environment
+- **Flexibility**: Today it's LLM interactions, tomorrow it's standalone scripts—the core system adapts without breaking
+- **Maintainability**: As the ecosystem changes, your investment in creating tables remains protected
+
+I'm actively working on those script-based tools mentioned in the features section, ensuring you can use this system with or without LLMs—giving you the freedom to choose the right approach for each situation while leveraging the same powerful table structures.
 
 ## Features
 
